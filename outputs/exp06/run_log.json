@@ -1,0 +1,99 @@
+{
+  "experiment": "exp06",
+  "timestamp_utc": "2026-11-08T19:36:22.068103+00:00",
+  "config": {
+    "CANDIDATES": {
+      "annual_avg_temp": [
+        "avg",
+        "r10",
+        "r15",
+        "shared",
+        "r10s",
+        "r15s",
+        "rr15s",
+        "rr10s",
+        "rline",
+        "rr15l"
+      ],
+      "total_precip_in": [
+        "avg",
+        "r10",
+        "r15",
+        "shared",
+        "r10s",
+        "r15s",
+        "rr15s",
+        "rr10s",
+        "rline",
+        "rr15l"
+      ],
+      "hottest_day_temp": [
+        "avg",
+        "r10",
+        "r15",
+        "shared",
+        "r10s",
+        "r15s",
+        "rr15s",
+        "rr10s",
+        "rline",
+        "rr15l"
+      ],
+      "cdd": [
+        "avg",
+        "r10",
+        "r15",
+        "shared",
+        "r10s",
+        "r15s",
+        "rr15s",
+        "rr10s",
+        "rline",
+        "rr15l"
+      ]
+    },
+    "SIMPLICITY": [
+      "avg",
+      "r10",
+      "r15",
+      "shared",
+      "r10s",
+      "r15s",
+      "rr15s",
+      "rr10s",
+      "rline",
+      "rr15l"
+    ],
+    "CLOSE": 0.01,
+    "WINDOW": 30,
+    "ORIGINS": [
+      1998,
+      2004,
+      2011
+    ],
+    "MIN_VALID": 10,
+    "RELATIVE": [
+      "cdd",
+      "total_precip_in"
+    ],
+    "resolved_plan": {
+      "annual_avg_temp": "r15s",
+      "total_precip_in": "avg",
+      "hottest_day_temp": "avg",
+      "cdd": "r10s"
+    }
+  },
+  "neighbors": {
+    "stations": 1621,
+    "unique_stations": 1407
+  },
+  "dataset": "CMU-OSPO/protostar-climate-train-to-2018",
+  "dataset_revision": "bbbdebdab2a18e00f97ef87bd3f35a71e222180b",
+  "packages": {
+    "pandas": "3.1.1",
+    "numpy": "2.4.6",
+    "huggingface_hub": "2.4.0"
+  },
+  "git_commit": "003bcc99923d8a57740564de06e1e9a1a02c2d3c",
+  "git_dirty": true
+}
