@@ -17,3 +17,15 @@ No curated data files are stored here. The forecast code downloads its inputs at
 ## Data rule check
 - [x] Every forecast input is weather data up to 2018-12-31 (enforced by `shared.assert_cutoff`).
 - [x] No 2019-2025 data is read by the forecasting code. Post-2018 NOAA observations were used only to score the frozen forecast afterwards (see README); they are not stored in the dataset.
+
+## Policy heuristic check (analysis only, not a forecast input)
+
+Used only by `code/policy_check.py`, `code/policy_case_studies.py` and `code/census_acs.py`; outputs in `outputs/policy_check/`. The forecast code never reads any of it.
+
+| Source | What | How to get it |
+|---|---|---|
+| NOAA GHCN-Daily, 2019-2025, 210 stations | Observed weather, a **stand-in** for the forecast (team-approved 2026-11-08; analysis only) | `python code/fetch_truth.py obs_2021_2025.csv 2021-01-01 2025-12-31` (2019-2020 from `obs_2018_2021.csv`) |
+| Census ACS 5-year 2019-2023, B25024 / B25034 / B25003, all counties | Building size, year built, tenure (not weather-driven) | `python code/census_acs.py` (needs a free key in `census_key.txt`, which git ignores) |
+| FCC Area API | Station latitude/longitude to county | Called by `code/policy_check.py`, cached in `station_county.csv` |
+| Allegheny County Property Assessments (WPRDC), NYC PLUTO, Cook County Assessor improvement characteristics | Actual mixed-use building counts for Pittsburgh, NYC and Cook County | `python code/policy_case_studies.py` |
+| `data/policy_rules.csv` (curated by hand, with a source URL per row) | Rental cooling rules and building performance standards | Edit by hand; see `data/policy_sources.md` |

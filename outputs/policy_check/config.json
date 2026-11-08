@@ -1,0 +1,29 @@
+{
+  "baseline_years": [
+    1976,
+    2005
+  ],
+  "baseline_min_valid_years": 15,
+  "weather_years": [
+    2019,
+    2025
+  ],
+  "weather_min_valid_years": 4,
+  "max_missing_days": 10,
+  "indoor_limit_F": 80,
+  "indoor_limit_sensitivity_F": [
+    78,
+    80,
+    82
+  ],
+  "h1_cdd_increase_min": 0.1,
+  "h1_hottest_increase_min_F": 2.0,
+  "h1_shortfall_min": 0.1,
+  "shortfall_min_design_gap_F": 5.0,
+  "h2_rule": "exposure = share of units in 2-19 unit buildings x share of units built before 1980 (county); flag if >= median across the cities",
+  "h3_rule": "gap unless data/policy_rules.csv lists an in_force cooling rule with covers_small_mixed_use yes/partial",
+  "support_min_share": 0.2,
+  "shortfall_formula": "(T_hot_new - T_in) / (T_hot_design - T_in) - 1; steady-state, ignores sun, people, equipment and humidity",
+  "weather_input": "OBSERVED NOAA GHCN-Daily 2019-2025 (stand-in, analysis only)",
+  "written_utc": "2026-11-08T20:12:24.953425+00:00"
+}

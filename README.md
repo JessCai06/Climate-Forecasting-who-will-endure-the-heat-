@@ -36,7 +36,9 @@ An earlier experiment (exp02: line + random-forest hybrid) was dropped by its ow
 
 ## External sources
 
-None beyond the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices` and `coverage_and_stations`, years up to 2018). No other data is used as a forecast input. See `data/README.md`.
+**Forecast inputs:** none beyond the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices` and `coverage_and_stations`, years up to 2018). No other data is used as a forecast input.
+
+**Policy analysis only** (never read by the forecast code): NOAA GHCN-Daily observations 2019-2025 for the 210 stations; Census ACS 5-year 2019-2023 tables B25024, B25034, B25003 (all counties); FCC Area API (station to county); Allegheny County Property Assessments (WPRDC); NYC PLUTO; Cook County Assessor improvement characteristics; rental cooling rules and building performance standards compiled by hand in `data/policy_rules.csv` (a source URL per row). Details and how to download each: `data/README.md` and `data/policy_sources.md`.
 
 ## Post-hoc scoring declaration
 
@@ -52,16 +54,22 @@ Analysis-only live scores (2019-2021, our NOAA-based truth):
 ## AI Tools and Agents
 
 - **Tool and model:** Claude Code (Anthropic's CLI agent) running Claude Sonnet 5.5 (`claude-sonnet-5-5`), inside VS Code.
-- **What it did:** wrote the code in `code/` from the team's written specs (`exp02_line_forest_hybrid_spec.md` and the Experiment 3 instructions); ran the experiments and the post-hoc scorer; extracted shared helpers; made the charts; drafted this README (except the Policy Idea) and the data card; set up the commit.
-- **What it did not do:** it supplied no forecast values. Every `predicted_value` comes from the code and the dataset. It downloaded no weather after 2018 for any forecast; the one use of post-2018 NOAA data was the post-hoc scoring above, approved by a team member and used only for analysis.
+- **What it did:** wrote the code in `code/` from the team's written specs (`exp02_line_forest_hybrid_spec.md` and the Experiment 3 instructions); ran the experiments and the post-hoc scorer; extracted shared helpers; made the charts; drafted this README and the data card; set up the commit. For the policy analysis it searched for and tested building and policy data sources, wrote `code/census_acs.py`, `code/policy_case_studies.py` and `code/policy_check.py`, compiled `data/policy_rules.csv` from web search results (each row cites its source), and drafted the Policy Idea from the team's direction (Pittsburgh, small mixed-use buildings).
+- **What it did not do:** it supplied no forecast values. Every `predicted_value` comes from the code and the dataset. It downloaded no weather after 2018 for any forecast. Post-2018 NOAA data was used twice, both approved by a team member and both analysis only: the post-hoc scoring above (2019-2021) and the policy analysis (2019-2025).
 - **What a person did and reviewed:** [TEAM: confirm and edit. The team wrote the specs, decided the rules and settings, and approved the NOAA download for scoring. Add what you personally reviewed, for example the decision rule, the outputs or the README.]
 - **Without the agent:** the code reproduces `submission.csv` without the agent (see Reproduce above). `code/AGENTS.md` holds the agent's data rule.
 
 ## Policy Idea
 
-<!-- TEAM TO WRITE (half a page at most): 1. What risk did you notice? 2. What would you do about it, and who would do it? 3. Why is it sustainable? -->
+**Cool the shop-houses: heat-pump retrofits for small mixed-use buildings in Pittsburgh.**
 
-**[TO BE WRITTEN BY THE TEAM. Left empty on purpose.]**
+**The risk.** Air-conditioning demand is rising faster than buildings were designed for, while peak heat has barely moved. Across 210 U.S. cities, cooling degree days (CDD) in 2019-2025 were a median 22% above 1976-2005 (higher in 97% of cities), but the hottest day rose only about 1 °F. Pittsburgh's CDD rose 28% (735 to 941), and our forecast, made with data only up to 2018, expected this rise (981). The trend in cooling load is predictable; peak days are not. The buildings most exposed are often left out of policy. Pittsburgh has 1,683 "retail/office with apartments over" buildings, typically owned by small local landlords. They fall far below the city's 50,000 sq ft benchmarking threshold, no rental cooling rule covers them, and the county records a build year for only 2.4% of them.
+
+**What to do, and who.** The City's Office of Sustainability and Duquesne Light would offer a one-stop "shop-house" retrofit: a cold-climate heat pump plus roof insulation and shading, paid through **on-bill financing**, so monthly payments stay below the energy savings and the charge stays with the meter, not the owner. Allegheny County's Office of Property Assessments would record building age, floor area and cooling for mixed-use parcels, so the program can find and track them.
+
+**Why it is sustainable.** Pittsburgh is heating-dominated, so one heat pump replaces gas heating *and* inefficient window AC: emissions fall even as cooling demand rises. On-bill repayment from savings needs no ongoing subsidy, and better envelopes keep bills lower in each warmer year. It plans for the predictable trend rather than a predicted heat wave.
+
+*Evidence: `outputs/policy_check/thesis_check.md` (code: `code/policy_check.py`, `code/policy_case_studies.py`). The 2019-2025 values are observed NOAA data, used for this analysis only, never as a forecast input.*
 
 ## Feedback to the Ecosystem
 

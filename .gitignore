@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# Census API key: local only, never commit (see code/AGENTS.md)
+census_key.txt

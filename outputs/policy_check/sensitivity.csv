@@ -1,0 +1,4 @@
+indoor_limit_F,n_cities,n_h1_evaluable,n_h1,n_h2,n_h3,n_all_three,share_all_three,supported
+78,210,196,53,105,206,17,0.08095238095238096,False
+80,210,196,56,105,206,18,0.08571428571428572,False
+82,210,196,61,105,206,21,0.1,False

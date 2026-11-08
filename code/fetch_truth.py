@@ -1,12 +1,16 @@
 """Download NOAA GHCN-Daily rows for the 210 challenge stations, SCORING ONLY.
 Post-2018 observations are used only to score a frozen forecast, never as a forecast input
 (user-approved 2026-11-07 because the private answer key is not accessible).
-Keeps 2018-2021 TMAX/TMIN/PRCP (tenths of degC / tenths of mm) per station in one CSV."""
+Keeps TMAX/TMIN/PRCP (tenths of degC / tenths of mm) per station in one CSV.
+Usage: python code/fetch_truth.py OUT.csv [START END]   (default 2018-01-01 2021-12-31)
+2021-2025 (obs_2021_2025.csv) user-approved 2026-11-08 as a stand-in for the forecast in the
+policy heuristic check (analysis only; never a forecast input, never used to choose a model)."""
 import io, sys, urllib.request, concurrent.futures as cf
 from pathlib import Path
 import pandas as pd
 from huggingface_hub import hf_hub_download
 
+START, END = (sys.argv[2], sys.argv[3]) if len(sys.argv) > 3 else ("2018-01-01", "2021-12-31")
 URL = "https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/{}.csv"
 ids = sorted(pd.read_parquet(hf_hub_download("CMU-OSPO/protostar-climate-train-to-2018",
         "annual_indices/train-00000-of-00001.parquet", repo_type="dataset"), columns=["ID"]).ID.unique())
@@ -22,10 +26,10 @@ def get(i):
         body = rng(u, f"-{tail}")
         body = body[body.index("\n") + 1:]
         df = pd.read_csv(io.StringIO(header + "\n" + body), dtype=str, usecols=lambda c: c in ("DATE", "TMAX", "TMIN", "PRCP"))
-        if df.DATE.min() <= "2018-01-01" or tail > 40_000_000:
+        if df.DATE.min() <= START or tail > 40_000_000:
             break
         tail *= 2
-    df = df[(df.DATE >= "2018-01-01") & (df.DATE <= "2021-12-31")]
+    df = df[(df.DATE >= START) & (df.DATE <= END)]
     for c in ("TMAX", "TMIN", "PRCP"):
         df[c] = pd.to_numeric(df[c], errors="coerce") if c in df else float("nan")
     df.insert(0, "ID", i)
