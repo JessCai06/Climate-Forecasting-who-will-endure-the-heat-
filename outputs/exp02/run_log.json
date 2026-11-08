@@ -1,0 +1,39 @@
+{
+  "experiment": "exp02",
+  "scorer_label": "Line + average (exp02)",
+  "timestamp_utc": "2026-11-08T02:10:42.870852+00:00",
+  "config": {
+    "METRIC_PLAN": {
+      "annual_avg_temp": "decide",
+      "total_precip_in": "line",
+      "cdd": "decide",
+      "hottest_day_temp": "avg"
+    },
+    "resolved_plan": {
+      "annual_avg_temp": "line",
+      "total_precip_in": "line",
+      "cdd": "line",
+      "hottest_day_temp": "avg"
+    },
+    "MARGIN": 0.02,
+    "WINDOW": 30,
+    "ORIGINS": [
+      1998,
+      2004,
+      2011
+    ],
+    "N_TREES": 100,
+    "SEED": 42
+  },
+  "dataset": "CMU-OSPO/protostar-climate-train-to-2018",
+  "dataset_revision": "bbbdebdab2a18e00f97ef87bd3f35a71e222180b",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.8.0",
+    "matplotlib": "3.10.9",
+    "huggingface_hub": "1.15.0"
+  },
+  "git_commit": "2385d5e5ff90a312084ce904a9e4c5eb464c10f9",
+  "git_dirty": true
+}

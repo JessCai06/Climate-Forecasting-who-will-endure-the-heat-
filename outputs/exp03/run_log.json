@@ -1,0 +1,49 @@
+{
+  "experiment": "exp03",
+  "scorer_labels": [
+    "Exp03 chosen per metric",
+    "Shared slope (all metrics)",
+    "Half slope (all metrics)"
+  ],
+  "timestamp_utc": "2026-11-08T02:30:20.247986+00:00",
+  "config": {
+    "METHODS": [
+      "avg",
+      "line",
+      "shared",
+      "half"
+    ],
+    "SIMPLICITY": [
+      "avg",
+      "line",
+      "half",
+      "shared"
+    ],
+    "HALF": 0.5,
+    "CLOSE": 0.01,
+    "WINDOW": 30,
+    "ORIGINS": [
+      1998,
+      2004,
+      2011
+    ],
+    "SEED": 42,
+    "resolved_plan": {
+      "annual_avg_temp": "shared",
+      "total_precip_in": "avg",
+      "hottest_day_temp": "avg",
+      "cdd": "shared"
+    }
+  },
+  "dataset": "CMU-OSPO/protostar-climate-train-to-2018",
+  "dataset_revision": "bbbdebdab2a18e00f97ef87bd3f35a71e222180b",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.8.0",
+    "matplotlib": "3.10.9",
+    "huggingface_hub": "1.15.0"
+  },
+  "git_commit": "2385d5e5ff90a312084ce904a9e4c5eb464c10f9",
+  "git_dirty": true
+}

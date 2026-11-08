@@ -2,25 +2,21 @@
 (live years 2019-2021). Scoring uses NOAA 2019-2021 observations (code/truth.py): ANALYSIS ONLY,
 never a forecast input, and the forecast below is frozen before it is read.
 Usage: python code/starter_score.py OBS_CSV   (OBS_CSV from code/fetch_truth.py)"""
-import sys, calendar, warnings
+import sys, warnings
+from pathlib import Path
 import numpy as np, pandas as pd
-from huggingface_hub import hf_hub_download
 from sklearn.ensemble import RandomForestRegressor
-sys.path.insert(0, __file__.rsplit("code", 1)[0] + "code")
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from truth import annual_from_daily
+from shared import METRICS, load_train, valid_flags as _valid_flags
 warnings.filterwarnings("ignore")
 
-REPO = "CMU-OSPO/protostar-climate-train-to-2018"
-METRICS = {"annual_avg_temp": "Avg Temp", "total_precip_in": "ToT Prcp", "hottest_day_temp": "Max Tmax", "cdd": "cdd"}
 LIVE = [2019, 2020, 2021]
 HDR = ["Score", "Avg temp MAE °F", "Precip MAE in", "Hottest day MAE °F", "CDD MAE °F-days"]
+EXP02_SUBMISSION = Path(__file__).resolve().parent.parent / "outputs" / "exp02" / "submission_exp02.csv"
 
-# ---- 1. data (<= 2018) -------------------------------------------------------------------
-train_df = pd.read_parquet(hf_hub_download(REPO, "annual_indices/train-00000-of-00001.parquet", repo_type="dataset"))
-cov = pd.read_parquet(hf_hub_download(REPO, "coverage_and_stations/train-00000-of-00001.parquet", repo_type="dataset"))
-assert train_df.Year.max() <= 2018
-train_df = train_df.replace([np.inf, -np.inf], np.nan)  # Max Tmax is -inf in 1184 all-missing years; starter code would crash
-train_df = train_df.sort_values(["ID", "Year"]).reset_index(drop=True)
+# ---- 1. data (<= 2018, cutoff guard, inf -> NaN: see shared.py) --------------------------
+train_df, cov = load_train()
 
 # ---- 2/3. starter code: lag features + RandomForest, iterative 2019-2025 ----------------
 def starter_forecast(target):
@@ -43,11 +39,7 @@ def starter_forecast(target):
 
 # ---- baselines (official definitions + the leaderboard's 10-year mean) -----------------
 def valid_flags(a):
-    days = a.Year.map(lambda y: 366 if calendar.isleap(y) else 365)
-    miss_both = days - a.merge(cov[["ID", "Year", "Days Both"]], on=["ID", "Year"], how="left")["Days Both"]
-    v = {"annual_avg_temp": a[["Miss Tmax", "Miss Tmin"]].max(axis=1) <= 10, "total_precip_in": a["Miss Prcp"] <= 10,
-         "hottest_day_temp": a["Miss Tmax"] <= 10, "cdd": miss_both <= 10}
-    return {m: v[m] & a[c].notna() for m, c in METRICS.items()}
+    return _valid_flags(a, cov)
 
 flags = valid_flags(train_df)
 base = {k: {} for k in ("30-year average", "10-year mean", "last year repeated", "linear trend")}
@@ -87,11 +79,19 @@ for target_m, col in METRICS.items():
     for cid, p in starter_forecast(col).items():
         models["Starter code (RandomForest)"][(cid, target_m)] = p
 models.update(base)
+OUT = Path(__file__).resolve().parent.parent / "outputs"
+for label, path in [("Line + average (exp02)", EXP02_SUBMISSION),  # frozen forecasts written earlier by the experiments
+                    ("Exp03 chosen per metric (analysis only)", OUT / "exp03" / "submission_exp03.csv"),
+                    ("Shared slope (all metrics) (analysis only)", OUT / "exp03" / "submission_exp03_shared_all.csv"),
+                    ("Half slope (all metrics) (analysis only)", OUT / "exp03" / "submission_exp03_half_all.csv")]:
+    if path.exists():
+        sub = pd.read_csv(path, dtype={"city_id": str})
+        models[label] = {k: g.sort_values("year").predicted_value.tolist() for k, g in sub.groupby(["city_id", "metric"])}
 
 res = {k: score(v) for k, v in models.items()}
 ref = res["30-year average"]
-print(f"{'Model':<30}" + "".join(f"{h:>20}" for h in HDR))
+print(f"{'Model':<44}" + "".join(f"{h:>20}" for h in HDR))
 for k, mae in res.items():
     S = np.mean([1 - mae[m] / ref[m] for m in METRICS])
-    print(f"{k:<30}{100 * max(0, S):>20.1f}" + "".join(f"{mae[m]:>20.3f}" for m in METRICS))
+    print(f"{k:<44}{100 * max(0, S):>20.1f}" + "".join(f"{mae[m]:>20.3f}" for m in METRICS))
 print("\nLeaderboard reference '10-year mean · example notebook': 10.4  1.191  5.782  2.295  149.6")

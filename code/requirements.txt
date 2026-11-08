@@ -1,0 +1,7 @@
+# Pinned to the versions used for the frozen forecast (Python 3.14)
+pandas==2.3.3
+numpy==2.5.2
+pyarrow==26.0.1
+huggingface_hub==1.15.0
+scikit-learn==1.8.0
+matplotlib==3.10.9
