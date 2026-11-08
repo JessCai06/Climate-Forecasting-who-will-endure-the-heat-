@@ -63,7 +63,10 @@ Analysis-only live scores (2019-2021, our NOAA-based truth):
 | Model | Score | Avg temp MAE °F | Precip MAE in | Hottest day MAE °F | CDD MAE °F-days |
 |---|---|---|---|---|---|
 | 30-year average (reference) | 0.0 | 1.474 | 5.983 | 2.164 | 197.700 |
-| Exp03 chosen per metric (this submission) | 13.8 | 1.068 | 5.983 | 2.164 | 142.756 |
+| Exp03 chosen per metric (earlier submission) | 13.8 | 1.068 | 5.983 | 2.164 | 142.756 |
+| Exp05 chosen per metric (this submission) | 14.1 | 1.074 | 5.983 | 2.164 | 139.982 |
+
+Experiment 5 was scored this way only after it was frozen in commit `caccb0427a8821fe44c9e36767586e780cd1fb85`; the score did not change any choice. On 2019-2021 its cdd error is lower than Experiment 3's (140.0 vs 142.8 °F-days) and its temperature error slightly higher (1.074 vs 1.068 °F); three years is a small sample, and the final score uses 2022-2025. Full table: `outputs/exp05/scorer_posthoc.txt`. (With scikit-learn 1.9.1 the starter-code reference row reads 3.5 instead of 3.7; the other rows are unchanged.)
 
 ## AI Tools and Agents
 
