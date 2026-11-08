@@ -83,7 +83,11 @@ OUT = Path(__file__).resolve().parent.parent / "outputs"
 for label, path in [("Line + average (exp02)", EXP02_SUBMISSION),  # frozen forecasts written earlier by the experiments
                     ("Exp03 chosen per metric (analysis only)", OUT / "exp03" / "submission_exp03.csv"),
                     ("Shared slope (all metrics) (analysis only)", OUT / "exp03" / "submission_exp03_shared_all.csv"),
-                    ("Half slope (all metrics) (analysis only)", OUT / "exp03" / "submission_exp03_half_all.csv")]:
+                    ("Half slope (all metrics) (analysis only)", OUT / "exp03" / "submission_exp03_half_all.csv"),
+                        ("Exp04 chosen per metric (analysis only)", OUT / "exp04" / "submission_exp04.csv"),
+                        ("Regional slope 500 km (all) (analysis only)", OUT / "exp04" / "submission_exp04_reg500_all.csv"),
+                        ("Regional slope 1000 km (all) (analysis only)", OUT / "exp04" / "submission_exp04_reg1000_all.csv"),
+                        ("Best slope + filled gaps (analysis only)", OUT / "exp04" / "submission_exp04_filled_all.csv")]:
     if path.exists():
         sub = pd.read_csv(path, dtype={"city_id": str})
         models[label] = {k: g.sort_values("year").predicted_value.tolist() for k, g in sub.groupby(["city_id", "metric"])}

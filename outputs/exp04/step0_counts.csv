@@ -1,0 +1,6 @@
+metric,n_city_metrics,a_gaps_in_1989_2018,b_last_valid_before_2018,c_fewer_than_10_valid,a_gaps_in_1989_2018_pct,b_last_valid_before_2018_pct,c_fewer_than_10_valid_pct
+annual_avg_temp,210,45,3,2,21.4,1.4,1.0
+total_precip_in,210,47,3,3,22.4,1.4,1.4
+hottest_day_temp,210,45,3,1,21.4,1.4,0.5
+cdd,210,45,3,3,21.4,1.4,1.4
+ALL,840,182,12,9,21.7,1.4,1.1

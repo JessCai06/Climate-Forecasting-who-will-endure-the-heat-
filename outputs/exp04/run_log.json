@@ -1,0 +1,76 @@
+{
+  "experiment": "exp04",
+  "scorer_labels": [
+    "Exp04 chosen per metric",
+    "Regional slope 500 km (all metrics)",
+    "Regional slope 1000 km (all metrics)",
+    "Best slope + filled gaps (all metrics)"
+  ],
+  "timestamp_utc": "2026-11-08T04:10:52.276906+00:00",
+  "config": {
+    "METHODS": [
+      "avg",
+      "line",
+      "shared",
+      "reg500",
+      "reg1000",
+      "filled"
+    ],
+    "SIMPLICITY": [
+      "avg",
+      "line",
+      "shared",
+      "reg1000",
+      "reg500",
+      "filled"
+    ],
+    "RADII": {
+      "reg500": 500.0,
+      "reg1000": 1000.0
+    },
+    "LIMITS": [
+      150,
+      300,
+      500
+    ],
+    "CLOSE": 0.01,
+    "MIN_NBRS": 3,
+    "MIN_OVERLAP": 15,
+    "MIN_CORR": 0.6,
+    "MASK_FRAC": 0.15,
+    "WINDOW": 30,
+    "ORIGINS": [
+      1998,
+      2004,
+      2011
+    ],
+    "SEED": 42,
+    "gapfill_limits": {
+      "annual_avg_temp": 300,
+      "cdd": 500
+    },
+    "slope_candidate_for_filled": {
+      "annual_avg_temp": "reg1000",
+      "total_precip_in": "shared",
+      "hottest_day_temp": "shared",
+      "cdd": "shared"
+    },
+    "resolved_plan": {
+      "annual_avg_temp": "reg1000",
+      "total_precip_in": "avg",
+      "hottest_day_temp": "avg",
+      "cdd": "shared"
+    }
+  },
+  "dataset": "CMU-OSPO/protostar-climate-train-to-2018",
+  "dataset_revision": "bbbdebdab2a18e00f97ef87bd3f35a71e222180b",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.5.2",
+    "scikit-learn": "1.8.0",
+    "matplotlib": "3.10.9",
+    "huggingface_hub": "1.15.0"
+  },
+  "git_commit": "aaf5718ba3898e13356b05e405031b1f34f606b8",
+  "git_dirty": true
+}

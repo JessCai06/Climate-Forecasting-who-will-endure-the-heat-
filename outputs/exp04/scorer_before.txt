@@ -1,0 +1,12 @@
+Model                                                      Score     Avg temp MAE °F       Precip MAE in  Hottest day MAE °F     CDD MAE °F-days
+Starter code (RandomForest)                                  3.7               1.162               6.932               2.490             149.119
+30-year average                                              0.0               1.474               5.983               2.164             197.700
+10-year mean                                                10.4               1.187               5.802               2.285             149.278
+last year repeated                                           0.0               1.142               8.478               2.770             176.846
+linear trend                                                 9.2               1.096               6.119               2.416             148.104
+Line + average (exp02)                                      12.1               1.096               6.119               2.164             148.104
+Exp03 chosen per metric (analysis only)                     13.8               1.068               5.983               2.164             142.756
+Shared slope (all metrics) (analysis only)                  13.4               1.068               5.945               2.218             142.756
+Half slope (all metrics) (analysis only)                     8.6               1.228               5.935               2.244             157.035
+
+Leaderboard reference '10-year mean · example notebook': 10.4  1.191  5.782  2.295  149.6

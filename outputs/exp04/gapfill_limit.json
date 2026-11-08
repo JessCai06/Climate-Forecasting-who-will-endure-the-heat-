@@ -1,0 +1,14 @@
+{
+  "limit_km_per_metric": {
+    "annual_avg_temp": 300,
+    "cdd": 500
+  },
+  "rule": "lowest fill MAE on the points every limit could fill",
+  "grid_km": [
+    150,
+    300,
+    500
+  ],
+  "mask_fraction": 0.15,
+  "seed": 42
+}

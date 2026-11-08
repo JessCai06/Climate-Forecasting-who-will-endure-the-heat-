@@ -1,0 +1,22 @@
+STEP 0 counts (city-metrics):
+           metric n_city_metrics a_gaps_in_1989_2018 b_last_valid_before_2018 c_fewer_than_10_valid  a_gaps_in_1989_2018_pct  b_last_valid_before_2018_pct  c_fewer_than_10_valid_pct
+ annual_avg_temp            210                  45                        3                     2                     21.4                           1.4                        1.0
+ total_precip_in            210                  47                        3                     3                     22.4                           1.4                        1.4
+hottest_day_temp            210                  45                        3                     1                     21.4                           1.4                        0.5
+             cdd            210                  45                        3                     3                     21.4                           1.4                        1.4
+             ALL            840                 182                       12                     9                     21.7                           1.4                        1.1
+
+Masking test:
+          metric  limit_km  n_hidden  n_filled  n_common  fill_mae_common  interp_mae_common  fill_mae_own_set  interp_mae_own_set
+annual_avg_temp       150       907       153       153            0.414              1.229             0.414               1.229
+annual_avg_temp       300       907       717       153            0.397              1.229             0.426               1.138
+annual_avg_temp       500       907       852       153            0.397              1.229             0.451               1.114
+            cdd       150       905       141       141           65.121            169.062            65.121             169.062
+            cdd       300       905       683       141           61.498            169.062            68.917             182.466
+            cdd       500       905       829       141           61.194            169.062            72.031             178.542 
+chosen limits: {'annual_avg_temp': 300, 'cdd': 500}
+annual_avg_temp: reg1000  (rule 3: lead of 0.0007 over F Regional slope 1000 km is under 0.01, so the simpler idea wins)
+total_precip_in: avg  (A Plain average has the highest average skill)
+hottest_day_temp: avg  (A Plain average has the highest average skill)
+cdd: shared  (C Global shared slope has the highest average skill (lead 0.0002 < 0.01, but it is also the simpler one))
+wrote C:\Users\Jessica\Workspace\-Protostar-Challenge-CMU-2026-Climate-Risk-Intelligence\outputs\exp04
