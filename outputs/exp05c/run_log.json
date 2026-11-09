@@ -1,0 +1,69 @@
+{
+  "experiment": "exp05c",
+  "timestamp_utc": "2026-11-09T04:34:22.348239+00:00",
+  "config": {
+    "NEW": {
+      "annual_avg_temp": [
+        "t15s15",
+        "t15s20"
+      ],
+      "cdd": [
+        "cdd10d15",
+        "cdd10d20"
+      ]
+    },
+    "RECENT_SLOPE": [
+      15,
+      20
+    ],
+    "SIMPLICITY": [
+      "avg",
+      "r10",
+      "r15",
+      "shared",
+      "stn",
+      "r10s",
+      "r15s",
+      "scaled",
+      "r15sc",
+      "ens",
+      "h30p95",
+      "h15p95",
+      "cdd10d",
+      "cdd15d",
+      "t15s15",
+      "t15s20",
+      "cdd10d15",
+      "cdd10d20"
+    ],
+    "ORIGINS": [
+      1998,
+      2004,
+      2011
+    ],
+    "resolved_plan": {
+      "annual_avg_temp": "r15s",
+      "total_precip_in": "avg",
+      "hottest_day_temp": "avg",
+      "cdd": "cdd10d"
+    },
+    "slopes_2018": {
+      "origin": 2018,
+      "temp_15": 0.0854353396898628,
+      "tmax_15": 0.08151241030995965,
+      "tmin_15": 0.08939788946808419,
+      "temp_20": 0.06597442303926,
+      "tmax_20": 0.05478666696327228,
+      "tmin_20": 0.07689006048496419
+    }
+  },
+  "dataset": "CMU-OSPO/protostar-climate-train-to-2018",
+  "dataset_revision": "bbbdebdab2a18e00f97ef87bd3f35a71e222180b",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.5.2",
+    "huggingface_hub": "1.15.0"
+  },
+  "git_commit": "d27a6c488f20b33835a53d516dcb35337a307fc1",
+  "git_dirty": true
+}

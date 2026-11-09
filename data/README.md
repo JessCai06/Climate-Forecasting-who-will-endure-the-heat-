@@ -42,3 +42,15 @@ Used only by `code/policy_check.py`, `code/policy_case_studies.py` and `code/cen
 | FCC Area API | Station latitude/longitude to county | Called by `code/policy_check.py`, cached in `station_county.csv` |
 | Allegheny County Property Assessments (WPRDC), NYC PLUTO, Cook County Assessor improvement characteristics | Actual mixed-use building counts for Pittsburgh, NYC and Cook County | `python code/policy_case_studies.py` |
 | `data/policy_rules.csv` (curated by hand, with a source URL per row) | Rental cooling rules and building performance standards | Edit by hand; see `data/policy_sources.md` |
+
+## Cooling gap and extremes (analysis only, not a forecast input)
+
+Used by `code/policy_extremes.py` and `code/policy_cooling_gap.py`. Downloaded at run time and cached in `data/raw/policy/` (not uploaded).
+
+| Source | What we use | Geography | Year | Licence |
+|---|---|---|---|---|
+| U.S. Census Bureau, Local Air Conditioning Estimates (LACE), [`LACE_23_County.csv`](https://www2.census.gov/programs-surveys/demo/datasets/lace/2023/LACE_23_County.csv) | Occupied households with and without AC (count, %, margin of error) | County | 2023 (released 2026-05-19; experimental, modelled from AHS + ACS) | U.S. Government work |
+| CDC/ATSDR Heat & Health Index 2024, [ArcGIS service](https://onemap.cdc.gov/onemapservices/rest/services/Hosted/The_Heat_And_Health_Index/FeatureServer/0) ([technical documentation](https://www.atsdr.cdc.gov/place-health/media/pdfs/2024/07/HHI-2024-Release-Technical-Documentation-508.pdf)) | `p_imperv`, `p_treec` (% of area, NLCD 2021), `p_pov`, `p_iso` (% adults living alone), `p_age65` (ACS 2015-2019), `pr_hri` | ZIP code tabulation area (2010) | 2024 release | U.S. Government work |
+| U.S. Census Bureau, [2010 ZCTA-to-county relationship file](https://www2.census.gov/geo/docs/maps-data/data/rel/zcta_county_rel_10.txt) | Population in each ZCTA-county part (`POPPT`), used as weights | ZCTA x county | 2010 | U.S. Government work |
+
+Each city takes the values of its weather station's county (`outputs/policy_check/station_county.csv`); Heat & Health Index values are population-weighted over the county's ZIP code areas. Housing, land cover and population do not respond to the weather, so their year does not matter for the data rule. The 2019-2025 observed heat days are analysis only.

@@ -1,0 +1,18 @@
+{
+  "baseline": [
+    1976,
+    2005
+  ],
+  "recent": [
+    2019,
+    2025
+  ],
+  "heat_pct": 99,
+  "cold_pct": 1,
+  "run_days": 3,
+  "max_missing": 10,
+  "min_base_years": 15,
+  "min_recent_years": 4,
+  "north_lat": 40.0,
+  "null_record_prob": 0.1891891891891892
+}
