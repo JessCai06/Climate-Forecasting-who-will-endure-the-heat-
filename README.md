@@ -4,9 +4,26 @@ Negative result: no
 
 Links: [submission template](https://huggingface.co/datasets/CMU-OSPO/protostar-climate-submission-template) · [challenge Space](https://huggingface.co/spaces/CMU-OSPO/protostar-challenge-climate-risk-intelligence)
 
-`submission.csv` holds our forecasts: 210 cities × 7 years (2019-2025) × 4 metrics = 5,880 rows. It is the Experiment 3 forecast, frozen in commit `295c10ab5e8eeb4e81b116688f3632ade49366d7`.
+`submission.csv` holds our forecasts: 210 cities × 7 years (2019-2025) × 4 metrics = 5,880 rows. It is the Experiment 5 forecast, frozen in commit `caccb0427a8821fe44c9e36767586e780cd1fb85`. (The earlier submission, Experiment 3, was frozen in `295c10ab5e8eeb4e81b116688f3632ade49366d7`.)
 
-## Method
+## Method (current submission: Experiment 5)
+
+Experiment 5 keeps Experiment 3's shared slope (below) but changes the city's **level**. Experiment 3 starts from the 30-year mean, which is centered on about 2003, so every forecast leans on the slope for 16-22 years. Experiment 5 also tries the mean of the city's last 10 or 15 valid years, the window lengths of NOAA's Optimal Climate Normals (Huang, van den Dool & Barnston 1996, *J. Climate* 9:809-817), with the shared slope continued from those years' middle year. It also tried a station-aware level (years at the city's latest station only), a cdd slope scaled by each city's own cdd-per-°F sensitivity, and an equal-weight ensemble. Same held-back origins, same decision rule as Experiment 3, fixed before running; `outputs/exp05/decision.json` was written before the final forecast.
+
+| Metric | Method used | Held-back skill: chosen (Exp03's pick) | Beat Exp03's pick in |
+|---|---|---|---|
+| `annual_avg_temp` | **15-year level + shared slope** | +0.177 (+0.157) | 3 of 3 origins |
+| `cdd` | **10-year level + shared slope** | +0.086 (+0.070) | 3 of 3 origins |
+| `total_precip_in` | **A plain average** | 0 (0) | nothing beat the plain average |
+| `hottest_day_temp` | **A plain average** | 0 (0) | nothing beat the plain average |
+
+Full results for all ten candidates: `outputs/exp05/heldout_results.csv`.
+
+**Experiment 6 (nearby stations, not chosen).** We added up to 8 NOAA GHCN-Daily stations within 100 km of each city (1,396 stations, 1969-2018, every download capped at 2018-12-31; see `data/README.md`) and used their averaged anomalies for a regional level or a regional slope. None of the four regional candidates beat Experiment 5's picks on held-back years (best: temperature +0.162 vs +0.177, cdd +0.080 vs +0.086), so its forecast is identical to Experiment 5's. Our reading: the target is one station's own record, and part of a station's recent shift is local (site changes, growth around the airport), which averaging with neighbors dilutes. Code: `code/exp06_*.py`; outputs: `outputs/exp06/`.
+
+**Experiment 7 (medians and pooled slopes, not chosen).** Two further ideas, same held-back test and rule. (1) *Medians:* the score is mean absolute error, which a median minimises, so we tried the 30-year median and trend lines shifted by the median of each city's residuals. (2) *Partially pooled slopes:* each city's own slope blended with the shared slope, weighted by an empirical-Bayes estimate of how much true slopes differ between cities versus how noisy each city's own slope is (no tuned weight). Neither beat Experiment 5's picks (temperature: median-shifted +0.172, pooled +0.174, vs +0.177; cdd: +0.081 and +0.080 vs +0.086; the precipitation median tied the plain average, so the simpler average was kept). Yearly totals are close to symmetric, so the median gains little and is a noisier estimate than the mean from 30 values; for temperature the data put only about 14% weight on each city's own slope (`outputs/exp07/pooling.json`), so pooling stays close to the shared slope. The forecast is identical to Experiment 5's. Code: `code/exp07_median_pooled.py`; outputs: `outputs/exp07/`.
+
+## Method of the earlier submission (Experiment 3)
 
 We forecast each metric from the city's last 30 valid years (1989-2018). A year is valid if the station missed at most 10 days of the data that metric needs. Invalid years are never used.
 
@@ -32,11 +49,13 @@ For temperature and cdd the shared slope beat the plain average in all three ori
 
 An earlier experiment (exp02: line + random-forest hybrid) was dropped by its own held-back rule; its code and outputs are in `code/exp02_*.py` and `outputs/exp02/`.
 
-**Reproduce:** `pip install -r code/requirements.txt`, then `python code/exp03_shared_slope.py` writes `outputs/exp03/submission_exp03.csv`, which is identical to `submission.csv`. Check with `python code/check_submission.py submission.csv`. The run takes about a minute and a half and has a fixed seed (42).
+**Reproduce:** `pip install -r code/requirements.txt`, then `python code/exp05_levels_slopes.py` writes `outputs/exp05/submission_exp05.csv`, which is identical to `submission.csv` (about a minute; no randomness). Experiment 6: `python code/exp06_fetch_neighbors.py` (about 35 minutes of downloads, or uses the curated `data/neighbors/` files), then `python code/exp06_neighbors.py`. Experiment 3: `python code/exp03_shared_slope.py` writes `outputs/exp03/submission_exp03.csv`. Check with `python code/check_submission.py submission.csv`. The run takes about a minute and a half and has a fixed seed (42).
 
 ## External sources
 
-**Forecast inputs:** none beyond the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices` and `coverage_and_stations`, years up to 2018). No other data is used as a forecast input.
+**Forecast inputs:** the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices` and `coverage_and_stations`, years up to 2018) is the only input to the submitted forecast.
+
+**Experiments only (not chosen):** NOAA NCEI GHCN-Daily (Menne et al. 2012), daily TMAX/TMIN/PRCP for 1,396 nearby stations, 1969-2018 only: input to Experiment 6's candidates, none of which was chosen. Station list and yearly values are in `data/neighbors/`; see `data/README.md`.
 
 **Policy analysis only** (never read by the forecast code): NOAA GHCN-Daily observations 2019-2025 for the 210 stations; Census ACS 5-year 2019-2023 tables B25024, B25034, B25003 (all counties); FCC Area API (station to county); Allegheny County Property Assessments (WPRDC); NYC PLUTO; Cook County Assessor improvement characteristics; rental cooling rules and building performance standards compiled by hand in `data/policy_rules.csv` (a source URL per row). Details and how to download each: `data/README.md` and `data/policy_sources.md`.
 
@@ -49,13 +68,17 @@ Analysis-only live scores (2019-2021, our NOAA-based truth):
 | Model | Score | Avg temp MAE °F | Precip MAE in | Hottest day MAE °F | CDD MAE °F-days |
 |---|---|---|---|---|---|
 | 30-year average (reference) | 0.0 | 1.474 | 5.983 | 2.164 | 197.700 |
-| Exp03 chosen per metric (this submission) | 13.8 | 1.068 | 5.983 | 2.164 | 142.756 |
+| Exp03 chosen per metric (earlier submission) | 13.8 | 1.068 | 5.983 | 2.164 | 142.756 |
+| Exp05 chosen per metric (this submission) | 14.1 | 1.074 | 5.983 | 2.164 | 139.982 |
+
+Experiment 5 was scored this way only after it was frozen in commit `caccb0427a8821fe44c9e36767586e780cd1fb85`; the score did not change any choice. On 2019-2021 its cdd error is lower than Experiment 3's (140.0 vs 142.8 °F-days) and its temperature error slightly higher (1.074 vs 1.068 °F); three years is a small sample, and the final score uses 2022-2025. Full table: `outputs/exp05/scorer_posthoc.txt`. (With scikit-learn 1.9.1 the starter-code reference row reads 3.5 instead of 3.7; the other rows are unchanged.)
 
 ## AI Tools and Agents
 
 - **Tool and model:** Claude Code (Anthropic's CLI agent) running Claude Sonnet 5.5 (`claude-sonnet-5-5`), inside VS Code.
 - **What it did:** wrote the code in `code/` from the team's written specs (`exp02_line_forest_hybrid_spec.md` and the Experiment 3 instructions); ran the experiments and the post-hoc scorer; extracted shared helpers; made the charts; drafted this README and the data card; set up the commit. For the policy analysis it searched for and tested building and policy data sources, wrote `code/census_acs.py`, `code/policy_case_studies.py` and `code/policy_check.py`, compiled `data/policy_rules.csv` from web search results (each row cites its source), and drafted the Policy Idea from the team's direction (Pittsburgh, small mixed-use buildings).
-- **What it did not do:** it supplied no forecast values. Every `predicted_value` comes from the code and the dataset. It downloaded no weather after 2018 for any forecast. Post-2018 NOAA data was used twice, both approved by a team member and both analysis only: the post-hoc scoring above (2019-2021) and the policy analysis (2019-2025).
+- **Experiments 5 and 6:** Claude Code in the Claude desktop app, running Claude Opus 5.5 (`claude-opus-5-5`). It suggested the candidate ideas (recent level, station-aware level, scaled cdd slope, nearby stations) and the external data sources, wrote `code/exp05_*.py` and `code/exp06_*.py`, downloaded the GHCN-Daily station data with a server-side end date of 2018-12-31, ran the held-back tests, and updated this README and the data card. It checked that Experiment 3 reproduces exactly before building on it, and that Experiment 5's version of the shared slope matches Experiment 3's to the last digit.
+- **What it did not do:** it supplied no forecast values. Every `predicted_value` comes from the code and the dataset. It downloaded no weather after 2018 for any forecast. Post-2018 NOAA data was used twice, both approved by a team member and both analysis only: the post-hoc scoring above and the policy analysis (2019-2025).
 - **What a person did and reviewed:** [TEAM: confirm and edit. The team wrote the specs, decided the rules and settings, and approved the NOAA download for scoring. Add what you personally reviewed, for example the decision rule, the outputs or the README.]
 - **Without the agent:** the code reproduces `submission.csv` without the agent (see Reproduce above). `code/AGENTS.md` holds the agent's data rule.
 

@@ -87,7 +87,9 @@ for label, path in [("Line + average (exp02)", EXP02_SUBMISSION),  # frozen fore
                         ("Exp04 chosen per metric (analysis only)", OUT / "exp04" / "submission_exp04.csv"),
                         ("Regional slope 500 km (all) (analysis only)", OUT / "exp04" / "submission_exp04_reg500_all.csv"),
                         ("Regional slope 1000 km (all) (analysis only)", OUT / "exp04" / "submission_exp04_reg1000_all.csv"),
-                        ("Best slope + filled gaps (analysis only)", OUT / "exp04" / "submission_exp04_filled_all.csv")]:
+                        ("Best slope + filled gaps (analysis only)", OUT / "exp04" / "submission_exp04_filled_all.csv"),
+                        ("Exp05 chosen per metric (analysis only)", OUT / "exp05" / "submission_exp05.csv"),
+                        ("Exp06 chosen per metric (analysis only)", OUT / "exp06" / "submission_exp06.csv")]:
     if path.exists():
         sub = pd.read_csv(path, dtype={"city_id": str})
         models[label] = {k: g.sort_values("year").predicted_value.tolist() for k, g in sub.groupby(["city_id", "metric"])}

@@ -1,5 +1,7 @@
 __pycache__/
 *.pyc
+.venv/
+data/raw/
 
 # Census API key: local only, never commit (see code/AGENTS.md)
 census_key.txt
