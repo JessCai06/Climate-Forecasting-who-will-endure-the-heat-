@@ -1,7 +1,8 @@
 """Run the contest's starter code (random forest on 3 lags) and score it like the leaderboard
 (live years 2019-2021). Scoring uses NOAA 2019-2021 observations (code/truth.py): ANALYSIS ONLY,
 never a forecast input, and the forecast below is frozen before it is read.
-Usage: python code/starter_score.py OBS_CSV   (OBS_CSV from code/fetch_truth.py)"""
+Usage: python code/starter_score.py OBS_CSV [FIRST-LAST]   (OBS_CSV from code/fetch_truth.py;
+years default to the live window 2019-2021, e.g. 2022-2025 previews the final window)"""
 import sys, warnings
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -11,7 +12,8 @@ from truth import annual_from_daily
 from shared import METRICS, load_train, valid_flags as _valid_flags
 warnings.filterwarnings("ignore")
 
-LIVE = [2019, 2020, 2021]
+LIVE = (list(range(int(sys.argv[2].split("-")[0]), int(sys.argv[2].split("-")[1]) + 1))
+        if len(sys.argv) > 2 else [2019, 2020, 2021])
 HDR = ["Score", "Avg temp MAE °F", "Precip MAE in", "Hottest day MAE °F", "CDD MAE °F-days"]
 EXP02_SUBMISSION = Path(__file__).resolve().parent.parent / "outputs" / "exp02" / "submission_exp02.csv"
 
@@ -89,7 +91,9 @@ for label, path in [("Line + average (exp02)", EXP02_SUBMISSION),  # frozen fore
                         ("Regional slope 1000 km (all) (analysis only)", OUT / "exp04" / "submission_exp04_reg1000_all.csv"),
                         ("Best slope + filled gaps (analysis only)", OUT / "exp04" / "submission_exp04_filled_all.csv"),
                         ("Exp05 chosen per metric (analysis only)", OUT / "exp05" / "submission_exp05.csv"),
-                        ("Exp06 chosen per metric (analysis only)", OUT / "exp06" / "submission_exp06.csv")]:
+                        ("Exp06 chosen per metric (analysis only)", OUT / "exp06" / "submission_exp06.csv"),
+                        ("Exp05B chosen per metric (analysis only)", OUT / "exp05b" / "submission_exp05b.csv"),
+                        ("Exp05B cdd 15-yr delta (analysis only)", OUT / "exp05b" / "submission_exp05b_cdd15d.csv")]:
     if path.exists():
         sub = pd.read_csv(path, dtype={"city_id": str})
         models[label] = {k: g.sort_values("year").predicted_value.tolist() for k, g in sub.groupby(["city_id", "metric"])}

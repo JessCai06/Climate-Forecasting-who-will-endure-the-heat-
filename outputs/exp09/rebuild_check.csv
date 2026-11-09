@@ -1,0 +1,9 @@
+column,rows,share_match,worst_diff
+Avg Temp,10273,1.0,0.009890710382506995
+ToT Prcp,10297,1.0,1.4210854715202004e-14
+Max Tmax,10273,1.0,0.0
+cdd,10272,1.0,0.0
+Miss Tmax,10500,1.0,0.0
+Miss Tmin,10500,1.0,0.0
+Miss Prcp,10500,1.0,0.0
+Days Both,10500,1.0,0.0

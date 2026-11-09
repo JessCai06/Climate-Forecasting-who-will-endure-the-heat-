@@ -1,0 +1,130 @@
+{
+  "annual_avg_temp": {
+    "method": "r15s",
+    "avg_skill": {
+      "orig": 0.17695918229843266,
+      "rescue": 0.1799965523224275,
+      "fillall": 0.18001957982395836
+    },
+    "per_origin_skill": {
+      "orig": {
+        "1998": 0.19553914136030215,
+        "2004": 0.16675229267884617,
+        "2011": 0.16858611285614966
+      },
+      "rescue": {
+        "1998": 0.2012304016571166,
+        "2004": 0.16852619464715368,
+        "2011": 0.17023306066301225
+      },
+      "fillall": {
+        "1998": 0.20120964862784696,
+        "2004": 0.16830405786992475,
+        "2011": 0.1705450329741034
+      }
+    },
+    "origins_beating_orig": {
+      "orig": 0,
+      "rescue": 3,
+      "fillall": 3
+    },
+    "variant": "orig",
+    "reason": "lead of 0.0000 over rescue is under 0.01: simpler wins; rescue does not beat orig by 0.01 in average skill and in >= 2 of 3 origins, so orig"
+  },
+  "total_precip_in": {
+    "method": "avg",
+    "avg_skill": {
+      "orig": 0.0,
+      "rescue": -0.0013777489989543756,
+      "fillall": -0.0022157334639435846
+    },
+    "per_origin_skill": {
+      "orig": {
+        "1998": 0.0,
+        "2004": 0.0,
+        "2011": 0.0
+      },
+      "rescue": {
+        "1998": -0.000528108223911472,
+        "2004": -0.0019235544116424919,
+        "2011": -0.001681584361309163
+      },
+      "fillall": {
+        "1998": -0.002439323695272666,
+        "2004": -0.002681025334516196,
+        "2011": -0.0015268513620418922
+      }
+    },
+    "origins_beating_orig": {
+      "orig": 0,
+      "rescue": 0,
+      "fillall": 0
+    },
+    "variant": "orig",
+    "reason": "orig has the highest average skill"
+  },
+  "hottest_day_temp": {
+    "method": "avg",
+    "avg_skill": {
+      "orig": 0.0,
+      "rescue": 7.254823812889259e-05,
+      "fillall": 0.00017511491393721693
+    },
+    "per_origin_skill": {
+      "orig": {
+        "1998": 0.0,
+        "2004": 0.0,
+        "2011": 0.0
+      },
+      "rescue": {
+        "1998": 0.001027911533183934,
+        "2004": 0.00011554666147817194,
+        "2011": -0.0009258134802754281
+      },
+      "fillall": {
+        "1998": 0.0007936483456552068,
+        "2004": 5.0777490849807094e-06,
+        "2011": -0.0002733813529285367
+      }
+    },
+    "origins_beating_orig": {
+      "orig": 0,
+      "rescue": 2,
+      "fillall": 2
+    },
+    "variant": "orig",
+    "reason": "lead of 0.0001 over rescue is under 0.01: simpler wins; rescue does not beat orig by 0.01 in average skill and in >= 2 of 3 origins, so orig"
+  },
+  "cdd": {
+    "method": "r10s",
+    "avg_skill": {
+      "orig": 0.11191400799777244,
+      "rescue": 0.11556268636196283,
+      "fillall": 0.11714170398687888
+    },
+    "per_origin_skill": {
+      "orig": {
+        "1998": 0.021697504272690904,
+        "2004": 0.08356630607126891,
+        "2011": 0.2304782136493575
+      },
+      "rescue": {
+        "1998": 0.02205305991285733,
+        "2004": 0.09322723603984473,
+        "2011": 0.23140776313318645
+      },
+      "fillall": {
+        "1998": 0.022967829060851708,
+        "2004": 0.09620666550283141,
+        "2011": 0.23225061739695352
+      }
+    },
+    "origins_beating_orig": {
+      "orig": 0,
+      "rescue": 3,
+      "fillall": 3
+    },
+    "variant": "orig",
+    "reason": "lead of 0.0016 over rescue is under 0.01: simpler wins; rescue does not beat orig by 0.01 in average skill and in >= 2 of 3 origins, so orig"
+  }
+}

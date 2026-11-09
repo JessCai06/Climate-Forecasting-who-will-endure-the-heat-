@@ -1,0 +1,13 @@
+origin,metric,window_years_orig,window_years_filled,cities_gaining_years
+1998,annual_avg_temp,5814,6045,38
+1998,total_precip_in,5869,6079,38
+1998,hottest_day_temp,5863,6048,37
+1998,cdd,5783,6045,39
+2004,annual_avg_temp,5841,6078,39
+2004,total_precip_in,5906,6107,38
+2004,hottest_day_temp,5898,6081,38
+2004,cdd,5809,6078,41
+2011,annual_avg_temp,5889,6113,42
+2011,total_precip_in,5952,6141,40
+2011,hottest_day_temp,5942,6117,40
+2011,cdd,5860,6113,44
