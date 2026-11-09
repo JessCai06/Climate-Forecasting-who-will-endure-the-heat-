@@ -18,7 +18,7 @@ The challenge dataset is downloaded at run time. Experiment 6 adds one curated s
 - **Selection rule:** U.S. stations within 100 km of the city and more than 2 km away, reporting TMAX and TMIN from 1969 or earlier through 2018; the 8 closest. 1,407 stations, 1,621 city-station pairs; every city has at least one.
 - **Cutoff:** every request ends at 2018-12-31 on the server side; the script stops if any row is later, and `exp06_neighbors.py` checks again on load.
 - **Preparation:** °C and mm converted to °F and inches; yearly values follow the challenge definitions (mean of (Tmax+Tmin)/2, precipitation sum, highest Tmax rounded to a whole degree, cdd base 65 °F). Missing days = days in the year minus days with a value.
-- **Raw daily files** are cached in `data/raw/` and not uploaded (about 0.9 GB); rerun `python code/exp06_fetch_neighbors.py` to rebuild them.
+- **Raw daily files** are cached in `data/raw/` and not uploaded (about 0.9 GB); rerun `python code/exp06_fetch_neighbors.py` to rebuild them. Experiment 9 (`code/exp09_daily_gapfill.py`) reads these raw daily files to fill missing days at each city's station; the city's own daily values come from the challenge dataset's `daily` table (up to 2018). Experiment 5B reads only that `daily` table.
 - **Citation:** Menne, M.J., et al. (2012). An overview of the Global Historical Climatology Network-Daily database. *J. Atmos. Oceanic Technol.*, 29, 897-910. https://doi.org/10.1175/JTECH-D-11-00103.1
 
 ## How the files fit together
