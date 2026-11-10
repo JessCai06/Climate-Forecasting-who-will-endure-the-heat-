@@ -22,7 +22,9 @@
             { key: "synthesis", name: "Combined View" }] },
     { n: 4, name: "Projections", target: "projected",
       sub: [{ key: "projected", name: "Projected Numbers" }, { key: "projections", name: "Regional Affordability" }] },
-    { n: 5, name: "Policy Idea", target: "policy" },
+    { n: 5, name: "Policy Idea", target: "policy",
+      sub: [{ key: "policy", name: "The Questions" }, { key: "policy-answer", name: "How We Answer" },
+            { key: "policy-tradeoffs", name: "Drawbacks and Numbers" }, { key: "policy-sustain", name: "Why It Lasts" }] },
     { n: 6, name: "Limitations", target: "limitations" },
     { n: 7, name: "Reproducibility", target: "reproducibility" },
     { n: 8, name: "Conclusion", target: "conclusion" },
@@ -81,23 +83,27 @@
   }
   window.deckGo = go;
 
-  // Policy slide: tabs, one panel per policymaker.
-  const tabs = Array.from(document.querySelectorAll(".ptabs [role=tab]"));
-  function pickTab(t, focus) {
-    tabs.forEach((x) => {
-      const on = x === t;
+  // Policy pages: one tab per policymaker. Picking a role on one page picks it on every page.
+  function setRole(role) {
+    document.querySelectorAll(".ptabs [role=tab]").forEach((x) => {
+      const on = x.dataset.role === role;
       x.setAttribute("aria-selected", on);
       x.tabIndex = on ? 0 : -1;
-      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
     });
-    if (focus) t.focus();
+    document.querySelectorAll(".ppanel").forEach((p) => { p.hidden = p.dataset.role !== role; });
   }
-  tabs.forEach((t, i) => {
-    t.addEventListener("click", () => pickTab(t));
-    t.addEventListener("keydown", (e) => {
-      const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-      if (step) { e.preventDefault(); e.stopPropagation(); pickTab(tabs[(i + step + tabs.length) % tabs.length], true); }
-      else if (e.key === " " || e.key === "Enter") e.stopPropagation();
+  document.querySelectorAll(".ptabs").forEach((list) => {
+    const mine = Array.from(list.querySelectorAll("[role=tab]"));
+    mine.forEach((t, i) => {
+      t.addEventListener("click", () => setRole(t.dataset.role));
+      t.addEventListener("keydown", (e) => {
+        const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (step) {
+          e.preventDefault(); e.stopPropagation();
+          const nxt = mine[(i + step + mine.length) % mine.length];
+          setRole(nxt.dataset.role); nxt.focus();
+        } else if (e.key === " " || e.key === "Enter") e.stopPropagation();
+      });
     });
   });
 

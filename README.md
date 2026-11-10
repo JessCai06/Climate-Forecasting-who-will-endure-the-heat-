@@ -26,7 +26,10 @@ Use the arrow keys, Page Up/Down or the scroll wheel to move; the side list jump
 | 2 | Definitions: affordable and livable | `#definitions` |
 | 3 | Historical data: weather, energy use, affordability, combined view | `#weather`, `#energy-use`, `#affordability`, `#synthesis` |
 | 4 | Projections, 2019-2025: national numbers and regional affordability | `#projected`, `#projections` |
-| 5 | Policy idea: plan on the weather that's coming | `#policy` |
+| 5 | Policy idea: the questions we are asking (and the risk we noticed) | `#policy` |
+| 5 | Policy idea: how we would answer them (one proposal per policymaker) | `#policy-answer` |
+| 5 | Policy idea: drawbacks and the numbers still needed | `#policy-tradeoffs` |
+| 5 | Policy idea: why it lasts (sustainability, with cited papers) | `#policy-sustain` |
 | 6 | Limitations | `#limitations` |
 | 7 | Reproducibility | `#reproducibility` |
 | 8 | Conclusion | `#conclusion` |
@@ -52,6 +55,8 @@ The cdd choice is not uniform: the delta method loses to Exp05's pick at origin 
 **Bug fix in the held-back test (2026-11-08).** `shared.valid_flags` subtracted a merged column with a fresh 0..n-1 index from a column that kept the data's own index. When the data is cut at a held-back origin the two no longer line up, so about one cdd validity flag in four in the 30-year windows was wrong (1,725 of 6,300 at origin 1998; 0 at origin 2018). The fix (`.to_numpy()`) leaves every submitted forecast unchanged, since those use origin 2018, and Experiment 5's picks are the same with it, but its cdd held-back skill is +0.112, not the +0.086 in `outputs/exp05/`. The held-back cdd numbers in `outputs/exp03/` to `outputs/exp07/` were made before the fix and are not regenerated; rerun with the fix, Experiment 3 would pick the half slope for cdd. Experiments 5B and 9 use the fixed code.
 
 **Experiment 9 (fill missing days from nearby stations, not chosen).** Each missing day at the city's station was filled from Experiment 6's neighbors (up to 8 within 100 km, daily data to 2018-12-31): per neighbor a monthly offset (temperature) or ratio (precipitation), fitted only on the 30-year window up to each origin, combined with weights from each neighbor's calibration error. Only years with at most 90 missing days were filled, and real readings were never changed. The yearly values were then rebuilt with the challenge's own definitions (the rebuild reproduces `annual_indices` exactly: `outputs/exp09/rebuild_check.csv`). The fill is accurate: hiding a 30-day block in complete years, the yearly error drops from 1.14 to 0.05 °F (temperature) and from 126 to 8.5 °F-days (cdd) (`mask_test.csv`). It rescues about 230-270 window years in about 40 cities. But with Experiment 5's methods the held-back gain was below 0.01 for every metric (temperature +0.180 vs +0.177, cdd +0.117 vs +0.112, precipitation and hottest day no gain), so the original data is kept: those cities already had about 26 valid years each, so a few more barely move their level. Code: `code/exp09_daily_gapfill.py`; outputs: `outputs/exp09/`.
+
+**Experiment 10 (weighted blend, not chosen).** Rule written first (`docs/exp10_blend_rule.md`): per metric, a blend of the candidates Experiments 5 and 5B already built, with weights on a 0.1 grid fitted on the held-back origins, tested leave-one-origin-out; it replaces the current pick only if it beats it by 0.01 skill and wins in 2 of 3 origins. No metric passed (out-of-sample skill, blend vs current: temperature +0.163 vs +0.177, precipitation -0.002 vs 0, hottest day +0.001 vs 0, cdd +0.111 vs +0.127), so the submission is unchanged (`outputs/exp10/submission_exp10.csv` is identical to `submission.csv`). Declared in full: after the decision we scored the blend for analysis. It reads slightly higher than Experiment 5B (2019-2021: 14.0 vs 13.8; 2022-2025: 18.8 vs 18.4), a difference well inside the year-to-year noise, and it did not change the choice. Code: `code/exp10_blend.py`; outputs and scores: `outputs/exp10/` (`scorer_posthoc.txt`).
 
 ## Method of the earlier submission (Experiment 5)
 

@@ -182,3 +182,26 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; f
 .ev-list a { font-weight: 600; font-size: 20px; color: var(--ink); text-decoration-color: #d9622b; }
 .ev-list a::after { content: " \2192"; }
 .ev-list span { display: block; font-size: 17px; line-height: 1.38; color: var(--ink-3); margin-top: 2px; }
+
+/* ---------- policy pages: risk band, next link, bottom band, sustainability, references ---------- */
+.risk { background: #fdf3ea; border-left: 6px solid #d9622b; border-radius: var(--radius); padding: 14px 22px; }
+.risk-k { margin: 0 0 4px; font-family: var(--font-sub); font-weight: 700; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; color: #b24a17; }
+.risk-t { margin: 0; font-size: 21px; line-height: 1.42; color: var(--ink-2); }
+.risk-t strong { color: var(--ink); font-weight: 600; }
+.pband { background: #f4f7fb; border-radius: var(--radius); padding: 16px 22px; }
+.nextlink { font-family: var(--font-sub); font-weight: 600; font-size: 22px; color: var(--ink); text-decoration-color: #d9622b; }
+.ptxt a, .refs a, .fail a { text-decoration-color: #d9622b; }
+.sus { display: flex; flex-direction: column; gap: 10px; }
+.susc { display: grid; grid-template-columns: 250px 1fr 330px; column-gap: 30px; border-top: 1.5px solid var(--ink); padding-top: 12px; align-items: start; }
+.susc .ptxt { font-size: 18px; line-height: 1.38; margin: 0; }
+.susc .sub { margin: 0 0 6px; grid-column: 1; grid-row: 1; }
+.susc .susk { grid-column: 1; grid-row: 2; }
+.susc .ptxt { grid-column: 2; grid-row: 1 / span 2; }
+.susc .fail { grid-column: 3; grid-row: 1 / span 2; }
+.susk { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--ink); }
+.fail { margin: 0; padding: 10px 12px; background: #faf7f2; border-radius: var(--radius); font-size: 16px; line-height: 1.38; color: var(--ink-2); }
+.fail strong { color: #b24a17; font-weight: 600; }
+.refs { margin-top: 18px; border-top: 1.5px solid var(--ink); padding-top: 12px; }
+.refs ol { margin: 0; padding-left: 26px; font-size: 13.5px; line-height: 1.3; color: var(--ink-3); columns: 2; column-gap: 40px; }
+.refs li { break-inside: avoid; padding-bottom: 6px; }
+.refs a { color: var(--ink-3); }
