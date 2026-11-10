@@ -4,13 +4,13 @@
     {
       "name": "deck",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "presentation"],
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "."],
       "port": 8765
     },
     {
       "name": "deck-alt",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8767", "--directory", "presentation"],
+      "runtimeArgs": ["-m", "http.server", "8767", "--directory", "."],
       "port": 8767,
       "autoPort": false
     }
