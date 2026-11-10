@@ -8,15 +8,15 @@ Links: [submission template](https://huggingface.co/datasets/CMU-OSPO/protostar-
 
 ## Presentation: *Will Everyone Endure the Heat?*
 
-**Deck: [`presentation/index.html`](presentation/index.html)**, a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast) - scroll down for the full show!
+**Deck: [`index.html`](index.html)** (repo root; its styles, scripts and data are in `presentation/`), a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast) - scroll down for the full show!
 
 ![Sample Map Area](image.png)
 ![alt text](image-1.png)
 
 To open it, clone or download the repository, then either:
 
-- double-click `presentation/index.html` (it opens in any modern browser; an internet connection loads the fonts and the D3 chart library), or
-- serve it locally: `python -m http.server 8765 --directory presentation`, then open <http://localhost:8765>.
+- double-click `index.html` (it opens in any modern browser; an internet connection loads the fonts and the D3 chart library), or
+- serve it locally: `python -m http.server 8765`, then open <http://localhost:8765>.
 
 Use the arrow keys, Page Up/Down or the scroll wheel to move; the side list jumps between sections. Each section has its own link:
 
@@ -136,7 +136,7 @@ Experiment 5 was scored this way only after it was frozen in commit `caccb0427a8
 
 ## Policy Idea
 
-**Plan on the weather that's coming: keep grids reliable and cooling affordable as U.S. summers warm.** (Slides 5-6 of the [deck](presentation/index.html); full reasoning in [`docs/policy_essay_outline.md`](docs/policy_essay_outline.md).)
+**Plan on the weather that's coming: keep grids reliable and cooling affordable as U.S. summers warm.** (Slides 5-6 of the [deck](index.html); full reasoning in [`docs/policy_essay_outline.md`](docs/policy_essay_outline.md).)
 
 **The risk.** Grid reserves (NERC's 50/50 peak forecasts) and household budgets are planned on past weather. Our forecast, made only with data up to 2018, puts 2019-2025 at **+21% cooling-required days** (high ≥ 95 °F), **+48% hot nights** (low ≥ 75 °F) and +19% cooling degree days (median city) against 1976-2005, concentrated in Texas, the Gulf Coast and the Southwest. Each 1 °F on a summer day adds about 2% to peak demand (EIA-930, 2015-2018). By 2025 warming uses about **a fifth of the reserve cushion** NERC's areas planned above their reference level; ERCOT, already below its reference, falls to −1.3%, short of capacity, in a one-in-ten hot summer. Bills were a problem before any warming: a low-income single person was over an affordable bar (6% of a poverty-line income × electricity's share of home energy) in **45 of 46 states**, and the forecast heat adds only $17-33 a year. Livability fails in two ways: no AC in the North and West (33% of Washington homes), and AC too costly to run, or without power, in the South, where hot nights climb (Florida 69 → 96 a year).
 
@@ -161,7 +161,7 @@ Items from real friction in this repo. Each has a way to check it.
 ```
 submission.csv          the forecast (5,880 rows), Experiment 5B
 README.md               this file: method, sources, AI tools, policy idea, feedback
-presentation/           the slide deck (open presentation/index.html)
+index.html              the slide deck (open this file); its styles, scripts and data are in presentation/
 code/                   every script; see below
 data/                   data card (README.md) and the curated data
 outputs/                results of every experiment and analysis, each with its config and summary

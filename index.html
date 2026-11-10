@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
-<link rel="stylesheet" href="deck.css">
+<link rel="stylesheet" href="presentation/deck.css">
 </head>
 <body>
 <!--
@@ -16,7 +16,7 @@
   The "Historical Data: Temperature" slide is the template for every historical-data slide:
   chart on top, then title, a one-line dek, and two columns (Trends, Findings).
   Charts read presentation/data/deck_data.js, made by `python code/export_deck_data.py` from the analysis
-  outputs (data up to 2018 plus our forecast). Colours keep one meaning across slides (charts.js, COLOR).
+  outputs (data up to 2018 plus our forecast). Colours keep one meaning across slides (presentation/charts.js, COLOR).
   Navigate: arrow keys / Page Up-Down / scroll; the chevron goes back one slide; the side list jumps.
 -->
 <main class="deck" id="deck">
@@ -88,7 +88,7 @@
   <!-- 3a. Historical data: weather  (Figma 1303:54) = THE TEMPLATE for the historical-data slides -->
   <section class="slide" id="weather" data-section="3" data-sub="weather" aria-label="Historical data: weather">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="weather" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- heat measures by year, U.S. and regions; click the tabs under the chart; data: weather -->
@@ -115,7 +115,7 @@
   <!-- 3b. Historical data: energy use  (Figma 1303:152, on the temperature template) -->
   <section class="slide" id="energy-use" data-section="3" data-sub="energy-use" aria-label="Historical data: energy use">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="energy-use" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- summer daily peak vs daily high, one line per EIA region; data: regions -->
@@ -142,7 +142,7 @@
   <!-- 3c. Historical data: energy affordability  (Figma 1303:181, on the temperature template) -->
   <section class="slide" id="affordability" data-section="3" data-sub="affordability" aria-label="Historical data: energy affordability">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="affordability" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- low-income bill / bar by state, 2002-2018, toggle household size; data: afford -->
@@ -169,7 +169,7 @@
   <!-- 3d. What the three datasets tell us  (Figma 1303:197, on the temperature template) -->
   <section class="slide" id="synthesis" data-section="3" data-sub="synthesis" aria-label="Historical data: combined view">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="synthesis" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- weather, use and price on one time axis, 2002-2018; data: national -->
@@ -196,7 +196,7 @@
   <!-- 4a. Projections: projected numbers (extends the combined view to 2025, on the temperature template) -->
   <section class="slide" id="projected" data-section="4" data-sub="projected" aria-label="Projections: projected numbers">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="4" data-sub="projected" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- weather, use and price, 2002-2018 observed + 2019-2025 projected with data up to 2018; data: national.projected -->
@@ -223,7 +223,7 @@
   <!-- 4b. Projections: regional affordability  (Figma 1303:121, realigned) -->
   <section class="slide" id="projections" data-section="4" data-sub="projections" aria-label="Projections: regional affordability">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="4" data-sub="projections" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <h2 class="abs h2" style="left:432px; top:60px;">Regional Affordability, 2019–2025</h2>
@@ -249,7 +249,7 @@
        outputs/grid_projection_national/summary.md and states.csv, forecast years 2019-2025, 2018 dollars) -->
   <section class="slide" id="policy" data-section="5" aria-label="Policy idea">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="5" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <h2 class="abs h2" style="left:432px; top:60px;">Plan on the Weather That’s Coming</h2>
@@ -298,7 +298,7 @@
   <!-- 6. Limitations (essay section 7; margin breakdown from outputs/grid_projection_national/summary.md) -->
   <section class="slide" id="limitations" data-section="6" aria-label="Limitations">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="6" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <h2 class="abs h2" style="left:432px; top:60px;">Limitations</h2>
@@ -356,7 +356,7 @@
        the policy_* script headers and outputs/exp05b/run_log.json) -->
   <section class="slide" id="reproducibility" data-section="7" aria-label="Reproducibility">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="7" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <h2 class="abs h2" style="left:432px; top:60px;">Reproducibility &amp; Openness</h2>
@@ -416,7 +416,7 @@ python code/check_submission.py submission.csv</pre>
   <!-- 8. Conclusion (essay section 8: the question, the three findings, the policy; numbers as on slides 3-6) -->
   <section class="slide" id="conclusion" data-section="8" aria-label="Conclusion">
     <div class="stage">
-      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="8" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <p class="abs kicker" style="left:432px; top:64px;">Conclusion</p>
@@ -452,8 +452,8 @@ python code/check_submission.py submission.csv</pre>
 </main>
 <div class="tip" id="tip" hidden></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="deck.js"></script>
-<script src="data/deck_data.js"></script>
-<script src="charts.js"></script>
+<script src="presentation/deck.js"></script>
+<script src="presentation/data/deck_data.js"></script>
+<script src="presentation/charts.js"></script>
 </body>
 </html>
