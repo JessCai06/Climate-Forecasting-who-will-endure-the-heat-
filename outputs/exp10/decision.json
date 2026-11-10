@@ -1,0 +1,278 @@
+{
+  "annual_avg_temp": {
+    "pool": [
+      "avg",
+      "r10",
+      "r15",
+      "shared",
+      "r10s",
+      "r15s",
+      "stn"
+    ],
+    "current": "r15s",
+    "final_weights": {
+      "avg": 0.0,
+      "r10": 0.0,
+      "r15": 0.0,
+      "shared": 0.1,
+      "r10s": 0.2,
+      "r15s": 0.7,
+      "stn": 0.0
+    },
+    "loo": {
+      "1998": {
+        "blend": 0.1844615471656097,
+        "current": 0.19553914136030215,
+        "weights": {
+          "avg": 0.0,
+          "r10": 0.0,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.5,
+          "r15s": 0.5,
+          "stn": 0.0
+        }
+      },
+      "2004": {
+        "blend": 0.15972346771334323,
+        "current": 0.16675229267884617,
+        "weights": {
+          "avg": 0.0,
+          "r10": 0.0,
+          "r15": 0.0,
+          "shared": 0.1,
+          "r10s": 0.0,
+          "r15s": 0.7,
+          "stn": 0.2
+        }
+      },
+      "2011": {
+        "blend": 0.1446004991684049,
+        "current": 0.16858611285614966,
+        "weights": {
+          "avg": 0.0,
+          "r10": 0.0,
+          "r15": 0.3,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.7,
+          "stn": 0.0
+        }
+      }
+    },
+    "blend_avg_skill": 0.1629285046824526,
+    "current_avg_skill": 0.17695918229843266,
+    "origins_blend_wins": 0,
+    "lead": -0.014030677615980064,
+    "use_blend": false,
+    "method": "r15s",
+    "reason": "blend 0.1629 vs r15s 0.1770 (lead -0.0140, wins 0/3): current kept"
+  },
+  "total_precip_in": {
+    "pool": [
+      "avg",
+      "r10",
+      "r15",
+      "shared",
+      "r10s",
+      "r15s"
+    ],
+    "current": "avg",
+    "final_weights": {
+      "avg": 0.9,
+      "r10": 0.1,
+      "r15": 0.0,
+      "shared": 0.0,
+      "r10s": 0.0,
+      "r15s": 0.0
+    },
+    "loo": {
+      "1998": {
+        "blend": -0.005905740152985173,
+        "current": 0.0,
+        "weights": {
+          "avg": 0.7,
+          "r10": 0.3,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0
+        }
+      },
+      "2004": {
+        "blend": 0.0,
+        "current": 0.0,
+        "weights": {
+          "avg": 1.0,
+          "r10": 0.0,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0
+        }
+      },
+      "2011": {
+        "blend": -0.0012190521822845746,
+        "current": 0.0,
+        "weights": {
+          "avg": 0.8,
+          "r10": 0.2,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0
+        }
+      }
+    },
+    "blend_avg_skill": -0.002374930778423249,
+    "current_avg_skill": 0.0,
+    "origins_blend_wins": 0,
+    "lead": -0.002374930778423249,
+    "use_blend": false,
+    "method": "avg",
+    "reason": "blend -0.0024 vs avg 0.0000 (lead -0.0024, wins 0/3): current kept"
+  },
+  "hottest_day_temp": {
+    "pool": [
+      "avg",
+      "r10",
+      "r15",
+      "shared",
+      "r10s",
+      "r15s",
+      "h30p95",
+      "h15p95"
+    ],
+    "current": "avg",
+    "final_weights": {
+      "avg": 0.6,
+      "r10": 0.4,
+      "r15": 0.0,
+      "shared": 0.0,
+      "r10s": 0.0,
+      "r15s": 0.0,
+      "h30p95": 0.0,
+      "h15p95": 0.0
+    },
+    "loo": {
+      "1998": {
+        "blend": -0.011728904956687547,
+        "current": 0.0,
+        "weights": {
+          "avg": 0.4,
+          "r10": 0.5,
+          "r15": 0.1,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0,
+          "h30p95": 0.0,
+          "h15p95": 0.0
+        }
+      },
+      "2004": {
+        "blend": 0.007160878183923081,
+        "current": 0.0,
+        "weights": {
+          "avg": 0.7,
+          "r10": 0.3,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0,
+          "h30p95": 0.0,
+          "h15p95": 0.0
+        }
+      },
+      "2011": {
+        "blend": 0.008473521080490154,
+        "current": 0.0,
+        "weights": {
+          "avg": 0.8,
+          "r10": 0.2,
+          "r15": 0.0,
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0,
+          "h30p95": 0.0,
+          "h15p95": 0.0
+        }
+      }
+    },
+    "blend_avg_skill": 0.0013018314359085625,
+    "current_avg_skill": 0.0,
+    "origins_blend_wins": 2,
+    "lead": 0.0013018314359085625,
+    "use_blend": false,
+    "method": "avg",
+    "reason": "blend 0.0013 vs avg 0.0000 (lead +0.0013, wins 2/3): current kept"
+  },
+  "cdd": {
+    "pool": [
+      "shared",
+      "r10s",
+      "r15s",
+      "scaled",
+      "r15sc",
+      "cdd10d",
+      "cdd15d"
+    ],
+    "current": "cdd10d",
+    "final_weights": {
+      "shared": 0.1,
+      "r10s": 0.0,
+      "r15s": 0.0,
+      "scaled": 0.1,
+      "r15sc": 0.0,
+      "cdd10d": 0.8,
+      "cdd15d": 0.0
+    },
+    "loo": {
+      "1998": {
+        "blend": -0.0031206187086465498,
+        "current": -0.0031206187086465498,
+        "weights": {
+          "shared": 0.0,
+          "r10s": 0.0,
+          "r15s": 0.0,
+          "scaled": 0.0,
+          "r15sc": 0.0,
+          "cdd10d": 1.0,
+          "cdd15d": 0.0
+        }
+      },
+      "2004": {
+        "blend": 0.11129879152273381,
+        "current": 0.1387728559482746,
+        "weights": {
+          "shared": 0.2,
+          "r10s": 0.4,
+          "r15s": 0.0,
+          "scaled": 0.0,
+          "r15sc": 0.0,
+          "cdd10d": 0.4,
+          "cdd15d": 0.0
+        }
+      },
+      "2011": {
+        "blend": 0.2240414095531501,
+        "current": 0.2437325527824068,
+        "weights": {
+          "shared": 0.2,
+          "r10s": 0.0,
+          "r15s": 0.0,
+          "scaled": 0.3,
+          "r15sc": 0.0,
+          "cdd10d": 0.5,
+          "cdd15d": 0.0
+        }
+      }
+    },
+    "blend_avg_skill": 0.11073986078907912,
+    "current_avg_skill": 0.1264615966740116,
+    "origins_blend_wins": 0,
+    "lead": -0.01572173588493249,
+    "use_blend": false,
+    "method": "cdd10d",
+    "reason": "blend 0.1107 vs cdd10d 0.1265 (lead -0.0157, wins 0/3): current kept"
+  }
+}
