@@ -1,0 +1,20 @@
+{
+  "years": [
+    2002,
+    2018
+  ],
+  "state": "TX",
+  "dollars": 2018,
+  "poverty_guideline_2018": {
+    "1": 12140,
+    "4": 25100
+  },
+  "burden_high": 0.06,
+  "burden_severe": 0.1,
+  "tx_electricity_share_of_home_energy": 0.8542795232936078,
+  "us_electricity_share_of_home_energy": 0.7323852895686545,
+  "south_low_income_kwh": 10829,
+  "south_low_income_ac_kwh": 2460,
+  "wsc_all_kwh": 14324,
+  "wsc_all_ac_kwh": 4002
+}

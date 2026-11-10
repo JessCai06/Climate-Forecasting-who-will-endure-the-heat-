@@ -1,0 +1,139 @@
+{
+  "years": [
+    2019,
+    2025
+  ],
+  "draw_years": [
+    2004,
+    2018
+  ],
+  "hot_quantile": 0.9,
+  "areas": {
+    "FRCC": [
+      "FLA",
+      [
+        "FL"
+      ]
+    ],
+    "MISO": [
+      "MIDW",
+      [
+        "MN",
+        "IA",
+        "WI",
+        "MI",
+        "IN",
+        "MO",
+        "AR",
+        "LA",
+        "KY"
+      ]
+    ],
+    "NPCC-NewEngland": [
+      "NE",
+      [
+        "ME",
+        "NH",
+        "VT",
+        "MA",
+        "RI",
+        "CT"
+      ]
+    ],
+    "NPCC-NewYork": [
+      "NY",
+      [
+        "NY"
+      ]
+    ],
+    "PJM": [
+      "MIDA",
+      [
+        "PA",
+        "NJ",
+        "MD",
+        "DE",
+        "VA",
+        "WV",
+        "OH",
+        "IL",
+        "DC"
+      ]
+    ],
+    "SERC-E": [
+      "CAR",
+      [
+        "NC",
+        "SC"
+      ]
+    ],
+    "SERC-N": [
+      "TEN",
+      [
+        "TN"
+      ]
+    ],
+    "SERC-SE": [
+      "SE",
+      [
+        "GA",
+        "AL",
+        "MS"
+      ]
+    ],
+    "SPP": [
+      "CENT",
+      [
+        "KS",
+        "OK",
+        "NE",
+        "SD",
+        "ND"
+      ]
+    ],
+    "TRE-ERCOT": [
+      "TEX",
+      [
+        "TX"
+      ]
+    ],
+    "WECC-CAMX": [
+      "CAL",
+      [
+        "CA"
+      ]
+    ],
+    "WECC-NWPP-US": [
+      "NW",
+      [
+        "WA",
+        "OR",
+        "ID",
+        "MT",
+        "UT",
+        "NV"
+      ]
+    ],
+    "WECC-RMRG": [
+      "NW",
+      [
+        "CO",
+        "WY"
+      ]
+    ],
+    "WECC-SRSG": [
+      "SW",
+      [
+        "AZ",
+        "NM"
+      ]
+    ]
+  },
+  "city_area": {
+    "USW00023044": "WECC-SRSG",
+    "USW00023047": "SPP"
+  },
+  "scarcity_adder_c_kwh": 1.1010000000000002,
+  "ltra": "NERC 2018 LTRA, Tables 3.1-3.2",
+  "emergency_margin": 0.05
+}

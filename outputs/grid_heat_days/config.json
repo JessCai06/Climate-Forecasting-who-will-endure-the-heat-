@@ -1,0 +1,16 @@
+{
+  "hot_day_F": 95.0,
+  "hot_night_F": 75.0,
+  "baseline": [
+    1976,
+    2005
+  ],
+  "forecast": [
+    2019,
+    2025
+  ],
+  "recent_years_for_days": 10,
+  "max_missing": 10,
+  "min_base_years": 15,
+  "min_obs_years": 4
+}

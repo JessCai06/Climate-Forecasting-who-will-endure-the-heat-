@@ -1,0 +1,85 @@
+{
+  "years": [
+    2002,
+    2018
+  ],
+  "poverty_2018": {
+    "1": 12140,
+    "4": 25100
+  },
+  "burden_high": 0.06,
+  "burden_severe": 0.1,
+  "recs_groups": {
+    "1": {
+      "NHSLDMEM": 1,
+      "MONEYPY_max": 1,
+      "label": "1 person, income < $20,000"
+    },
+    "4": {
+      "NHSLDMEM": 4,
+      "MONEYPY_max": 2,
+      "label": "4 people, income < $40,000"
+    }
+  },
+  "recs_fay_eps": 0.5,
+  "recs_replicates": 96,
+  "census_region": {
+    "1": [
+      "CT",
+      "ME",
+      "MA",
+      "NH",
+      "RI",
+      "VT",
+      "NJ",
+      "NY",
+      "PA"
+    ],
+    "2": [
+      "IL",
+      "IN",
+      "MI",
+      "OH",
+      "WI",
+      "IA",
+      "KS",
+      "MN",
+      "MO",
+      "NE",
+      "ND",
+      "SD"
+    ],
+    "3": [
+      "DE",
+      "DC",
+      "FL",
+      "GA",
+      "MD",
+      "NC",
+      "SC",
+      "VA",
+      "WV",
+      "AL",
+      "KY",
+      "MS",
+      "TN",
+      "AR",
+      "LA",
+      "OK",
+      "TX"
+    ],
+    "4": [
+      "AZ",
+      "CO",
+      "ID",
+      "MT",
+      "NV",
+      "NM",
+      "UT",
+      "WY",
+      "CA",
+      "OR",
+      "WA"
+    ]
+  }
+}

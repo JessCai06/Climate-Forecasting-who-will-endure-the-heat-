@@ -1,0 +1,76 @@
+/* Deck layout: every slide is one full viewport. Inside it, a fixed 1728 x 1117 "stage" (the Figma frame size)
+   is scaled to fit and centred, so positions match the Figma frames exactly at any window size. */
+:root {
+  --ink: #000;
+  --muted: #bababa;
+  --rule: #d9d9d9;
+  --panel: #f3f3f3;
+  --text-2: #2d2d2d;
+  --paper: #fff;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-2: "Figtree", "Inter", system-ui, sans-serif;
+  --s: 1; /* stage scale, set by deck.js */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font-family: var(--font); }
+
+.deck { height: 100vh; overflow-y: auto; overflow-x: hidden; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { .deck { scroll-behavior: auto; } }
+
+.slide { position: relative; height: 100vh; width: 100%; overflow: hidden; scroll-snap-align: start; background: var(--paper); }
+.stage {
+  position: absolute; left: 50%; top: 50%; width: 1728px; height: 1117px;
+  transform: translate(-50%, -50%) scale(var(--s)); transform-origin: center center;
+}
+.abs { position: absolute; margin: 0; }
+
+/* ---------- type ---------- */
+.h1 { font-weight: 600; font-size: 64px; line-height: normal; }
+.h2 { font-weight: 600; font-size: 40px; line-height: normal; }
+.lead, .label { font-size: 24px; font-weight: 400; line-height: normal; }
+.small { font-size: 20px; line-height: normal; }
+.fig { font-family: var(--font-2); color: var(--text-2); font-size: 32px; }
+.bullets { padding-left: 30px; font-family: var(--font-2); font-size: 20px; line-height: 1.25; }
+.bullets li + li { margin-top: 2px; }
+.note { color: #6b6b6b; font-size: 18px; }
+a { color: inherit; }
+
+/* ---------- side navigation (Figma: list at 103,348; bar at 78) ---------- */
+.toc { left: 103px; top: 348px; display: flex; flex-direction: column; gap: 10px; }
+.toc a { display: block; text-decoration: none; color: var(--muted); font-size: 24px; line-height: normal; }
+.toc a:hover, .toc a:focus-visible { color: var(--ink); }
+.toc a.is-active { color: var(--ink); font-style: italic; font-weight: 500; }
+.toc .sub { margin: 0; padding-left: 30px; list-style: disc; color: var(--muted); font-size: 20px; line-height: normal; }
+.toc .sub a { font-size: 20px; }
+.toc .sub a.is-active { font-style: normal; font-weight: 500; color: var(--ink); }
+.toc-bar { width: 7px; height: 121px; border-radius: 19px; background: var(--rule); left: 78px; }
+.back {
+  left: 64px; top: 260px; width: 36px; height: 36px; padding: 0; border: 0; background: none; cursor: pointer;
+}
+.back img { display: block; width: 36px; height: 36px; transform: rotate(90deg); }
+.back:focus-visible, .toc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+/* ---------- charts ---------- */
+.chart { position: absolute; }
+.chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.chart text { font-family: var(--font); fill: #555; font-size: 13px; }
+.chart .axis path, .chart .axis line { stroke: #9a9a9a; }
+.chart .grid line { stroke: #e7e7e7; }
+.chart .placeholder-tag { font-size: 12px; fill: #8a8a8a; letter-spacing: .06em; text-transform: uppercase; }
+.panel { background: var(--panel); }
+.tip {
+  position: fixed; pointer-events: none; background: #fff; border: 1px solid #000; padding: 6px 9px;
+  font-size: 15px; line-height: 1.35; max-width: 260px; box-shadow: 3px 3px 0 #000; z-index: 5;
+}
+.tip[hidden] { display: none; }
+.pill { border: 1px solid #000; padding: 6px 10px; font-size: 14px; background: #fff; }
+
+/* ---------- definitions slide ---------- */
+.quote { font-family: "EB Garamond", Georgia, serif; font-size: 44px; line-height: 1.22; text-align: center; color: #111; }
+.quote mark { background: #000; color: #fff; padding: 0 .18em; }
+.quote .qmark { font-size: 76px; line-height: .6; display: block; }
+.source { font-family: "EB Garamond", Georgia, serif; font-style: italic; font-size: 22px; text-align: center; color: #333; }
+.mini-label { font-size: 16px; color: #111; }
+.mini-sub { font-size: 13px; color: #777; }
+.connector { border-color: #000; border-style: dashed; border-width: 0; position: absolute; }

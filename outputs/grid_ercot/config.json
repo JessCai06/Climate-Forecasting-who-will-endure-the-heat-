@@ -1,0 +1,33 @@
+{
+  "years": [
+    2002,
+    2018
+  ],
+  "summer_months": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "hinge_F": 95.0,
+  "cdd_base_F": 65.0,
+  "zones": {
+    "COAST": [
+      "USW00012960"
+    ],
+    "NCENT": [
+      "USW00003927"
+    ],
+    "SCENT": [
+      "USW00013958",
+      "USW00012921"
+    ],
+    "SOUTH": [
+      "USW00012924"
+    ],
+    "WEST": [
+      "USW00013962"
+    ]
+  },
+  "source": "ERCOT native load archives"
+}

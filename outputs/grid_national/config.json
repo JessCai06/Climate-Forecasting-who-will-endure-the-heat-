@@ -1,0 +1,115 @@
+{
+  "halves": [
+    "2015_Jul_Dec",
+    "2016_Jan_Jun",
+    "2016_Jul_Dec",
+    "2017_Jan_Jun",
+    "2017_Jul_Dec",
+    "2018_Jan_Jun",
+    "2018_Jul_Dec"
+  ],
+  "summer_months": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "region_states": {
+    "TEX": [
+      "TX"
+    ],
+    "CAL": [
+      "CA"
+    ],
+    "NW": [
+      "WA",
+      "OR",
+      "ID",
+      "MT",
+      "UT",
+      "NV",
+      "CO",
+      "WY"
+    ],
+    "SW": [
+      "AZ",
+      "NM"
+    ],
+    "CENT": [
+      "KS",
+      "OK",
+      "NE",
+      "SD",
+      "ND"
+    ],
+    "MIDW": [
+      "MN",
+      "IA",
+      "WI",
+      "MI",
+      "IN",
+      "MO",
+      "AR",
+      "LA",
+      "KY"
+    ],
+    "MIDA": [
+      "PA",
+      "NJ",
+      "MD",
+      "DE",
+      "VA",
+      "WV",
+      "OH",
+      "IL",
+      "DC"
+    ],
+    "CAR": [
+      "NC",
+      "SC"
+    ],
+    "SE": [
+      "GA",
+      "AL",
+      "MS"
+    ],
+    "TEN": [
+      "TN"
+    ],
+    "NE": [
+      "ME",
+      "NH",
+      "VT",
+      "MA",
+      "RI",
+      "CT"
+    ],
+    "NY": [
+      "NY"
+    ],
+    "FLA": [
+      "FL"
+    ]
+  },
+  "city_region": {
+    "USW00023044": "SW",
+    "USW00023047": "CENT"
+  },
+  "utc_offset": {
+    "NE": 5,
+    "NY": 5,
+    "MIDA": 5,
+    "CAR": 5,
+    "FLA": 5,
+    "SE": 6,
+    "TEN": 6,
+    "MIDW": 6,
+    "CENT": 6,
+    "TEX": 6,
+    "SW": 7,
+    "NW": 8,
+    "CAL": 8
+  },
+  "min_hours_per_day": 23,
+  "weights": "county households (LACE 2023)"
+}

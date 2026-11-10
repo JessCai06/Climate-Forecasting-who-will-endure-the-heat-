@@ -1,0 +1,61 @@
+{
+  "draw_years": [
+    2004,
+    2018
+  ],
+  "forecast_years": [
+    2019,
+    2025
+  ],
+  "hot_quantile": 0.9,
+  "ercot_cdr_dec2018": {
+    "years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "peak_normal_weather_MW": [
+      74853,
+      76845,
+      78824,
+      80455,
+      82101
+    ],
+    "firm_peak_load_MW": [
+      72674,
+      74686,
+      76664,
+      78295,
+      79942
+    ],
+    "total_capacity_MW": [
+      78555,
+      82652,
+      86016,
+      85958,
+      85958
+    ],
+    "reserve_margin_reported": [
+      0.081,
+      0.107,
+      0.122,
+      0.098,
+      0.075
+    ],
+    "target_reserve_margin": 0.1375
+  },
+  "kwh_total": 10829,
+  "kwh_cooling": 2460,
+  "price_c_kwh_2018": 11.2,
+  "scarcity_adder_c_kwh": 1.1010000000000002,
+  "bar": {
+    "1": 622.0,
+    "4": 1287.0
+  },
+  "income": {
+    "1": 12140,
+    "4": 25100
+  }
+}
