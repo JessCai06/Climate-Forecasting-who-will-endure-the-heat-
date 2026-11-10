@@ -167,10 +167,10 @@
   </section>
 
   <!-- 3d. What the three datasets tell us  (Figma 1303:197, on the temperature template) -->
-  <section class="slide" id="synthesis" data-section="3" aria-label="What the three datasets tell us">
+  <section class="slide" id="synthesis" data-section="3" data-sub="synthesis" aria-label="Historical data: combined view">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
-      <nav class="abs toc" data-active="3" aria-label="Sections"></nav>
+      <nav class="abs toc" data-active="3" data-sub="synthesis" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <!-- weather, use and price on one time axis, 2002-2018; data: national -->
       <div class="chart" data-chart="threePanels" style="left:407px; top:70px; width:1100px; height:570px;"></div>
@@ -193,13 +193,40 @@
     </div>
   </section>
 
-  <!-- 4. Projections  (Figma 1303:121, realigned) -->
-  <section class="slide" id="projections" data-section="4" aria-label="Projections">
+  <!-- 4a. Projections: projected numbers (extends the combined view to 2025, on the temperature template) -->
+  <section class="slide" id="projected" data-section="4" data-sub="projected" aria-label="Projections: projected numbers">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
-      <nav class="abs toc" data-active="4" aria-label="Sections"></nav>
+      <nav class="abs toc" data-active="4" data-sub="projected" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
-      <h2 class="abs h2" style="left:432px; top:60px;">Projections, 2019–2025</h2>
+      <!-- weather, use and price, 2002-2018 observed + 2019-2025 projected with data up to 2018; data: national.projected -->
+      <div class="chart" data-chart="threePanels" data-range="projected" style="left:407px; top:70px; width:1100px; height:570px;"></div>
+      <div class="abs story" style="left:432px; top:668px; width:1190px;">
+        <h2 class="h2">Projected Numbers, 2019–2025</h2>
+        <p class="dek">Summers keep getting hotter, but efficiency outpaces the extra cooling, and nothing in the record says prices will follow the heat.</p>
+        <div class="cols">
+          <div><p class="sub">Trends</p>
+          <ul class="bullets">
+            <li>Weather: cooling degree days average <strong>1,531</strong> in 2019–2025, <strong>+8%</strong> on 2002–2018 (1,420).</li>
+            <li>Use per home: the extra heat adds about <strong>95 kWh</strong> a year (+0.9%), but the efficiency trend (−28 kWh a year) brings use down to about 10,700 kWh.</li>
+          </ul></div>
+          <div><p class="sub">Findings</p>
+          <ul class="bullets">
+            <li>Price is held at 2018's 12.8¢: in 2002–2018 it moved with fuel markets, not weather.</li>
+            <li>So the average bill barely moves; the heat shows up at the peak and in the regions, not in the national average.</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b. Projections: regional affordability  (Figma 1303:121, realigned) -->
+  <section class="slide" id="projections" data-section="4" data-sub="projections" aria-label="Projections: regional affordability">
+    <div class="stage">
+      <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
+      <nav class="abs toc" data-active="4" data-sub="projections" aria-label="Sections"></nav>
+      <div class="abs toc-bar"></div>
+      <h2 class="abs h2" style="left:432px; top:60px;">Regional Affordability, 2019–2025</h2>
       <p class="abs dek" style="left:432px; top:126px; width:1180px;">Heat strain is regional, but unaffordability is everywhere: where it gets hotter is not where bills hurt most.</p>
       <!-- state grid maps + scatter, forecast 2019-2025; data: states -->
       <p class="abs sub" style="left:432px; top:226px; font-size:24px;">Cooling-required days a year</p>

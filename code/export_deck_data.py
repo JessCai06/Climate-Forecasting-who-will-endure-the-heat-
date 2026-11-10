@@ -126,7 +126,39 @@ def afford_and_national(li):
     cdd_us = cdd[cdd.Year.between(2002, 2018)].groupby("Year").cdd.mean()
     national = {"years": list(years), "cdd": [r(cdd_us.get(y), 0) for y in years],
                 "kwh": [r(nat.kwh.get(y), 0) for y in years], "price": [r(nat.price.get(y), 2) for y in years]}
-    return {"years": list(years), "states": afford}, national
+    return {"years": list(years), "states": afford}, national, nat, cdd_us
+
+
+def project_national(nat, cdd_us, cities):
+    """Extend the three national series to 2025 with data up to 2018 only.
+    - weather: our submitted cdd forecast (submission.csv), averaged exactly like the history (household-weighted
+      cities per state, then the mean over states)
+    - use per customer: OLS on 2002-2018, kWh = a + b*(year-2010) + c*cdd, applied to the forecast cdd;
+      band = +-1.28 residual SD (about an 80% range)
+    - real price: held at the 2018 value, because price did not follow the weather in 2002-2018 (section 4);
+      band = the typical year-to-year change (SD of yearly changes) x sqrt(years ahead)"""
+    sub = pd.read_csv(ROOT / "submission.csv")
+    sub = sub[sub.metric == "cdd"].merge(cities[["city_id", "state", "households"]], on="city_id")
+    st = sub.assign(v=sub.predicted_value * sub.households).groupby(["year", "state"]).agg(v=("v", "sum"), w=("households", "sum"))
+    cdd_fc = (st.v / st.w).groupby("year").mean()
+    yrs = np.arange(2002, 2019)
+    X = np.column_stack([np.ones(len(yrs)), yrs - 2010, cdd_us.reindex(yrs).to_numpy()])
+    yv = nat.kwh.reindex(yrs).to_numpy()
+    beta, *_ = np.linalg.lstsq(X, yv, rcond=None)
+    sd = float(np.sqrt(((yv - X @ beta) ** 2).sum() / (len(yrs) - 3)))
+    p18 = float(nat.price.loc[2018])
+    sd_step = float(np.std(np.diff(nat.price.reindex(yrs).to_numpy()), ddof=1))
+    out = {"years": list(FC), "cdd": [], "kwh": [], "kwh_lo": [], "kwh_hi": [], "price": [], "price_lo": [], "price_hi": []}
+    for k, Y in enumerate(FC, start=1):
+        c = float(cdd_fc.loc[Y])
+        kw = beta[0] + beta[1] * (Y - 2010) + beta[2] * c
+        out["cdd"].append(r(c, 0))
+        out["kwh"].append(r(kw, 0)); out["kwh_lo"].append(r(kw - 1.28 * sd, 0)); out["kwh_hi"].append(r(kw + 1.28 * sd, 0))
+        out["price"].append(r(p18)); out["price_lo"].append(r(p18 - sd_step * np.sqrt(k))); out["price_hi"].append(r(p18 + sd_step * np.sqrt(k)))
+    out["model"] = {"kwh_per_cdd": r(beta[2], 3), "kwh_trend_per_year": r(beta[1], 1), "kwh_resid_sd": r(sd, 0),
+                    "price_step_sd": r(sd_step, 3), "cdd_2002_2018_mean": r(cdd_us.reindex(yrs).mean(), 0),
+                    "cdd_2019_2025_mean": r(cdd_fc.loc[2019:2025].mean(), 0)}
+    return out
 
 
 def main():
@@ -148,7 +180,9 @@ def main():
         city_recs.append({"name": c.Name, "state": c.state, "region": c.Region, "households": r(c.households, 0),
                           "no_ac": r(no_ac, 1), "days_base": r(days_b, 1), "days_fc": r(days_f, 1), "nights_fc": r(nights_f, 1),
                           "x_bar_4": r(st.x_bar_4_central) if st is not None else None, "need": reason})
-    afford, national = afford_and_national(li)
+    afford, national, nat, cdd_us = afford_and_national(li)
+    national["projected"] = project_national(nat, cdd_us, cities)
+    print("projection:", national["projected"]["model"], "kwh", national["projected"]["kwh"], "cdd", national["projected"]["cdd"])
     states = [{"state": s, "days_fc": r(x.hot_days_fc, 1), "nights_fc": r(x.hot_nights_fc, 1), "x1": r(x.x_bar_1_central),
                "x4": r(x.x_bar_4_central), "no_ac": r(x.no_ac_pct, 1), "added4": r(x.added_bill_4, 0)} for s, x in S.iterrows()]
     data = {"generated_by": "code/export_deck_data.py", "cities": city_recs, "weather": weather_series(cities),

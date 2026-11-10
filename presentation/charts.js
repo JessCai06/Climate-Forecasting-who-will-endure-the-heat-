@@ -258,32 +258,56 @@
       draw();
     },
 
-    // Slide 3d: weather, use and price on one time axis, 2002-2018 (U.S.).
+    // Slide 3d (combined view, 2002-2018) and slide 4a (projected numbers, extended to 2025 with data-range="projected"):
+    // weather, use and price on one time axis, U.S.
     threePanels(el) {
+      const projected = el.dataset.range === "projected";
       const w = el.clientWidth, h = el.clientHeight, m = { t: 20, r: 70, b: 40, l: 230 };
-      const svg = svgFor(el, "Cooling degree days, residential use per customer and real price, U.S., 2002 to 2018");
-      const N = D.national, years = N.years, x = d3.scaleLinear([2002, 2018], [m.l, w - m.r]);
+      const svg = svgFor(el, `Cooling degree days, residential use per customer and real price, U.S., 2002 to ${projected ? 2025 : 2018}`);
+      const N = D.national, P = N.projected, last = projected ? 2025 : 2018;
+      const x = d3.scaleLinear([2002, last], [m.l, w - m.r]);
       const panels = [
-        { key: "cdd", name: "Weather", sub: "cooling degree days (mean of cities)", color: COLOR.cdd, fmt: d3.format(",.0f") },
-        { key: "kwh", name: "Energy use", sub: "kWh per residential customer", color: COLOR.demand, fmt: d3.format(",.0f") },
-        { key: "price", name: "Affordability", sub: "real price, 2018 cents/kWh", color: COLOR.price, fmt: d3.format(".2f") },
+        { key: "cdd", name: "Weather", sub: "cooling degree days (mean of cities)", color: COLOR.cdd, fmt: d3.format(",.0f"), how: "our forecast" },
+        { key: "kwh", name: "Energy use", sub: "kWh per residential customer", color: COLOR.demand, fmt: d3.format(",.0f"), how: "trend + forecast heat" },
+        { key: "price", name: "Affordability", sub: "real price, 2018 cents/kWh", color: COLOR.price, fmt: d3.format(".2f"), how: "held at 2018" },
       ];
       const ph = (h - m.t - m.b) / 3;
+      const hist = (k) => N.years.map((yr, i) => ({ y: yr, v: N[k][i] }));
+      const proj = (k) => [{ y: 2018, v: N[k][N[k].length - 1], lo: N[k][N[k].length - 1], hi: N[k][N[k].length - 1] }]
+        .concat(P.years.map((yr, i) => ({ y: yr, v: P[k][i], lo: P[k + "_lo"] ? P[k + "_lo"][i] : P[k][i], hi: P[k + "_hi"] ? P[k + "_hi"][i] : P[k][i] })));
+      if (projected) {
+        svg.append("line").attr("x1", x(2018.5)).attr("x2", x(2018.5)).attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "#121212").attr("stroke-dasharray", "2 4");
+        svg.append("text").attr("x", x(2018.5) + 8).attr("y", m.t + 6).style("font-size", "15px").style("font-weight", 600).style("fill", "#121212").text("projected →");
+        svg.append("text").attr("x", x(2018.5) - 8).attr("y", m.t + 6).attr("text-anchor", "end").style("font-size", "15px").style("fill", "#666").text("← observed");
+      }
       panels.forEach((p, k) => {
-        const top = m.t + k * ph, v = N[p.key];
-        const ext = d3.extent(v), pad = (ext[1] - ext[0]) * 0.25;
-        const y = d3.scaleLinear([ext[0] - pad, ext[1] + pad], [top + ph - 26, top + 12]);
+        const top = m.t + k * ph, H = hist(p.key), F = projected ? proj(p.key) : [];
+        const all = H.map((d) => d.v).concat(F.flatMap((d) => [d.lo, d.hi]));
+        const ext = d3.extent(all), pad = (ext[1] - ext[0]) * 0.25;
+        const y = d3.scaleLinear([ext[0] - pad, ext[1] + pad], [top + ph - 26, top + 22]);
         svg.append("text").attr("x", 0).attr("y", top + ph / 2 - 8).style("font-size", "24px").style("fill", p.color).style("font-weight", 600).text(p.name);
         svg.append("text").attr("x", 0).attr("y", top + ph / 2 + 18).style("font-size", "16px").style("fill", "#555").text(p.sub);
         axis(svg.append("g").attr("transform", `translate(${w - m.r},0)`).call(d3.axisRight(y).ticks(3).tickFormat(p.fmt)));
-        svg.append("path").attr("d", d3.area().x((_, i) => x(years[i])).y0(y(y.domain()[0])).y1((d) => y(d))(v)).attr("fill", p.color).attr("fill-opacity", 0.15);
-        svg.append("path").attr("d", d3.line().x((_, i) => x(years[i])).y((d) => y(d))(v)).attr("fill", "none").attr("stroke", p.color).attr("stroke-width", 2.5);
-        svg.append("g").selectAll("circle").data(v).join("circle").attr("cx", (_, i) => x(years[i])).attr("cy", (d) => y(d)).attr("r", 3.5).attr("fill", p.color)
-          .on("pointermove", (ev, d) => showTip(ev, `${p.name}, ${years[v.indexOf(d)]}: ${p.fmt(d)} (${p.sub})`)).on("pointerleave", hideTip);
+        svg.append("path").attr("d", d3.area().x((d) => x(d.y)).y0(y(y.domain()[0])).y1((d) => y(d.v))(H)).attr("fill", p.color).attr("fill-opacity", 0.15);
+        svg.append("path").attr("d", d3.line().x((d) => x(d.y)).y((d) => y(d.v))(H)).attr("fill", "none").attr("stroke", p.color).attr("stroke-width", 2.5);
+        if (projected) {
+          if (p.key !== "cdd") svg.append("path").attr("d", d3.area().x((d) => x(d.y)).y0((d) => y(d.lo)).y1((d) => y(d.hi))(F)).attr("fill", p.color).attr("fill-opacity", 0.12);
+          svg.append("path").attr("d", d3.line().x((d) => x(d.y)).y((d) => y(d.v))(F)).attr("fill", "none").attr("stroke", p.color).attr("stroke-width", 2.5).attr("stroke-dasharray", "7 5");
+          const e = F[F.length - 1];
+          svg.append("text").attr("x", x(2025) - 14).attr("y", y(e.hi) - 10).attr("text-anchor", "end").style("font-size", "14px").style("fill", p.color).style("font-weight", 600)
+            .attr("paint-order", "stroke").attr("stroke", "#fff").attr("stroke-width", 4).text(`${p.how}: ${p.fmt(e.v)}`);
+        }
+        const pts = H.concat(F.slice(1).map((d) => ({ ...d, f: true })));
+        svg.append("g").selectAll("circle").data(pts).join("circle").attr("cx", (d) => x(d.y)).attr("cy", (d) => y(d.v)).attr("r", 3.5)
+          .attr("fill", (d) => (d.f ? "#fff" : p.color)).attr("stroke", p.color).attr("stroke-width", 1.5)
+          .on("pointermove", (ev, d) => showTip(ev, `${p.name}, ${d.y}: ${p.fmt(d.v)} (${p.sub})` + (d.f ? ` · projected, ${p.how}` + (d.lo !== d.hi ? `; range ${p.fmt(d.lo)}–${p.fmt(d.hi)}` : "") : "")))
+          .on("pointerleave", hideTip);
       });
-      ["2006", "2011", "2012"].forEach((yr) => svg.append("line").attr("x1", x(+yr)).attr("x2", x(+yr)).attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "#000").attr("stroke-opacity", 0.12));
-      axis(svg.append("g").attr("transform", `translate(0,${h - m.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(9)));
-      source(svg, m.l, h - 4, "Weather: challenge data (valid years). Use and price: EIA-861, all states, BLS CPI-U. Faint lines: 2006, 2011 and 2012.");
+      if (!projected) ["2006", "2011", "2012"].forEach((yr) => svg.append("line").attr("x1", x(+yr)).attr("x2", x(+yr)).attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "#000").attr("stroke-opacity", 0.12));
+      axis(svg.append("g").attr("transform", `translate(0,${h - m.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(projected ? 12 : 9)));
+      source(svg, m.l, h - 4, projected
+        ? "Data up to 2018 only. Weather: our cdd forecast. Use: 2002–2018 fit on trend and cdd, band ≈ 80% range. Price: held at 2018, band = typical yearly swings."
+        : "Weather: challenge data (valid years). Use and price: EIA-861, all states, BLS CPI-U. Faint lines: 2006, 2011 and 2012.");
     },
 
     // Slide 4: two state grid maps.
