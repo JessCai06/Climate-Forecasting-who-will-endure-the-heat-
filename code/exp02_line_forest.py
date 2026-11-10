@@ -1,4 +1,4 @@
-"""Experiment 2: plain average vs plain line vs line + random-forest hybrid (spec: exp02_line_forest_hybrid_spec.md).
+"""Experiment 2: plain average vs plain line vs line + random-forest hybrid (spec: docs/specs/exp02_line_forest_hybrid_spec.md).
 
 Run from the repo root:   python code/exp02_line_forest.py [--charts]
 Writes outputs/exp02/: heldout_results.csv, decision.json (BEFORE the final forecast),

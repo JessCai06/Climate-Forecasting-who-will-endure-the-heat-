@@ -22,10 +22,10 @@
             { key: "synthesis", name: "Combined View" }] },
     { n: 4, name: "Projections", target: "projected",
       sub: [{ key: "projected", name: "Projected Numbers" }, { key: "projections", name: "Regional Affordability" }] },
-    { n: 5, name: "Policy Idea", target: null },
-    { n: 6, name: "Limitations", target: null },
-    { n: 7, name: "Reproducibility", target: null },
-    { n: 8, name: "Conclusion", target: null },
+    { n: 5, name: "Policy Idea", target: "policy" },
+    { n: 6, name: "Limitations", target: "limitations" },
+    { n: 7, name: "Reproducibility", target: "reproducibility" },
+    { n: 8, name: "Conclusion", target: "conclusion" },
   ];
 
   document.querySelectorAll("nav.toc").forEach((nav) => {

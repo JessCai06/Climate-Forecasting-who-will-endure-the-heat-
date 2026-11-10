@@ -29,10 +29,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from huggingface_hub import hf_hub_download
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from shared import REPO, load_train
+from shared import REPO, load_train, train_file
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "outputs" / "policy_extremes"
@@ -42,7 +41,7 @@ CFG = {"baseline": [1976, 2005], "recent": [2019, 2025], "heat_pct": 99, "cold_p
 
 
 def load():
-    d = pd.read_parquet(hf_hub_download(REPO, "daily/train-00000-of-00001.parquet", repo_type="dataset"))
+    d = pd.read_parquet(train_file("daily/train-00000-of-00001.parquet"))
     d["Date"] = pd.to_datetime(d["Date"].astype(str))
     base = d[d.Date.dt.year.between(*CFG["baseline"])][["ID", "Date", "tmax", "tmin"]]
     o = pd.concat([pd.read_csv(ROOT / f, dtype={"DATE": str}) for f in ("obs_2018_2021.csv", "obs_2021_2025.csv")])

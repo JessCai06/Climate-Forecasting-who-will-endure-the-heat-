@@ -90,6 +90,71 @@ a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 
 .mini-sub { font-family: var(--font-sub); font-size: 16px; color: var(--ink-3); line-height: 1.35; }
 .connector { border-color: #9a9a9a; border-style: dashed; border-width: 0; position: absolute; }
 
+/* ---------- policy slide: gap -> fix -> who ---------- */
+.plan-head, .plan-row { display: grid; grid-template-columns: 430px 520px 1fr; column-gap: 28px; }
+.plan-head { font-family: var(--font-sub); font-size: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 8px; border-bottom: 1.5px solid var(--ink); }
+.plan-row { padding: 24px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+.plan .tag { margin: 0 0 4px; font-family: var(--font-sub); font-weight: 700; font-size: 22px; color: var(--ink); }
+.plan .ev { margin: 0; font-size: 18px; line-height: 1.4; color: var(--ink-2); }
+.plan .act { font-size: 20px; line-height: 1.4; color: var(--ink); }
+.plan .who { font-family: var(--font-sub); font-size: 17px; line-height: 1.4; color: var(--ink-3); }
+.plan strong, .both strong { font-weight: 600; color: var(--ink); }
+.both { display: grid; grid-template-columns: 650px 1fr; column-gap: 40px; background: #f4f7fb; border-radius: var(--radius); padding: 18px 22px; }
+.both-text { margin: 0; font-size: 20px; line-height: 1.42; color: var(--ink-2); }
+.both .bullets { padding-left: 22px; }
+.both .bullets li + li { margin-top: 4px; }
+
+/* ---------- limitations slide ---------- */
+.loss { display: flex; flex-direction: column; gap: 10px; }
+.loss-row { display: grid; grid-template-columns: 420px 1fr 70px; column-gap: 16px; align-items: center; }
+.loss-lb { font-family: var(--font-sub); font-size: 19px; color: var(--ink-2); text-align: right; }
+.loss-tr { position: relative; height: 26px; background: #f3f3f1; border-radius: 4px; }
+.loss-tr i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: #b9b9b9; }
+.loss-tr i.hl { background: #d9622b; }
+.loss-v { font-family: var(--font-sub); font-weight: 600; font-size: 20px; color: var(--ink); }
+.lim { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 32px; }
+.lim .lane { border-top: 1.5px solid var(--ink); padding-top: 10px; }
+.lim .sub { margin: 0 0 10px; }
+.lim .bullets { margin: 0; font-size: 19px; line-height: 1.38; padding-left: 22px; }
+.lim .bullets li + li { margin-top: 8px; }
+
+/* ---------- conclusion slide ---------- */
+.finds { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 40px; }
+.find { border-top: 1.5px solid var(--ink); padding-top: 14px; }
+.find > * { margin: 0; }
+.find .big { font-family: var(--font-head); font-weight: 700; font-size: 88px; line-height: 1; color: #d9622b; }
+.find .big .of { font-size: 40px; color: var(--ink-3); font-weight: 600; }
+.find .sub { margin: 14px 0 8px; }
+.find .txt { font-size: 21px; line-height: 1.42; color: var(--ink-2); }
+.so { background: #f4f7fb; border-radius: var(--radius); padding: 22px 26px; }
+.so-text { margin: 0; font-family: var(--font-head); font-size: 32px; line-height: 1.35; color: var(--ink); text-wrap: pretty; }
+.so-text strong { font-weight: 600; }
+
+/* ---------- reproducibility slide ---------- */
+.repro { display: grid; grid-template-columns: 430px 360px 360px; column-gap: 20px; }
+.repro .lane { border-top: 1.5px solid var(--ink); padding-top: 10px; padding-right: 12px; }
+.repro .lane:first-child { padding-right: 0; }
+.repro .num { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: 40px; line-height: 1; color: var(--muted); }
+.repro .sub { margin: 6px 0 12px; }
+.repro .bullets { margin: 0; font-size: 20px; line-height: 1.38; padding-left: 22px; }
+.repro .bullets li + li { margin-top: 8px; }
+code { font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; font-size: .86em; background: #f3f3f1; padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+.cmd {
+  margin: 16px 0 0; padding: 12px 12px; background: #f3f3f1; border-radius: var(--radius); white-space: pre; overflow: hidden;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; font-size: 14px; line-height: 1.7; color: var(--ink);
+}
+.chain { list-style: none; margin: 0; padding: 0; counter-reset: c; font-size: 19px; line-height: 1.35; color: var(--ink-2); }
+.chain li { position: relative; padding: 0 0 22px 34px; }
+.chain li::before {
+  counter-increment: c; content: counter(c); position: absolute; left: 0; top: 1px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--ink); color: #fff; font-family: var(--font-sub); font-size: 14px; font-weight: 600; text-align: center; line-height: 24px;
+}
+.chain li:not(:last-child)::after { content: ""; position: absolute; left: 11px; top: 30px; bottom: 4px; border-left: 1.5px dashed #9a9a9a; }
+.gaps { background: #faf7f2; border-radius: var(--radius); padding: 18px 22px 20px; }
+.gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 32px; }
+.gap-grid p { margin: 0; font-size: 17px; line-height: 1.4; color: var(--ink-2); }
+.gap-grid strong { display: block; color: var(--ink); font-family: var(--font-sub); font-weight: 600; font-size: 18px; margin-bottom: 4px; }
+
 /* ---------- intro ---------- */
 .need-list { margin: 10px 0 0; padding-left: 26px; font-size: 22px; line-height: 1.45; }
 .need-list li::marker { font-size: 1.2em; }

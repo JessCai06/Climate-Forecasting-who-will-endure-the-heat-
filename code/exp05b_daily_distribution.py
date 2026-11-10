@@ -40,10 +40,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from huggingface_hub import hf_hub_download
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from shared import CUTOFF_YEAR, METRICS, REPO, dataset_revision, load_train, valid_flags
+from shared import CUTOFF_YEAR, METRICS, REPO, dataset_revision, load_train, valid_flags, train_file
 import exp02_line_forest as e2
 import exp05_levels_slopes as e5
 
@@ -59,7 +58,7 @@ LABEL = {**e5.LABEL, "h30p95": "30-yr level + shared slope of daily-high 95th pe
 
 
 def load_daily():
-    d = pd.read_parquet(hf_hub_download(REPO, "daily/train-00000-of-00001.parquet", repo_type="dataset"))
+    d = pd.read_parquet(train_file("daily/train-00000-of-00001.parquet"))
     d["Date"] = pd.to_datetime(d["Date"].astype(str))
     assert d["Date"].max() <= pd.Timestamp(f"{CUTOFF_YEAR}-12-31"), "daily data after 2018"
     d["Year"] = d["Date"].dt.year

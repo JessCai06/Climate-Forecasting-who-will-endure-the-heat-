@@ -8,12 +8,12 @@ policy heuristic check (analysis only; never a forecast input, never used to cho
 import io, sys, urllib.request, concurrent.futures as cf
 from pathlib import Path
 import pandas as pd
-from huggingface_hub import hf_hub_download
+from shared import train_file
 
 START, END = (sys.argv[2], sys.argv[3]) if len(sys.argv) > 3 else ("2018-01-01", "2021-12-31")
 URL = "https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/{}.csv"
-ids = sorted(pd.read_parquet(hf_hub_download("CMU-OSPO/protostar-climate-train-to-2018",
-        "annual_indices/train-00000-of-00001.parquet", repo_type="dataset"), columns=["ID"]).ID.unique())
+ids = sorted(pd.read_parquet(train_file(
+        "annual_indices/train-00000-of-00001.parquet"), columns=["ID"]).ID.unique())
 
 def rng(url, a):
     return urllib.request.urlopen(urllib.request.Request(url, headers={"Range": f"bytes={a}"}), timeout=60).read().decode()

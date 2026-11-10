@@ -47,10 +47,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from huggingface_hub import hf_hub_download
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from shared import CUTOFF_YEAR, METRICS, REPO, dataset_revision, load_train, valid_flags
+from shared import CUTOFF_YEAR, METRICS, REPO, dataset_revision, load_train, valid_flags, train_file
 import exp02_line_forest as e2
 import exp05_levels_slopes as e5
 
@@ -66,7 +65,7 @@ VARS = ("tmax", "tmin", "prcp")
 
 # ------------------------------------------------------------------ data
 def load_city_daily():
-    d = pd.read_parquet(hf_hub_download(REPO, "daily/train-00000-of-00001.parquet", repo_type="dataset"))
+    d = pd.read_parquet(train_file("daily/train-00000-of-00001.parquet"))
     d["Date"] = pd.to_datetime(d["Date"].astype(str))
     assert d["Date"].max() <= pd.Timestamp(f"{CUTOFF_YEAR}-12-31"), "city daily data after 2018"
     return d[d["Date"].dt.year >= FIRST_YEAR].reset_index(drop=True)

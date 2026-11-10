@@ -6,6 +6,30 @@ Links: [submission template](https://huggingface.co/datasets/CMU-OSPO/protostar-
 
 `submission.csv` holds our forecasts: 210 cities × 7 years (2019-2025) × 4 metrics = 5,880 rows. It is the Experiment 5B forecast, frozen in commit `0fbbe5b8eaa0567dbb1bcdfa247eefcae1282e5d`. (Earlier submissions: Experiment 5, frozen in `caccb0427a8821fe44c9e36767586e780cd1fb85`; Experiment 3, frozen in `295c10ab5e8eeb4e81b116688f3632ade49366d7`.)
 
+## Presentation: *Will Everyone Endure the Heat?*
+
+**Deck: [`presentation/index.html`](presentation/index.html)**, a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast).
+
+To open it, clone or download the repository, then either:
+
+- double-click `presentation/index.html` (it opens in any modern browser; an internet connection loads the fonts and the D3 chart library), or
+- serve it locally: `python -m http.server 8765 --directory presentation`, then open <http://localhost:8765>.
+
+Use the arrow keys, Page Up/Down or the scroll wheel to move; the side list jumps between sections. Each section has its own link:
+
+| # | Section | Opens at |
+|---|---|---|
+| 1 | Intro: the cities in need | `index.html#intro` |
+| 2 | Definitions: affordable and livable | `#definitions` |
+| 3 | Historical data: weather, energy use, affordability, combined view | `#weather`, `#energy-use`, `#affordability`, `#synthesis` |
+| 4 | Projections, 2019-2025: national numbers and regional affordability | `#projected`, `#projections` |
+| 5 | Policy idea: plan on the weather that's coming | `#policy` |
+| 6 | Limitations | `#limitations` |
+| 7 | Reproducibility | `#reproducibility` |
+| 8 | Conclusion | `#conclusion` |
+
+The deck's data file is rebuilt by `python code/export_deck_data.py` (after the `code/policy_grid_*.py` scripts). The full reasoning, with every source, is the essay outline [`docs/policy_essay_outline.md`](docs/policy_essay_outline.md).
+
 ## Method (current submission: Experiment 5B)
 
 Experiment 5B is Experiment 5 (next section) plus two candidates built from each city's **daily** highs and lows (the challenge's `daily` table, up to 2018). Everything else is unchanged: Experiment 5's candidates, the held-back origins 1998, 2004 and 2011, and the decision rule; the new candidates count as more complex than all of Experiment 5's for the 0.01 tie rule. `outputs/exp05b/decision.json` was written before the final forecast.
@@ -69,15 +93,15 @@ For temperature and cdd the shared slope beat the plain average in all three ori
 
 An earlier experiment (exp02: line + random-forest hybrid) was dropped by its own held-back rule; its code and outputs are in `code/exp02_*.py` and `outputs/exp02/`.
 
-**Reproduce:** `pip install -r code/requirements.txt`, then `python code/exp05b_daily_distribution.py` writes `outputs/exp05b/submission_exp05b.csv`, which is identical to `submission.csv` (under a minute; no randomness). Experiment 5: `python code/exp05_levels_slopes.py`. Experiment 9: `python code/exp09_daily_gapfill.py` (needs the neighbor daily files from `python code/exp06_fetch_neighbors.py`). Experiment 6: `python code/exp06_fetch_neighbors.py` (about 35 minutes of downloads, or uses the curated `data/neighbors/` files), then `python code/exp06_neighbors.py`. Experiment 3: `python code/exp03_shared_slope.py` writes `outputs/exp03/submission_exp03.csv`. Check with `python code/check_submission.py submission.csv`. The run takes about a minute and a half and has a fixed seed (42).
+**Reproduce:** the challenge dataset is pinned to revision `bbbdebdab2a18e00f97ef87bd3f35a71e222180b` (`shared.REVISION`, the revision every recorded run used), so later updates to the dataset cannot change the results. `pip install -r code/requirements.txt`, then `python code/exp05b_daily_distribution.py` writes `outputs/exp05b/submission_exp05b.csv`, which is identical to `submission.csv` (under a minute; no randomness). Experiment 5: `python code/exp05_levels_slopes.py`. Experiment 9: `python code/exp09_daily_gapfill.py` (needs the neighbor daily files from `python code/exp06_fetch_neighbors.py`). Experiment 6: `python code/exp06_fetch_neighbors.py` (about 35 minutes of downloads, or uses the curated `data/neighbors/` files), then `python code/exp06_neighbors.py`. Experiment 3: `python code/exp03_shared_slope.py` writes `outputs/exp03/submission_exp03.csv`. Check with `python code/check_submission.py submission.csv`. The run takes about a minute and a half and has a fixed seed (42).
 
 ## External sources
 
-**Forecast inputs:** the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices` and `coverage_and_stations`, years up to 2018) is the only input to the submitted forecast.
+**Forecast inputs:** the challenge dataset `CMU-OSPO/protostar-climate-train-to-2018` (tables `annual_indices`, `coverage_and_stations` and `daily`, years up to 2018; pinned to revision `bbbdebdab2a18e00f97ef87bd3f35a71e222180b`) is the only input to the submitted forecast.
 
 **Experiments only (not chosen):** NOAA NCEI GHCN-Daily (Menne et al. 2012), daily TMAX/TMIN/PRCP for 1,396 nearby stations, 1969-2018 only: input to Experiment 6's and Experiment 9's candidates, none of which was chosen. Station list and yearly values are in `data/neighbors/`; see `data/README.md`.
 
-**Policy analysis only** (never read by the forecast code): NOAA GHCN-Daily observations 2019-2025 for the 210 stations; Census ACS 5-year 2019-2023 tables B25024, B25034, B25003 (all counties); FCC Area API (station to county); Allegheny County Property Assessments (WPRDC); NYC PLUTO; Cook County Assessor improvement characteristics; rental cooling rules and building performance standards compiled by hand in `data/policy_rules.csv` (a source URL per row). Census Local Air Conditioning Estimates (LACE) 2023 (county); CDC/ATSDR Heat & Health Index 2024 (ZIP code areas: impervious surface, tree canopy, poverty, living alone); Census 2010 ZCTA-to-county relationship file. Details and how to download each: `data/README.md` and `data/policy_sources.md`.
+**Policy analysis only** (never read by the forecast code): NOAA GHCN-Daily observations 2019-2025 for the 210 stations; Census ACS 5-year 2019-2023 tables B25024, B25034, B25003 (all counties); FCC Area API (station to county); Allegheny County Property Assessments (WPRDC); NYC PLUTO; Cook County Assessor improvement characteristics; rental cooling rules and building performance standards compiled by hand in `data/policy_rules.csv` (a source URL per row). Census Local Air Conditioning Estimates (LACE) 2023 (county); CDC/ATSDR Heat & Health Index 2024 (ZIP code areas: impervious surface, tree canopy, poverty, living alone); Census 2010 ZCTA-to-county relationship file. For the grid-strain and affordability essay and the slide deck (weather-driven sources read only up to 2018): EIA-930 hourly demand by balancing authority (July 2015 - 2018); ERCOT hourly load by weather zone (2002-2018); EIA-861 utility filings (2002-2018); EIA RECS 2015 microdata and the RECS 2020 state expenditure table; BLS CPI-U; NERC 2018 Long-Term Reliability Assessment; HHS 2018 poverty guidelines. Details and how to download each: `data/README.md` and `data/policy_sources.md`.
 
 ## Post-hoc scoring declaration
 
@@ -99,24 +123,25 @@ Experiment 5 was scored this way only after it was frozen in commit `caccb0427a8
 ## AI Tools and Agents
 
 - **Tool and model:** Claude Code (Anthropic's CLI agent) running Claude Sonnet 5.5 (`claude-sonnet-5-5`), inside VS Code.
-- **What it did:** wrote the code in `code/` from the team's written specs (`exp02_line_forest_hybrid_spec.md` and the Experiment 3 instructions); ran the experiments and the post-hoc scorer; extracted shared helpers; made the charts; drafted this README and the data card; set up the commit. For the policy analysis it searched for and tested building and policy data sources, wrote `code/census_acs.py`, `code/policy_case_studies.py` and `code/policy_check.py`, compiled `data/policy_rules.csv` from web search results (each row cites its source), and drafted the Policy Idea from the team's direction (first Pittsburgh's small mixed-use buildings; after the cooling-gap analysis, Seattle). It researched the heat, cold and building-policy literature, and wrote `code/policy_extremes.py` and `code/policy_cooling_gap.py`.
+- **What it did:** wrote the code in `code/` from the team's written specs (`docs/specs/exp02_line_forest_hybrid_spec.md` and the Experiment 3 instructions); ran the experiments and the post-hoc scorer; extracted shared helpers; made the charts; drafted this README and the data card; set up the commit. For the policy analysis it searched for and tested building and policy data sources, wrote `code/census_acs.py`, `code/policy_case_studies.py` and `code/policy_check.py`, compiled `data/policy_rules.csv` from web search results (each row cites its source), and drafted the Policy Idea from the team's direction (first Pittsburgh's small mixed-use buildings; after the cooling-gap analysis, Seattle). It researched the heat, cold and building-policy literature, and wrote `code/policy_extremes.py` and `code/policy_cooling_gap.py`.
 - **Experiments 5 and 6:** Claude Code in the Claude desktop app, running Claude Opus 5.5 (`claude-opus-5-5`). It suggested the candidate ideas (recent level, station-aware level, scaled cdd slope, nearby stations) and the external data sources, wrote `code/exp05_*.py` and `code/exp06_*.py`, downloaded the GHCN-Daily station data with a server-side end date of 2018-12-31, ran the held-back tests, and updated this README and the data card. It checked that Experiment 3 reproduces exactly before building on it, and that Experiment 5's version of the shared slope matches Experiment 3's to the last digit.
 - **Experiments 5B and 9 and the policy analysis:** Claude Code in the Claude desktop app, running Claude Opus 5.5 (`claude-opus-5-5`). It reviewed why Experiments 6 and 7 failed, proposed the daily-distribution candidates (a team member chose which to test) and the gap fill, wrote `code/exp05b_daily_distribution.py` and `code/exp09_daily_gapfill.py`, found and fixed the `valid_flags` index bug, merged Experiments 5-7 into this branch, and updated this README.
+- **Grid-strain and affordability essay, and the slide deck:** Claude Code in the Claude desktop app, running Claude Opus 5.5 (`claude-opus-5-5`). From the team's question and reasoning structure, it found and tested the energy data sources, wrote `code/policy_grid_*.py` and `code/export_deck_data.py`, drafted `docs/policy_essay_outline.md` (revised after a team-requested review for contradictions), and built `presentation/` from the team's Figma layout (Policy Idea, Limitations, Reproducibility and Conclusion slides included). It pinned the dataset revision in `code/shared.py` and checked that a clean rebuild still matches `submission.csv` byte for byte. The team chose the question, the definitions of "affordable" and "livable", and the national focus.
 - **What it did not do:** it supplied no forecast values. Every `predicted_value` comes from the code and the dataset. It downloaded no weather after 2018 for any forecast. Post-2018 NOAA data was used twice, both approved by a team member and both analysis only: the post-hoc scoring above and the policy analysis (2019-2025).
 - **What a person did and reviewed:** [TEAM: confirm and edit. The team wrote the specs, decided the rules and settings, and approved the NOAA download for scoring. Add what you personally reviewed, for example the decision rule, the outputs or the README.]
 - **Without the agent:** the code reproduces `submission.csv` without the agent (see Reproduce above). `code/AGENTS.md` holds the agent's data rule.
 
 ## Policy Idea
 
-**Cool the uncooled half: cooling-ready rentals for Seattle.**
+**Plan on the weather that's coming: keep grids reliable and cooling affordable as U.S. summers warm.** (Slides 5-6 of the [deck](presentation/index.html); full reasoning in [`docs/policy_essay_outline.md`](docs/policy_essay_outline.md).)
 
-**The risk.** Seattle was built for a climate that rarely needed air conditioning, and that climate is gone. At Sea-Tac, the daily high reached the city's old 1-in-100-day level (89 °F) on 3.8 days a year in 1976-2005. Our forecast, made only with data up to 2018, expected 7.9 such days a year in 2019-2025; 7.7 happened. Days in runs of three or more rose from 1.5 to 3.7 a year, and June 2021 reached 108 °F, 8 °F above anything in 1976-2005. Yet 46.9% of King County homes (435,000) have no air conditioning (Census LACE 2023): the largest cooling gap of the 199 cities we checked. The 2021 heat dome killed 112 people in Washington, 28 of them in King County. 44% of households rent, and nearly half of homes were built before 1980.
+**The risk.** Grid reserves (NERC's 50/50 peak forecasts) and household budgets are planned on past weather. Our forecast, made only with data up to 2018, puts 2019-2025 at **+21% cooling-required days** (high ≥ 95 °F), **+48% hot nights** (low ≥ 75 °F) and +19% cooling degree days (median city) against 1976-2005, concentrated in Texas, the Gulf Coast and the Southwest. Each 1 °F on a summer day adds about 2% to peak demand (EIA-930, 2015-2018). By 2025 warming uses about **a fifth of the reserve cushion** NERC's areas planned above their reference level; ERCOT, already below its reference, falls to −1.3%, short of capacity, in a one-in-ten hot summer. Bills were a problem before any warming: a low-income single person was over an affordable bar (6% of a poverty-line income × electricity's share of home energy) in **45 of 46 states**, and the forecast heat adds only $17-33 a year. Livability fails in two ways: no AC in the North and West (33% of Washington homes), and AC too costly to run, or without power, in the South, where hot nights climb (Florida 69 → 96 a year).
 
-**What to do, and who.** Washington's 2026 law (SB 6200) lets renters install portable cooling, but a landlord may refuse when the building lacks electrical capacity, and a bill requiring cooling in rentals (HB 2265) failed. Seattle's Building Emissions Performance Standard covers only buildings over 20,000 sq ft. Seattle City Light and the Office of Sustainability & Environment would offer a **cooling-ready rental** package for rentals below that size: an electrical service upgrade plus a heat pump in at least one room, repaid on the utility bill. Public Health - Seattle & King County would target tracts with the least AC and the most people living alone (Census LACE tract estimates, CDC Heat & Health Index), and start check-ins when forecast heat passes the old design level.
+**What to do, and who.** (1) NERC, regional grid operators and state utility commissions add a warming adjustment to the 50/50 peak forecast, starting where margins are at or below the reference level (ERCOT, MISO). (2) State commissions and utilities offer income-based rates, and LIHEAP funds summer cooling, not only winter heating. (3) Cities and states bring cooling to homes without it (heat pumps in rentals, an indoor limit of about 82 °F) and bar utility shut-offs on cooling-required days. The lever that serves all three is **efficient cooling for low-income homes**: heat pumps in place of old AC and electric-resistance heat, weatherization, and demand response at the peak.
 
-**Why it is sustainable.** One heat pump replaces electric-baseboard or oil heating and adds cooling, so most homes cut winter bills while gaining summer protection, and Seattle City Light's mostly hydroelectric supply keeps the added cooling low-carbon. Repayment from heating savings needs no permanent subsidy, and upgraded wiring removes the barrier to cooling for every future tenant. It plans for the trend our forecast caught (heat days doubling), not for one heat wave.
+**Why it is sustainable.** It lowers peak demand instead of adding peaker plants. Heat pumps replace resistance and oil heat, so winter savings help pay for summer cooling. It runs through institutions that already exist (NERC assessments, utility efficiency programs, LIHEAP), and it plans for the trend our forecast caught, not for one heat wave. Limits (no humidity data, the assumption that 50/50 forecasts exclude warming, a forecast that runs low on heat days) are on slide 6.
 
-*Evidence: `outputs/cooling_gap/summary.md`, `outputs/policy_extremes/summary.md` (code: `code/policy_cooling_gap.py`, `code/policy_extremes.py`). Heat days past each city's 1976-2005 99th-percentile high; forecast by the submitted method from data up to 2018. Observed 2019-2025 values are NOAA data used for analysis only, never as a forecast input. Sources for the policy facts: [WA DOH death count via KUOW](https://www.kuow.org/stories/heat-wave-death-toll-in-washington-state-jumps-to-112-people), [SB 6200](https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Senate%20Bills/6200-S.pdf), [HB 2265 via KNKX](https://www.knkx.org/law/2026-07-20/new-washington-law-makes-air-conditioning-a-tenants-right), [Seattle BEPS](https://www.seattle.gov/documents/Departments/OSE/Building%20Energy/BEPS-2Pager-Intro-to-BEPS.pdf), [Census LACE](https://census.gov/data/experimental-data-products/lace.html). An earlier version of this idea (small mixed-use buildings in Pittsburgh) was dropped: Pittsburgh has few homes without AC (4.5%) and no rise in heat days past its design level (`outputs/policy_check/thesis_check.md`).*
+*Evidence: `outputs/grid_heat_days/`, `outputs/grid_national/`, `outputs/grid_prices_national/`, `outputs/grid_projection_national/` (code: `code/policy_grid_*.py`). Every weather-driven input is dated 2018 or earlier; 2019-2025 values come from our forecast. Earlier versions of this idea: small mixed-use buildings in Pittsburgh (dropped: few homes without AC and no rise in heat days, `outputs/policy_check/thesis_check.md`) and cooling-ready rentals for Seattle, which is now part of lever 3 (`outputs/cooling_gap/summary.md`).*
 
 ## Feedback to the Ecosystem
 
@@ -130,7 +155,19 @@ Items from real friction in this repo. Each has a way to check it.
 
 ## Files
 
-- `submission.csv`: the forecast (5,880 rows), Experiment 5B.
-- `code/`: `exp05b_daily_distribution.py` (the method), `exp05_levels_slopes.py` (its base), `exp03_shared_slope.py` and `exp02_line_forest.py` (shared slope, helpers), `shared.py`; experiments not chosen: `exp04_neighbors.py`, `exp06_*.py`, `exp07_median_pooled.py`, `exp09_daily_gapfill.py`; post-hoc scoring (`starter_score.py`, `truth.py`, `fetch_truth.py`); policy analysis (`policy_check.py`, `policy_case_studies.py`, `census_acs.py`); `check_submission.py`, `AGENTS.md`, `requirements.txt`.
-- `data/`: data card `README.md`, `neighbors/` (Experiments 6 and 9), `policy_rules.csv` and `policy_sources.md` (policy analysis).
-- `outputs/exp05b/`: held-back results, slopes, decision, post-hoc scores. `outputs/exp02/` to `outputs/exp09/`: the other experiments. `outputs/policy_check/`: the policy check.
+```
+submission.csv          the forecast (5,880 rows), Experiment 5B
+README.md               this file: method, sources, AI tools, policy idea, feedback
+presentation/           the slide deck (open presentation/index.html)
+code/                   every script; see below
+data/                   data card (README.md) and the curated data
+outputs/                results of every experiment and analysis, each with its config and summary
+docs/                   the policy essay outline, the dashboard plan, the team's experiment specs (specs/),
+                        and the challenge rules for reference (challenge/)
+obs_2018_2021.csv       NOAA observations 2018-2021 and 2021-2025, ANALYSIS ONLY (post-hoc scoring and
+obs_2021_2025.csv       policy checks, team-approved); never read by the forecast code
+```
+
+- `code/`: `exp05b_daily_distribution.py` (the method), `exp05_levels_slopes.py` (its base), `exp03_shared_slope.py` and `exp02_line_forest.py` (shared slope, helpers), `shared.py` (data loading at the pinned revision, cutoff guard, validity rules); experiments not chosen: `exp04_neighbors.py`, `exp05c_recent_slope.py`, `exp06_*.py`, `exp07_median_pooled.py`, `exp09_daily_gapfill.py`; post-hoc scoring (`starter_score.py`, `truth.py`, `fetch_truth.py`); policy analysis (`policy_check.py`, `policy_case_studies.py`, `census_acs.py`, `policy_extremes.py`, `policy_cooling_gap.py`); grid and affordability essay (`policy_grid_*.py`) and the deck's data (`export_deck_data.py`); `check_submission.py`, `AGENTS.md`, `requirements.txt`.
+- `data/`: data card `README.md`, `neighbors/` (Experiments 6 and 9), `policy_rules.csv` and `policy_sources.md` (policy analysis). Raw downloads are cached in `data/raw/` and not committed.
+- `outputs/exp05b/`: held-back results, slopes, decision, post-hoc scores. `outputs/exp02/` to `outputs/exp09/`: the other experiments. `outputs/policy_check/`, `outputs/policy_extremes/`, `outputs/cooling_gap/`: earlier policy checks. `outputs/grid_*/`: the grid and affordability essay.

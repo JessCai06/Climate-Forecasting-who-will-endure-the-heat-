@@ -34,10 +34,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from huggingface_hub import hf_hub_download
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from shared import REPO
+from shared import REPO, train_file
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "grid"
@@ -126,7 +125,7 @@ def main():
 
     # ---- 2. weather link
     zone_share = load[list(ZONES)].sum() / load[list(ZONES)].sum().sum()
-    w = pd.read_parquet(hf_hub_download(REPO, "daily/train-00000-of-00001.parquet", repo_type="dataset"),
+    w = pd.read_parquet(train_file("daily/train-00000-of-00001.parquet"),
                         columns=["ID", "Date", "tmax", "tmin"])
     w["Date"] = pd.to_datetime(w["Date"].astype(str))
     assert w.Date.max() <= pd.Timestamp("2018-12-31"), "daily weather after 2018"

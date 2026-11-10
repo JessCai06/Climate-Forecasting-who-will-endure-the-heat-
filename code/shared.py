@@ -7,6 +7,9 @@ import pandas as pd
 from huggingface_hub import HfApi, hf_hub_download
 
 REPO = "CMU-OSPO/protostar-climate-train-to-2018"
+# Pinned dataset revision: the one every recorded run used (outputs/*/run_log.json), including the frozen forecast.
+# Every download goes through train_file(), so a later change to the dataset cannot change our results.
+REVISION = "bbbdebdab2a18e00f97ef87bd3f35a71e222180b"
 CUTOFF_YEAR = 2018
 METRICS = {"annual_avg_temp": "Avg Temp", "total_precip_in": "ToT Prcp", "hottest_day_temp": "Max Tmax", "cdd": "cdd"}
 
@@ -18,14 +21,26 @@ def assert_cutoff(df, name="table"):
 
 
 def dataset_revision():
-    return HfApi().dataset_info(REPO).sha
+    """The revision every download uses (pinned). Prints a note if the dataset has moved on since."""
+    try:
+        latest = HfApi().dataset_info(REPO).sha
+        if latest != REVISION:
+            print(f"note: {REPO} has a newer revision ({latest[:8]}); using the pinned {REVISION[:8]}")
+    except Exception:
+        pass  # offline with a warm cache: the pinned files still load
+    return REVISION
+
+
+def train_file(path):
+    """Local path of one file of the challenge dataset, at the pinned revision."""
+    return hf_hub_download(REPO, path, repo_type="dataset", revision=REVISION)
 
 
 def load_train():
     """annual_indices and coverage_and_stations. Returns (train_df, cov). Max Tmax is -inf in
     years where every day is missing, so +-inf becomes NaN. train_df is sorted by (ID, Year)."""
-    train_df = pd.read_parquet(hf_hub_download(REPO, "annual_indices/train-00000-of-00001.parquet", repo_type="dataset"))
-    cov = pd.read_parquet(hf_hub_download(REPO, "coverage_and_stations/train-00000-of-00001.parquet", repo_type="dataset"))
+    train_df = pd.read_parquet(train_file("annual_indices/train-00000-of-00001.parquet"))
+    cov = pd.read_parquet(train_file("coverage_and_stations/train-00000-of-00001.parquet"))
     assert_cutoff(train_df, "annual_indices")
     assert_cutoff(cov, "coverage_and_stations")
     train_df = train_df.replace([np.inf, -np.inf], np.nan)

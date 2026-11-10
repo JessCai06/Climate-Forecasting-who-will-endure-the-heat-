@@ -1,6 +1,6 @@
 """Policy essay, section 2: the forecast weather, counted against the livability line (essay section 1b).
 
-Livability lines (policy_essay_outline.md, section 1b; fixed in config.json before any result):
+Livability lines (docs/policy_essay_outline.md, section 1b; fixed in config.json before any result):
   cooling-required day   daily high >= 95 F (35 C): fans stop protecting, homes without cooling pass 82 F indoors
   hot night              daily low  >= 75 F (24 C): the WHO healthy indoor maximum; homes cannot cool down overnight
 Also reported, because they drive grid demand (essay sections 3 and 5): cooling degree days (cdd) and the

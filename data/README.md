@@ -6,7 +6,7 @@ The challenge dataset is downloaded at run time. Experiment 6 adds one curated s
 
 | Source | Exact version | How to download | Why not uploaded |
 |---|---|---|---|
-| [CMU-OSPO/protostar-climate-train-to-2018](https://huggingface.co/datasets/CMU-OSPO/protostar-climate-train-to-2018): `annual_indices`, `coverage_and_stations` (CC0-1.0), years up to 2018 | the dataset revision is recorded in `outputs/exp03/run_log.json` (`dataset_revision`) | `code/shared.py` `load_train()` (`huggingface_hub.hf_hub_download`, `repo_type="dataset"`) | Public and reproducible. `daily` and `city_info` are not used. |
+| [CMU-OSPO/protostar-climate-train-to-2018](https://huggingface.co/datasets/CMU-OSPO/protostar-climate-train-to-2018): `annual_indices`, `coverage_and_stations`, `daily` (CC0-1.0), years up to 2018 | pinned to revision `bbbdebdab2a18e00f97ef87bd3f35a71e222180b` (`shared.REVISION`); every run records it in `outputs/*/run_log.json` | `code/shared.py` `train_file()` / `load_train()` (`huggingface_hub.hf_hub_download`, `repo_type="dataset"`, `revision=REVISION`) | Public and reproducible. `city_info` is not used. |
 
 ## Uploaded: `data/neighbors/` (Experiment 6)
 
@@ -54,3 +54,20 @@ Used by `code/policy_extremes.py` and `code/policy_cooling_gap.py`. Downloaded a
 | U.S. Census Bureau, [2010 ZCTA-to-county relationship file](https://www2.census.gov/geo/docs/maps-data/data/rel/zcta_county_rel_10.txt) | Population in each ZCTA-county part (`POPPT`), used as weights | ZCTA x county | 2010 | U.S. Government work |
 
 Each city takes the values of its weather station's county (`outputs/policy_check/station_county.csv`); Heat & Health Index values are population-weighted over the county's ZIP code areas. Housing, land cover and population do not respond to the weather, so their year does not matter for the data rule. The 2019-2025 observed heat days are analysis only.
+
+## Grid strain and affordability (Policy Idea essay and slide deck; analysis only, not a forecast input)
+
+Used by `code/policy_grid_*.py` and `code/export_deck_data.py`; outputs in `outputs/grid_*/` and `presentation/data/deck_data.js`. Downloaded at run time and cached in `data/raw/grid/` (not uploaded). **Every source that responds to the weather (electricity demand) is read only up to 2018-12-31**; projections for 2019-2025 combine these with our forecast.
+
+| Source | What we use | Years | Used in |
+|---|---|---|---|
+| [EIA-930](https://www.eia.gov/electricity/gridmonitor/) hourly demand by balancing authority (six-month files) | Summer daily peak and overnight low by EIA region | Jul 2015 - Dec 2018 | `policy_grid_demand.py` |
+| [ERCOT hourly load by weather zone](https://www.ercot.com/gridinfo/load/load_hist) | Texas case study: load vs heat | 2002-2018 | `policy_grid_ercot.py`, `policy_grid_projection.py` |
+| [EIA-861](https://www.eia.gov/electricity/data/eia861/) annual utility filings | Residential revenue, sales, customers by state: price, use, bill | 2002-2018 | `policy_grid_prices*.py` |
+| [EIA RECS 2015 microdata](https://www.eia.gov/consumption/residential/data/2015/) (5,686 homes, replicate weights) | Low-income use and cooling use by Census region and household size | 2015 | `policy_grid_prices_national.py` |
+| [EIA RECS 2020 state expenditures](https://www.eia.gov/consumption/residential/data/2020/state/pdf/State%20expenditures.pdf) | Electricity's share of home energy spending, by state | 2020 (not weather-driven: a spending share) | `policy_grid_prices_national.py` |
+| [BLS CPI-U](https://www.bls.gov/cpi/) (series CUUR0000SA0) | Conversion to 2018 dollars | 2002-2018 | `policy_grid_prices*.py` |
+| [NERC 2018 Long-Term Reliability Assessment](https://www.nerc.com/pa/RAPA/ra/Reliability%20Assessments%20DL/NERC_LTRA_2018_12202018.pdf) (Dec 2018) | Anticipated and reference reserve margins, 2019-2025, by assessment area | published 2018 | `policy_grid_projection_national.py` |
+| HHS poverty guidelines 2018; APPRISE / ACEEE 6% energy-burden line | The affordability bar | 2018 | constants in `config.json`; sources in `docs/policy_essay_outline.md` §1a |
+
+Each script writes its fixed settings and constants to `outputs/<name>/config.json` before computing results.
