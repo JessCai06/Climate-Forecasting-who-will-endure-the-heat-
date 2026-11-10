@@ -8,7 +8,10 @@ Links: [submission template](https://huggingface.co/datasets/CMU-OSPO/protostar-
 
 ## Presentation: *Will Everyone Endure the Heat?*
 
-**Deck: [`presentation/index.html`](presentation/index.html)**, a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast).
+**Deck: [`presentation/index.html`](presentation/index.html)**, a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast) - scroll down for the full show!
+
+![Sample Map Area](image.png)
+![alt text](image-1.png)
 
 To open it, clone or download the repository, then either:
 
