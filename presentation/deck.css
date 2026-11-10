@@ -1,14 +1,18 @@
 /* Deck layout: every slide is one full viewport. Inside it, a fixed 1728 x 1117 "stage" (the Figma frame size)
-   is scaled to fit and centred, so positions match the Figma frames exactly at any window size. */
+   is scaled to fit and centred, so positions match the Figma frames at any window size.
+   Look: newspaper graphics (serif headline and dek, a Franklin-style sans for subheads, labels and legends, plain
+   white charts with hairline grids, soft corners). */
 :root {
-  --ink: #000;
-  --muted: #bababa;
-  --rule: #d9d9d9;
-  --panel: #f3f3f3;
-  --text-2: #2d2d2d;
+  --ink: #121212;
+  --ink-2: #333;
+  --ink-3: #666;
+  --muted: #b5b5b5;
+  --rule: #e2e2e2;
   --paper: #fff;
-  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-2: "Figtree", "Inter", system-ui, sans-serif;
+  --font-head: "Source Serif 4", Georgia, "Times New Roman", serif;   /* headlines, deks, quote */
+  --font-sub: "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; /* subheads, kickers, chart labels */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;  /* body text */
+  --radius: 10px;
   --s: 1; /* stage scale, set by deck.js */
 }
 
@@ -26,51 +30,66 @@ html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink
 .abs { position: absolute; margin: 0; }
 
 /* ---------- type ---------- */
-.h1 { font-weight: 600; font-size: 64px; line-height: normal; }
-.h2 { font-weight: 600; font-size: 40px; line-height: normal; }
-.lead, .label { font-size: 24px; font-weight: 400; line-height: normal; }
-.small { font-size: 20px; line-height: normal; }
-.fig { font-family: var(--font-2); color: var(--text-2); font-size: 32px; }
-.bullets { padding-left: 30px; font-family: var(--font-2); font-size: 20px; line-height: 1.25; }
-.bullets li + li { margin-top: 2px; }
-.note { color: #6b6b6b; font-size: 18px; }
-a { color: inherit; }
+.kicker { font-family: var(--font-sub); font-weight: 700; font-size: 18px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.h1 { font-family: var(--font-head); font-weight: 700; font-size: 76px; line-height: 1.05; letter-spacing: -.01em; text-wrap: balance; }
+.h2 { font-family: var(--font-head); font-weight: 700; font-size: 50px; line-height: 1.1; letter-spacing: -.005em; }
+.dek { font-family: var(--font-head); font-weight: 400; font-size: 30px; line-height: 1.3; color: var(--ink-2); text-wrap: balance; }
+.takeaway { font-family: var(--font-head); font-weight: 600; font-size: 44px; line-height: 1.2; text-wrap: balance; }
+.sub { font-family: var(--font-sub); font-weight: 600; font-size: 28px; color: var(--ink); }
+.lead, .label { font-size: 26px; line-height: 1.35; }
+.bullets { padding-left: 26px; font-size: 23px; line-height: 1.38; color: var(--ink-2); }
+.bullets li + li { margin-top: 8px; }
+.bullets li::marker { color: var(--muted); }
+.bullets strong { color: var(--ink); font-weight: 600; }
+.note { font-family: var(--font-sub); color: var(--ink-3); font-size: 18px; line-height: 1.4; }
+.source { font-family: var(--font-sub); font-size: 16px; color: #888; }
+a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 4px; }
 
-/* ---------- side navigation (Figma: list at 103,348; bar at 78) ---------- */
-.toc { left: 103px; top: 348px; display: flex; flex-direction: column; gap: 10px; }
-.toc a { display: block; text-decoration: none; color: var(--muted); font-size: 24px; line-height: normal; }
+/* ---------- the historical-data template: title, dek, then Trends / Findings ---------- */
+.story > * { margin: 0; }
+.story .dek { margin-top: 10px; font-size: 28px; }
+.story .cols { display: grid; grid-template-columns: 580px 1fr; column-gap: 64px; margin-top: 28px; }
+.story .cols .sub { margin: 0 0 8px; }
+.story .bullets { margin: 0; }
+
+/* ---------- side navigation ---------- */
+.toc { left: 103px; top: 348px; display: flex; flex-direction: column; gap: 12px; font-family: var(--font-sub); }
+.toc a { display: block; text-decoration: none; color: var(--muted); font-size: 24px; line-height: normal; transition: color .15s; }
 .toc a:hover, .toc a:focus-visible { color: var(--ink); }
-.toc a.is-active { color: var(--ink); font-style: italic; font-weight: 500; }
-.toc .sub { margin: 0; padding-left: 30px; list-style: disc; color: var(--muted); font-size: 20px; line-height: normal; }
+.toc a.is-active { color: var(--ink); font-weight: 600; }
+.toc .sub { margin: 0; padding-left: 28px; list-style: disc; color: var(--muted); font-size: 20px; line-height: 1.5; font-family: var(--font-sub); font-weight: 400; }
 .toc .sub a { font-size: 20px; }
-.toc .sub a.is-active { font-style: normal; font-weight: 500; color: var(--ink); }
-.toc-bar { width: 7px; height: 121px; border-radius: 19px; background: var(--rule); left: 78px; }
+.toc .sub a.is-active { font-weight: 600; color: var(--ink); }
+.toc-bar { width: 6px; border-radius: 6px; background: var(--ink); left: 78px; transition: top .2s; }
 .back {
-  left: 64px; top: 260px; width: 36px; height: 36px; padding: 0; border: 0; background: none; cursor: pointer;
+  left: 64px; top: 260px; width: 44px; height: 44px; padding: 4px; border: 0; border-radius: 50%; background: none; cursor: pointer;
 }
+.back:hover { background: #f1f1f1; }
 .back img { display: block; width: 36px; height: 36px; transform: rotate(90deg); }
-.back:focus-visible, .toc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.back:focus-visible, .toc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
 
 /* ---------- charts ---------- */
 .chart { position: absolute; }
 .chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.chart text { font-family: var(--font); fill: #555; font-size: 13px; }
-.chart .axis path, .chart .axis line { stroke: #9a9a9a; }
-.chart .grid line { stroke: #e7e7e7; }
-.chart .placeholder-tag { font-size: 12px; fill: #8a8a8a; letter-spacing: .06em; text-transform: uppercase; }
-.panel { background: var(--panel); }
+.chart text { font-family: var(--font-sub); fill: #555; font-size: 16px; }
+.chart [role="button"] { cursor: pointer; }
+.chart [role="button"]:focus { outline: none; }
+.chart [role="button"]:focus-visible rect { stroke: var(--ink); stroke-width: 2; }
 .tip {
-  position: fixed; pointer-events: none; background: #fff; border: 1px solid #000; padding: 6px 9px;
-  font-size: 15px; line-height: 1.35; max-width: 260px; box-shadow: 3px 3px 0 #000; z-index: 5;
+  position: fixed; pointer-events: none; background: rgba(255, 255, 255, .97); border: 1px solid #ddd; border-radius: 8px;
+  padding: 9px 12px; font-family: var(--font-sub); font-size: 15px; line-height: 1.45; color: var(--ink); max-width: 300px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .12); z-index: 5;
 }
 .tip[hidden] { display: none; }
-.pill { border: 1px solid #000; padding: 6px 10px; font-size: 14px; background: #fff; }
 
 /* ---------- definitions slide ---------- */
-.quote { font-family: "EB Garamond", Georgia, serif; font-size: 44px; line-height: 1.22; text-align: center; color: #111; }
-.quote mark { background: #000; color: #fff; padding: 0 .18em; }
-.quote .qmark { font-size: 76px; line-height: .6; display: block; }
-.source { font-family: "EB Garamond", Georgia, serif; font-style: italic; font-size: 22px; text-align: center; color: #333; }
-.mini-label { font-size: 16px; color: #111; }
-.mini-sub { font-size: 13px; color: #777; }
-.connector { border-color: #000; border-style: dashed; border-width: 0; position: absolute; }
+.quote { font-family: var(--font-head); font-size: 48px; line-height: 1.28; text-align: center; color: var(--ink); text-wrap: balance; }
+.quote mark { background: none; color: inherit; font-weight: 600; box-shadow: inset 0 -0.36em 0 var(--hl, #ffd6a5); padding: 0 .06em; border-radius: 3px; }
+.quote .qmark { font-size: 90px; line-height: .5; display: block; color: #c9c9c9; }
+.mini-label { font-family: var(--font-sub); font-weight: 600; font-size: 20px; color: var(--ink); }
+.mini-sub { font-family: var(--font-sub); font-size: 16px; color: var(--ink-3); line-height: 1.35; }
+.connector { border-color: #9a9a9a; border-style: dashed; border-width: 0; position: absolute; }
+
+/* ---------- intro ---------- */
+.need-list { margin: 10px 0 0; padding-left: 26px; font-size: 22px; line-height: 1.45; }
+.need-list li::marker { font-size: 1.2em; }

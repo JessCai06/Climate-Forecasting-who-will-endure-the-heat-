@@ -6,13 +6,15 @@
 <title>Will Everyone Endure the Heat?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,500&family=Figtree:wght@400&family=EB+Garamond:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
 <link rel="stylesheet" href="deck.css">
 </head>
 <body>
 <!--
-  Web slide deck for the Policy Idea (essay sections 1-3; see policy_essay_outline.md).
+  Web slide deck for the Policy Idea (essay sections 1-5; see policy_essay_outline.md).
   Layout follows the Figma frames (file jT04Jixx6Oye4vCkzeNkJa, nodes 1303-37 ... 1303-121), 1728 x 1117 each.
+  The "Historical Data: Temperature" slide is the template for every historical-data slide:
+  chart on top, then title, a one-line dek, and two columns (Trends, Findings).
   Charts read presentation/data/deck_data.js, made by `python code/export_deck_data.py` from the analysis
   outputs (data up to 2018 plus our forecast). Colours keep one meaning across slides (charts.js, COLOR).
   Navigate: arrow keys / Page Up-Down / scroll; the chevron goes back one slide; the side list jumps.
@@ -22,18 +24,21 @@
   <!-- 1. Intro  (Figma 1303:37) -->
   <section class="slide" id="intro" data-section="1" aria-label="Intro">
     <div class="stage">
-      <h1 class="abs h1" style="left:209px; top:61px; width:987px;">Will Everyone Endure the Heat?</h1>
-      <p class="abs lead" style="left:209px; top:160px; width:1114px;">A socio-economic survey of electricity use as cooling demand rises across U.S. cities.</p>
-      <p class="abs lead" style="left:1298px; top:79px; width:220px;">
-        <a href="https://github.com/JessCai06/-Protostar-Challenge-CMU-2026-Climate-Risk-Intelligence">Team Unicorns | Protostar Challenge 2026</a>
+      <p class="abs kicker" style="left:209px; top:52px;">Protostar Challenge 2026 · Climate Risk Intelligence</p>
+      <h1 class="abs h1" style="left:209px; top:86px; width:1040px;">Will Everyone Endure the Heat?</h1>
+      <p class="abs dek" style="left:209px; top:178px; width:1000px;">
+        <span data-fill="needShort">Many</span> U.S. cities face heat they were not built for, and the families least able to pay for cooling feel it first.
+      </p>
+      <p class="abs note" style="left:1298px; top:60px; width:300px;">
+        <a href="https://github.com/JessCai06/-Protostar-Challenge-CMU-2026-Climate-Risk-Intelligence">Team Unicorns · code and data on GitHub</a>
       </p>
       <!-- one dot per challenge city, sized by households; data: cities -->
-      <div class="chart" data-chart="cityCluster" style="left:209px; top:235px; width:843px; height:730px;"></div>
-      <div class="abs lead" style="left:1285px; top:737px; width:331px;">
-        <p style="margin:0;">Largest cities in need</p>
-        <ul style="margin:0; padding-left:36px;" data-list="cityNeed"></ul>
-        <p class="note" style="margin:12px 0 0;" data-fill="needCount"></p>
-        <p class="note" style="margin:8px 0 0;">Hover a dot for the city, its homes without AC, its cooling-required days and its low-income bill.</p>
+      <div class="chart" data-chart="cityCluster" style="left:209px; top:290px; width:900px; height:740px;"></div>
+      <div class="abs" style="left:1240px; top:640px; width:380px;">
+        <p class="sub" style="margin:0;">Largest cities in need</p>
+        <ul class="need-list" data-list="cityNeed"></ul>
+        <p class="note" style="margin:16px 0 0;" data-fill="needCount"></p>
+        <p class="note" style="margin:10px 0 0; color:#999;">Hover a dot for the city, its homes without AC, its hot days and its low-income bill.</p>
       </div>
     </div>
   </section>
@@ -42,130 +47,174 @@
   <section class="slide" id="definitions" data-section="2" aria-label="Definitions">
     <div class="stage">
       <nav class="abs toc" data-active="2" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:348px;"></div>
-      <div class="abs panel" style="left:374px; top:56px; width:1216px; height:954px;">
-        <!-- mini charts in three corners (placeholders) -->
-        <div class="chart" data-chart="miniArea" data-series="afford" data-label="Median state: low-income single person bill over the bar, 2002-2018" style="left:20px; top:170px; width:135px; height:60px;"></div>
-        <div class="abs" style="left:20px; top:236px; width:260px; border-top:1.5px solid #000; padding-top:6px;">
-          <div class="mini-label">Affordable</div><div class="mini-sub">6% of income on home energy · median state, single person</div>
+      <div class="abs toc-bar"></div>
+      <p class="abs kicker" style="left:374px; top:64px;">Definitions</p>
+      <p class="abs takeaway" style="left:374px; top:96px; width:1216px;">Two lines decide whether a home can endure the heat: what a family can afford, and what a body can bear.</p>
+      <div class="abs" style="left:374px; top:250px; width:1216px; height:760px;">
+        <div class="chart" data-chart="miniArea" data-series="afford" data-label="Median state: low-income single person bill over the bar, 2002-2018" style="left:20px; top:40px; width:150px; height:64px;"></div>
+        <div class="abs" style="left:20px; top:112px; width:300px; border-top:1.5px solid #121212; padding-top:8px;">
+          <div class="mini-label">Affordable</div><div class="mini-sub">6% of income on home energy · median state, single person, bill ÷ bar</div>
         </div>
-        <div class="connector" style="left:155px; top:236px; width:40px; height:84px; border-top-width:1px; border-right-width:1px;"></div>
+        <div class="connector" style="left:170px; top:112px; width:46px; height:108px; border-top-width:1px; border-right-width:1px;"></div>
 
-        <div class="chart" data-chart="miniArea" data-series="nights" data-label="Hot nights per year, U.S. mean of cities, 1976-2025" style="left:1061px; top:170px; width:135px; height:60px;"></div>
-        <div class="abs" style="left:936px; top:236px; width:260px; border-top:1.5px solid #000; padding-top:6px; text-align:right;">
+        <div class="chart" data-chart="miniArea" data-series="nights" data-label="Hot nights per year, U.S. mean of cities, 1976-2025" style="left:1046px; top:40px; width:150px; height:64px;"></div>
+        <div class="abs" style="left:896px; top:112px; width:300px; border-top:1.5px solid #121212; padding-top:8px; text-align:right;">
           <div class="mini-label">Livable</div><div class="mini-sub">82 °F indoors at most · hot nights a year</div>
         </div>
-        <div class="connector" style="left:1020px; top:236px; width:41px; height:84px; border-top-width:1px; border-left-width:1px;"></div>
+        <div class="connector" style="left:1000px; top:112px; width:46px; height:108px; border-top-width:1px; border-left-width:1px;"></div>
 
-        <div class="chart" data-chart="miniArea" data-series="days" data-label="Cooling-required days per year, U.S. mean of cities, 1976-2025" style="left:1061px; top:770px; width:135px; height:60px;"></div>
-        <div class="abs" style="left:936px; top:836px; width:260px; border-top:1.5px solid #000; padding-top:6px; text-align:right;">
+        <div class="chart" data-chart="miniArea" data-series="days" data-label="Cooling-required days per year, U.S. mean of cities, 1976-2025" style="left:1046px; top:600px; width:150px; height:64px;"></div>
+        <div class="abs" style="left:896px; top:672px; width:300px; border-top:1.5px solid #121212; padding-top:8px; text-align:right;">
           <div class="mini-label">Cooling required</div><div class="mini-sub">95 °F outside: fans stop protecting · days a year</div>
         </div>
-        <div class="connector" style="left:880px; top:600px; width:56px; height:236px; border-left-width:1px; border-bottom-width:1px;"></div>
+        <div class="connector" style="left:840px; top:470px; width:56px; height:202px; border-left-width:1px; border-bottom-width:1px;"></div>
 
-        <p class="abs source" style="left:0; top:330px; width:1216px;">[ essay section 1: defining the bar ]</p>
-        <blockquote class="abs quote" style="left:150px; top:380px; width:916px; margin:0;">
+        <blockquote class="abs quote" style="left:150px; top:220px; width:916px; margin:0;">
           <span class="qmark">“</span>
-          A home is <mark>affordable</mark> when a household at the poverty line spends no more than 6% of its income
-          keeping the power on, and <mark>livable</mark> when it stays at or below 82&nbsp;°F inside.
-          <span class="qmark" style="margin-top:22px;">”</span>
+          A home is <mark style="--hl:#fbd0d3;">affordable</mark> when a household at the poverty line spends no more than 6% of its income
+          keeping the power on, and <mark style="--hl:#d3dbe8;">livable</mark> when it stays at or below 82&nbsp;°F inside.
+          <span class="qmark" style="margin-top:28px;">”</span>
         </blockquote>
-        <p class="abs note" style="left:300px; top:880px; width:616px; text-align:center;">
+        <p class="abs source" style="left:180px; top:610px; width:580px; text-align:center;">
           APPRISE / ACEEE energy-burden line · U.S. rental cooling codes · CDC and WHO fan limits
         </p>
       </div>
-      <p class="abs lead" style="left:374px; top:1037px; width:1216px; text-align:center;">
+      <p class="abs dek" style="left:374px; top:1030px; width:1216px; text-align:center; font-size:26px;">
         By these lines, a low-income single person was already over the affordable share in 45 of 46 states before any warming.
       </p>
     </div>
   </section>
 
-  <!-- 3a. Historical data: weather  (Figma 1303:54) -->
+  <!-- 3a. Historical data: weather  (Figma 1303:54) = THE TEMPLATE for the historical-data slides -->
   <section class="slide" id="weather" data-section="3" data-sub="weather" aria-label="Historical data: weather">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="weather" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:404px;"></div>
+      <div class="abs toc-bar"></div>
       <!-- heat measures by year, U.S. and regions; click the tabs under the chart; data: weather -->
-      <div class="chart" data-chart="weatherArea" style="left:407px; top:114px; width:1076px; height:546px;"></div>
-      <h2 class="abs h2" style="left:432px; top:694px;">Historical Data: Temperature</h2>
-      <p class="abs fig" style="left:432px; top:767px;">Trends</p>
-      <ul class="abs bullets" style="left:450px; top:827px; width:600px;">
-        <li>Cooling degree days: +19% in the median city, 1976–2005 to the 2019–2025 forecast; up in 193 of 197 cities.</li>
-        <li>Days with a high of 95 °F or more: +21% across all cities.</li>
-        <li>Nights with a low of 75 °F or more: +48%. Nights warm faster than days.</li>
-      </ul>
-      <p class="abs fig" style="left:1123px; top:759px;">Findings</p>
-      <ul class="abs bullets" style="left:1141px; top:827px; width:480px;">
-        <li>The rise lands where it is already hot: Texas, the Gulf Coast, the Southwest.</li>
-        <li>Our forecast ran low against what happened (rank correlation 0.97 across cities), so these numbers are conservative.</li>
-      </ul>
+      <div class="chart" data-chart="weatherArea" style="left:407px; top:70px; width:1100px; height:570px;"></div>
+      <div class="abs story" style="left:432px; top:668px; width:1190px;">
+        <h2 class="h2">Historical Data: Temperature</h2>
+        <p class="dek">U.S. summers already run hotter than the grid was built for, and nights are warming fastest.</p>
+        <div class="cols">
+          <div><p class="sub">Trends</p>
+          <ul class="bullets">
+            <li>Cooling degree days: <strong>+19%</strong> in the median city, 1976–2005 to the 2019–2025 forecast; up in 193 of 197 cities.</li>
+            <li>Days with a high of 95 °F or more: <strong>+21%</strong>. Nights with a low of 75 °F or more: <strong>+48%</strong>.</li>
+          </ul></div>
+          <div><p class="sub">Findings</p>
+          <ul class="bullets">
+            <li>The rise lands where it is already hot: Texas, the Gulf Coast, the Southwest.</li>
+            <li>Our forecast ran low against what happened, so these numbers are conservative.</li>
+          </ul></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 3b. Historical data: energy use  (Figma 1303:152) -->
+  <!-- 3b. Historical data: energy use  (Figma 1303:152, on the temperature template) -->
   <section class="slide" id="energy-use" data-section="3" data-sub="energy-use" aria-label="Historical data: energy use">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="energy-use" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:404px;"></div>
-      <p class="abs label" style="left:413px; top:104px;">Energy use</p>
+      <div class="abs toc-bar"></div>
       <!-- summer daily peak vs daily high, one line per EIA region; data: regions -->
-      <div class="chart" data-chart="regionLines" style="left:378px; top:170px; width:1136px; height:753px;"></div>
-      <p class="abs label" style="left:468px; top:1009px; width:1100px;">
-        Findings: each 1 °F hotter day adds about 2.2% to U.S. peak demand (1.2–3.4% by region); a 1 °F warmer night lifts the overnight floor about 1.5%.
-      </p>
+      <div class="chart" data-chart="regionLines" style="left:407px; top:70px; width:1100px; height:570px;"></div>
+      <div class="abs story" style="left:432px; top:668px; width:1190px;">
+        <h2 class="h2">Historical Data: Energy Use</h2>
+        <p class="dek">Every 1 °F hotter day adds about 2% to peak electricity demand, in every U.S. region.</p>
+        <div class="cols">
+          <div><p class="sub">Trends</p>
+          <ul class="bullets">
+            <li>U.S.: <strong>+13,700 MW</strong> of daily peak per 1 °F of the daily high (<strong>2.2%</strong>), summers 2015–2018.</li>
+            <li>Most sensitive: Florida, 3.4% per °F. Least: the Northwest, 1.2%. Warmer nights lift the overnight floor about 1.5% per °F.</li>
+          </ul></div>
+          <div><p class="sub">Findings</p>
+          <ul class="bullets">
+            <li>Texas's longer record (2002–2018) agrees: 1.9% per °F.</li>
+            <li>Four regions also peaked in winter in 2016–2018: grid risk runs both ways.</li>
+          </ul></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 3c. Historical data: energy affordability  (Figma 1303:181) -->
+  <!-- 3c. Historical data: energy affordability  (Figma 1303:181, on the temperature template) -->
   <section class="slide" id="affordability" data-section="3" data-sub="affordability" aria-label="Historical data: energy affordability">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" data-sub="affordability" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:404px;"></div>
-      <p class="abs label" style="left:413px; top:104px;">Energy Affordability</p>
+      <div class="abs toc-bar"></div>
       <!-- low-income bill / bar by state, 2002-2018, toggle household size; data: afford -->
-      <div class="chart" data-chart="affordLines" style="left:378px; top:182px; width:928px; height:615px;"></div>
-      <p class="abs label" style="left:424px; top:846px; width:1100px;">
-        Findings: hot years did not raise prices (2002–2018); a low-income single person was over the bar in 45 of 46 states, a family of four in 36.
-      </p>
+      <div class="chart" data-chart="affordLines" style="left:407px; top:70px; width:1100px; height:570px;"></div>
+      <div class="abs story" style="left:432px; top:668px; width:1190px;">
+        <h2 class="h2">Historical Data: Energy Affordability</h2>
+        <p class="dek">Before any warming, low-income electricity bills were already over the affordable line in 45 of 46 states.</p>
+        <div class="cols">
+          <div><p class="sub">Trends</p>
+          <ul class="bullets">
+            <li>Real price rose from <strong>11.8¢</strong> (2002) to <strong>12.8¢</strong> per kWh (2018); the average home used about 11,000 kWh a year.</li>
+            <li>Hotter years did not raise prices: −0.002¢ per 100 extra cooling degree days.</li>
+          </ul></div>
+          <div><p class="sub">Findings</p>
+          <ul class="bullets">
+            <li>Single person, low income: over the bar in <strong>45 of 46</strong> states. Family of four: <strong>36 of 46</strong>.</li>
+            <li>Worst where prices are high (New England, New York, California) or use is high (the South).</li>
+          </ul></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 3d. What the three datasets tell us  (Figma 1303:197) -->
+  <!-- 3d. What the three datasets tell us  (Figma 1303:197, on the temperature template) -->
   <section class="slide" id="synthesis" data-section="3" aria-label="What the three datasets tell us">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="3" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:404px;"></div>
-      <p class="abs label" style="left:413px; top:104px;">What these three datasets tell us: weather, energy use, and energy affordability</p>
+      <div class="abs toc-bar"></div>
       <!-- weather, use and price on one time axis, 2002-2018; data: national -->
-      <div class="chart" data-chart="threePanels" style="left:378px; top:170px; width:1136px; height:753px;"></div>
-      <p class="abs label" style="left:468px; top:1009px; width:1100px;">
-        Findings: heat moves use and peaks, not prices; and bills were already over the affordable line before the heat arrived.
-      </p>
+      <div class="chart" data-chart="threePanels" style="left:407px; top:70px; width:1100px; height:570px;"></div>
+      <div class="abs story" style="left:432px; top:668px; width:1190px;">
+        <h2 class="h2">What the Three Datasets Tell Us</h2>
+        <p class="dek">Hot summers raise how much power people use; what it costs follows fuel markets, not the weather.</p>
+        <div class="cols">
+          <div><p class="sub">Trends</p>
+          <ul class="bullets">
+            <li>Year to year, a hotter summer means more use per home (<strong>r = 0.60</strong> for year-to-year changes, 2002–2018).</li>
+            <li>Price does not rise in hot years (r = −0.36); use per home drifted down after 2010 as appliances got more efficient.</li>
+          </ul></div>
+          <div><p class="sub">Findings</p>
+          <ul class="bullets">
+            <li>Unaffordability is structural: income, price and baseline use.</li>
+            <li>Heat's cost lands on the grid at the peak, where reserves are planned on past weather.</li>
+          </ul></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 4. Projections  (Figma 1303:121) -->
+  <!-- 4. Projections  (Figma 1303:121, realigned) -->
   <section class="slide" id="projections" data-section="4" aria-label="Projections">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="4" aria-label="Sections"></nav>
-      <div class="abs toc-bar" style="top:404px;"></div>
-      <p class="abs label" style="left:365px; top:168px;">Projections</p>
+      <div class="abs toc-bar"></div>
+      <h2 class="abs h2" style="left:432px; top:60px;">Projections, 2019–2025</h2>
+      <p class="abs dek" style="left:432px; top:126px; width:1180px;">Heat strain is regional, but unaffordability is everywhere: where it gets hotter is not where bills hurt most.</p>
       <!-- state grid maps + scatter, forecast 2019-2025; data: states -->
-      <div class="abs panel" style="left:507px; top:62px; width:893px; height:1028px;">
-        <p class="abs" style="left:44px; top:28px; font-size:40px; font-weight:600; border-top:3px solid #000; padding-top:4px;">USA</p>
-        <p class="abs" style="left:44px; top:92px; font-size:16px; color:#555;">by state, forecast 2019–2025, 2018 dollars</p>
-        <p class="abs" style="left:88px; top:126px; font-size:20px; font-weight:600; color:#333;">Cooling-required days</p>
-        <p class="abs" style="left:490px; top:126px; font-size:20px; font-weight:600; color:#333;">Low-income family bill ÷ bar</p>
-        <div class="chart" data-chart="tileMap" data-field="days_fc" style="left:44px; top:160px; width:400px; height:250px;"></div>
-        <div class="chart" data-chart="tileMap" data-field="x4" style="left:470px; top:160px; width:400px; height:250px;"></div>
-        <div class="chart" data-chart="scatter" style="left:70px; top:450px; width:780px; height:480px;"></div>
-        <p class="abs" style="left:80px; top:960px; font-size:15px; color:#777; line-height:1.4;">Data: our forecast (data up to 2018), EIA-861, RECS 2015/2020, Census LACE.<br>Heat exposure barely predicts unaffordability: <span data-fill="scatterR"></span>.</p>
-      </div>
+      <p class="abs sub" style="left:432px; top:226px; font-size:24px;">Cooling-required days a year</p>
+      <div class="chart" data-chart="tileMap" data-field="days_fc" style="left:432px; top:270px; width:560px; height:340px;"></div>
+      <p class="abs sub" style="left:1060px; top:226px; font-size:24px;">Low-income family bill ÷ affordable bar</p>
+      <div class="chart" data-chart="tileMap" data-field="x4" style="left:1060px; top:270px; width:560px; height:340px;"></div>
+      <p class="abs sub" style="left:432px; top:650px; font-size:24px;">Heat exposure against the bill, by state</p>
+      <div class="chart" data-chart="scatter" style="left:432px; top:690px; width:600px; height:380px;"></div>
+      <p class="abs sub" style="left:1100px; top:650px;">Findings</p>
+      <ul class="abs bullets" style="left:1100px; top:692px; width:520px;">
+        <li><strong data-fill="scatterR">r</strong>: heat exposure barely predicts which states are unaffordable.</li>
+        <li>A low-income family is over the bar in <strong>36 of 46</strong> states, from Maine to Texas.</li>
+        <li>Forecast heat adds only <strong>$17–33 a year</strong> to the median low-income bill; its bigger cost is on the grid (Texas runs short in a hot summer).</li>
+      </ul>
+      <p class="abs source" style="left:1100px; top:1040px; width:520px;">Our forecast (data up to 2018), EIA-861, RECS 2015/2020, Census LACE, NERC 2018. 2018 dollars.</p>
     </div>
   </section>
 

@@ -45,7 +45,7 @@
     const w = el.clientWidth, h = el.clientHeight;
     return d3.select(el).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img").attr("aria-label", label);
   }
-  function axis(g) { g.selectAll("text").style("font-size", "13px").style("fill", "#555"); g.selectAll("path,line").style("stroke", "#9a9a9a"); return g; }
+  function axis(g) { g.selectAll("text").style("font-size", "15px").style("fill", "#555"); g.selectAll("path,line").style("stroke", "#9a9a9a"); return g; }
   function title(svg, x, y, text, sub) {
     svg.append("text").attr("x", x).attr("y", y).style("font-size", "20px").style("font-weight", 600).style("fill", "#000").text(text);
     if (sub) svg.append("text").attr("x", x).attr("y", y + 22).style("font-size", "14px").style("fill", "#555").text(sub);
@@ -57,13 +57,13 @@
       const gi = g.append("g").attr("transform", `translate(${cx},0)`);
       if (it.shape === "line" || it.shape === "dash") gi.append("line").attr("x1", 0).attr("x2", 18).attr("y1", -4).attr("y2", -4).attr("stroke", it.color).attr("stroke-width", 3).attr("stroke-dasharray", it.shape === "dash" ? "4 3" : null);
       else gi.append("circle").attr("cx", 7).attr("cy", -4).attr("r", 6).attr("fill", it.shape === "ring" ? "#fff" : it.color).attr("stroke", it.shape === "ring" ? it.color : "none").attr("stroke-width", 1.5);
-      const t = gi.append("text").attr("x", 24).attr("y", 1).style("font-size", "14px").style("fill", "#222").text(it.label);
+      const t = gi.append("text").attr("x", 24).attr("y", 1).style("font-size", "16px").style("fill", "#222").text(it.label);
       cx += 24 + t.node().getComputedTextLength() + gap;
     });
     return g;
   }
   function source(svg, x, y, text, anchor = "start") {
-    svg.append("text").attr("x", x).attr("y", y).attr("text-anchor", anchor).style("font-size", "12px").style("fill", "#888").text(text);
+    svg.append("text").attr("x", x).attr("y", y).attr("text-anchor", anchor).style("font-size", "14px").style("fill", "#888").text(text);
   }
   const STATE_TILES = [["ME",11,0],["VT",10,1],["NH",11,1],["WA",1,2],["ID",2,2],["MT",3,2],["ND",4,2],["MN",5,2],["IL",6,2],["WI",7,2],["MI",8,2],["NY",9,2],["RI",10,2],["MA",11,2],
     ["OR",1,3],["NV",2,3],["WY",3,3],["SD",4,3],["IA",5,3],["IN",6,3],["OH",7,3],["PA",8,3],["NJ",9,3],["CT",10,3],
@@ -77,14 +77,13 @@
     cityCluster(el) {
       const w = el.clientWidth, h = el.clientHeight;
       const svg = svgFor(el, "U.S. challenge cities sized by households, coloured by whether they are in need of cooling help");
-      svg.append("rect").attr("width", w).attr("height", h).attr("fill", "#f3f3f3");
       // challenge names run words together ("SanDiego", "DallasFortWorth") or are upper case ("EUGENE")
       const pretty = (s) => (s === s.toUpperCase() ? s[0] + s.slice(1).toLowerCase() : s.replace(/([a-z])([A-Z])/g, "$1 $2"));
       const nodes = D.cities.map((c) => ({ ...c, name: pretty(c.name) }));
-      const size = d3.scaleSqrt([0, d3.max(nodes, (d) => d.households)], [2.5, 22]);
+      const size = d3.scaleSqrt([0, d3.max(nodes, (d) => d.households)], [4, 40]);
       nodes.forEach((d) => (d.r = size(d.households || 0)));
       const sim = d3.forceSimulation(nodes).force("x", d3.forceX(w / 2).strength(0.05)).force("y", d3.forceY(h / 2 - 20).strength(0.05))
-        .force("charge", d3.forceManyBody().strength(-6)).force("collide", d3.forceCollide((d) => d.r + 2)).stop();
+        .force("charge", d3.forceManyBody().strength(-4)).force("collide", d3.forceCollide((d) => d.r + 2.5)).stop();
       for (let i = 0; i < 300; i++) sim.tick();
       const fill = (d) => (d.need === "no AC" ? COLOR.noac : d.need ? COLOR.over : "#fff");
       svg.append("g").selectAll("circle").data(nodes).join("circle")
@@ -107,6 +106,7 @@
         });
       }
       const n = nodes.filter((d) => d.need).length, nac = nodes.filter((d) => d.need === "no AC").length;
+      document.querySelectorAll('[data-fill="needShort"]').forEach((e) => (e.textContent = `${n} of ${nodes.length}`));
       document.querySelectorAll('[data-fill="needCount"]').forEach((e) => (e.textContent = `${n} of ${nodes.length} cities are in need: ${nac} because many homes have no AC, ${n - nac} because running the AC costs low-income families more than the affordable share.`));
     },
 
@@ -145,8 +145,9 @@
         body.selectAll("*").remove();
         const color = COLOR[current], all = Object.values(W.series).flatMap((s) => s[current]).filter((v) => v != null);
         const y = d3.scaleLinear([current === "hottest" ? d3.min(all) - 2 : 0, d3.max(all) * 1.05], [h - m.b, m.t]).nice();
-        body.append("rect").attr("x", x(2018.5)).attr("y", m.t).attr("width", x(2025) - x(2018.5)).attr("height", h - m.b - m.t).attr("fill", "#f2f2f2");
-        body.append("text").attr("x", x(2018.5) + 6).attr("y", m.t + 16).style("font-size", "13px").style("fill", "#555").text("our forecast →");
+        body.append("line").attr("x1", x(2018.5)).attr("x2", x(2018.5)).attr("y1", m.t).attr("y2", h - m.b).attr("stroke", "#121212").attr("stroke-dasharray", "2 4");
+        body.append("text").attr("x", x(2018.5) + 8).attr("y", m.t + 18).style("font-size", "15px").style("font-weight", 600).style("fill", "#121212").text("our forecast →");
+        body.append("text").attr("x", x(2018.5) - 8).attr("y", m.t + 18).attr("text-anchor", "end").style("font-size", "15px").style("fill", "#666").text("← observed");
         body.append("g").attr("class", "grid").selectAll("line").data(y.ticks(5)).join("line").attr("x1", m.l).attr("x2", w - m.r).attr("y1", y).attr("y2", y).attr("stroke", COLOR.grid);
         const line = d3.line().defined((d) => d != null).x((_, i) => x(years[i])).y((d) => y(d));
         const regions = Object.keys(W.series).filter((k) => k !== "US");
@@ -163,17 +164,17 @@
           body.append("line").attr("x1", x(a)).attr("x2", x(b)).attr("y1", y(v)).attr("y2", y(v)).attr("stroke", "#000").attr("stroke-width", 1.5).attr("stroke-dasharray", "5 3");
         });
         const halo = (t) => t.attr("paint-order", "stroke").attr("stroke", "#fff").attr("stroke-width", 4).attr("stroke-linejoin", "round");
-        halo(body.append("text").attr("x", x(1976) + 4).attr("y", y(base) - 8).style("font-size", "13px").style("font-weight", 600).style("fill", "#000").text(`1976–2005 average: ${METRIC[current].fmt(base)}`));
-        halo(body.append("text").attr("x", x(2019)).attr("y", y(fc) - 10).style("font-size", "13px").style("font-weight", 600).style("fill", color).text(`2019–2025: ${METRIC[current].fmt(fc)}`));
+        halo(body.append("text").attr("x", x(1976) + 4).attr("y", y(base) - 8).style("font-size", "15px").style("font-weight", 600).style("fill", "#000").text(`1976–2005 average: ${METRIC[current].fmt(base)}`));
+        halo(body.append("text").attr("x", x(2025) - 2).attr("text-anchor", "end").attr("y", y(fc) - 10).style("font-size", "15px").style("font-weight", 600).style("fill", color).text(`2019–2025: ${METRIC[current].fmt(fc)}`));
         axis(body.append("g").attr("transform", `translate(0,${h - m.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(10)));
         axis(body.append("g").attr("transform", `translate(${w - m.r},0)`).call(d3.axisRight(y).ticks(5)));
-        body.append("text").attr("x", m.l).attr("y", 22).style("font-size", "20px").style("font-weight", 600).style("fill", "#000").text(METRIC[current].label);
-        body.append("text").attr("x", m.l).attr("y", 44).style("font-size", "14px").style("fill", "#555").text(`${METRIC[current].unit}; mean of challenge cities`);
-        legend(body, w - m.r - 470, 30, [{ label: "U.S. average", color, shape: "line" }, { label: "Regions (roll over)", color: "#9a9a9a", shape: "line" }, { label: "Period average", color: "#000", shape: "dash" }]);
+        body.append("text").attr("x", m.l).attr("y", 24).style("font-size", "22px").style("font-weight", 600).style("fill", "#121212").text(METRIC[current].label);
+        body.append("text").attr("x", m.l).attr("y", 48).style("font-size", "16px").style("fill", "#555").text(`${METRIC[current].unit}; mean of challenge cities`);
+        legend(body, w - m.r - 540, 30, [{ label: "U.S. average", color, shape: "line" }, { label: "Regions (roll over)", color: "#9a9a9a", shape: "line" }, { label: "Period average", color: "#000", shape: "dash" }]);
         tabG.selectAll("text").style("fill", (k) => (k === current ? COLOR[k] : "#999")).style("text-decoration", (k) => (k === current ? "underline" : "none"));
       }
       tabG.selectAll("text").data(tabs).join("text").attr("x", (_, i) => m.l + i * (w - m.l - m.r) / 4).attr("y", h - 12)
-        .style("font-size", "14px").style("font-weight", 700).style("letter-spacing", ".06em").style("cursor", "pointer")
+        .style("font-size", "15px").style("font-weight", 700).style("letter-spacing", ".08em").style("cursor", "pointer")
         .text((k) => METRIC[k].label.toUpperCase()).attr("tabindex", 0).attr("role", "button")
         .on("click", (ev, k) => { current = k; draw(); })
         .on("keydown", (ev, k) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ev.stopPropagation(); current = k; draw(); } });
@@ -182,9 +183,9 @@
 
     // Slide 3b: summer peak demand by daily high, one line per region (EIA-930, 2015-2018).
     regionLines(el) {
-      const w = el.clientWidth, h = el.clientHeight, m = { t: 120, r: 30, b: 50, l: 70 };
+      const w = el.clientWidth, h = el.clientHeight, m = { t: 110, r: 150, b: 56, l: 70 };
       const svg = svgFor(el, "Summer daily peak demand against the daily high, by region, 2015 to 2018");
-      title(svg, m.l - 40, 26, "Summer peak demand rises with the daily high", "Daily peak as % of the region's average summer peak (100 = average), by 2 °F bins of the day's high. EIA-930, June–September 2015–2018.");
+      source(svg, m.l, h - 4, "Daily peak as % of the region's average summer peak (100 = average), by 2 °F bins of the day's high. EIA-930, June–September 2015–2018.");
       const R = D.regions;
       const x = d3.scaleLinear(d3.extent(R.flatMap((r) => r.pts), (p) => p[0]), [m.l, w - m.r]).nice();
       const y = d3.scaleLinear(d3.extent(R.flatMap((r) => r.pts), (p) => p[1]), [h - m.b, m.t]).nice();
@@ -195,7 +196,7 @@
       const line = d3.line().x((p) => x(p[0])).y((p) => y(p[1]));
       const lines = svg.append("g").selectAll("path").data(R).join("path").attr("d", (r) => line(r.pts)).attr("fill", "none")
         .attr("stroke", (r) => REGION_COLOR[r.region]).attr("stroke-width", 2).attr("stroke-opacity", 0.75).style("cursor", "pointer");
-      const label = svg.append("text").style("font-weight", 600).style("font-size", "15px");
+      const label = svg.append("text").style("font-weight", 700).style("font-size", "17px");
       function focus(reg) {
         lines.attr("stroke-opacity", (r) => (!reg || r.region === reg ? 1 : 0.12)).attr("stroke-width", (r) => (r.region === reg ? 4 : 2));
         if (reg) { const r = R.find((q) => q.region === reg), p = r.pts[r.pts.length - 1]; label.attr("x", x(p[0]) + 6).attr("y", y(p[1]) + 4).style("fill", REGION_COLOR[reg]).text(REGION_NAME[reg]); }
@@ -206,34 +207,34 @@
         .on("pointerleave", () => { focus(null); hideTip(); });
       // legend: regions sorted by sensitivity
       const sorted = [...R].sort((a, b) => b.pct_per_F - a.pct_per_F);
-      const lg = svg.append("g").attr("transform", `translate(${m.l},${m.t - 44})`);
+      const lg = svg.append("g").attr("transform", `translate(${m.l},${m.t - 78})`);
       sorted.forEach((r, i) => {
-        const g = lg.append("g").attr("transform", `translate(${(i % 7) * 145},${Math.floor(i / 7) * 20})`).style("cursor", "pointer")
+        const g = lg.append("g").attr("transform", `translate(${(i % 5) * 186},${Math.floor(i / 5) * 24})`).style("cursor", "pointer")
           .on("pointerenter", () => focus(r.region)).on("pointerleave", () => focus(null));
-        g.append("rect").attr("x", 0).attr("y", -10).attr("width", 12).attr("height", 12).attr("fill", REGION_COLOR[r.region]);
-        g.append("text").attr("x", 17).attr("y", 0).style("font-size", "13px").style("fill", "#222").text(`${r.region} +${r.pct_per_F.toFixed(1)}% per °F`);
+        g.append("rect").attr("x", 0).attr("y", -11).attr("width", 13).attr("height", 13).attr("rx", 3).attr("fill", REGION_COLOR[r.region]);
+        g.append("text").attr("x", 19).attr("y", 0).style("font-size", "15px").style("fill", "#222").text(`${r.region} +${r.pct_per_F.toFixed(1)}% per °F`);
       });
     },
 
     // Slide 3c: low-income bill / affordable bar by state, 2002-2018, toggle household size.
     affordLines(el) {
-      const w = el.clientWidth, h = el.clientHeight, m = { t: 140, r: 60, b: 40, l: 60 };
+      const w = el.clientWidth, h = el.clientHeight, m = { t: 96, r: 70, b: 56, l: 70 };
       const svg = svgFor(el, "Low-income electricity bill as a multiple of the affordable bar, by state, 2002 to 2018");
-      title(svg, m.l - 30, 24, "Low-income electricity bill ÷ the affordable bar, by state", "Real price each year × 2015 low-income use (RECS); bar = 6% of the 2018 poverty line × the state's electricity share. 2018 dollars.");
+      source(svg, m.l, h - 4, "Low-income bill ÷ affordable bar. Real price each year × 2015 low-income use (RECS); bar = 6% of the 2018 poverty line × the state's electricity share. 2018 dollars.");
       const A = D.afford, years = A.years;
       const x = d3.scaleLinear([2002, 2018], [m.l, w - m.r]);
       const body = svg.append("g");
       let size = "x1";
-      const btns = svg.append("g").attr("transform", `translate(${m.l - 30},${m.t - 76})`);
+      const btns = svg.append("g").attr("transform", `translate(${m.l},4)`);
       [["x1", "1 person, income < $20k"], ["x4", "4 people, income < $40k"]].forEach(([k, txt], i) => {
-        const g = btns.append("g").attr("transform", `translate(${i * 230},0)`).style("cursor", "pointer").attr("tabindex", 0).attr("role", "button")
+        const g = btns.append("g").attr("transform", `translate(${i * 250},0)`).style("cursor", "pointer").attr("tabindex", 0).attr("role", "button")
           .on("click", () => { size = k; draw(); }).on("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ev.stopPropagation(); size = k; draw(); } });
-        g.append("rect").attr("class", "btn").attr("data-k", k).attr("width", 220).attr("height", 28).attr("fill", "#fff").attr("stroke", "#000");
-        g.append("text").attr("class", "btnt").attr("data-k", k).attr("x", 110).attr("y", 19).attr("text-anchor", "middle").style("font-size", "14px").text(txt);
+        g.append("rect").attr("class", "btn").attr("data-k", k).attr("width", 236).attr("height", 34).attr("rx", 17).attr("fill", "#fff").attr("stroke", "#c8c8c8");
+        g.append("text").attr("class", "btnt").attr("data-k", k).attr("x", 118).attr("y", 22).attr("text-anchor", "middle").style("font-size", "15px").style("font-weight", 600).text(txt);
       });
       function draw() {
         body.selectAll("*").remove();
-        btns.selectAll(".btn").attr("fill", function () { return this.dataset.k === size ? "#000" : "#fff"; });
+        btns.selectAll(".btn").attr("fill", function () { return this.dataset.k === size ? "#121212" : "#fff"; }).attr("stroke", function () { return this.dataset.k === size ? "#121212" : "#c8c8c8"; });
         btns.selectAll(".btnt").style("fill", function () { return this.dataset.k === size ? "#fff" : "#000"; });
         const S = A.states, vals = S.flatMap((s) => s[size]).filter((v) => v != null);
         const y = d3.scaleLinear([Math.min(0.4, d3.min(vals)), d3.max(vals) * 1.05], [h - m.b, m.t]).nice();
@@ -249,10 +250,10 @@
           .on("pointermove", (ev, s) => showTip(ev, `${s.state}: ${s[size][0]}× the bar in 2002, ${last(s)}× in 2018`))
           .on("pointerleave", function () { d3.select(this).attr("stroke-opacity", 0.35).attr("stroke-width", 1.4); hideTip(); });
         body.append("line").attr("x1", m.l).attr("x2", w - m.r).attr("y1", y(1)).attr("y2", y(1)).attr("stroke", "#000").attr("stroke-width", 2.5);
-        body.append("text").attr("x", w - m.r + 4).attr("y", y(1) + 4).style("font-size", "13px").style("font-weight", 600).style("fill", "#000").text("bar");
+        body.append("text").attr("x", w - m.r + 8).attr("y", y(1) + 5).style("font-size", "15px").style("font-weight", 600).style("fill", "#000").text("bar");
         body.append("g").selectAll("circle").data(S).join("circle").attr("cx", x(2018)).attr("cy", (s) => y(last(s))).attr("r", 4).attr("fill", col);
         const over = S.filter((s) => last(s) > 1).length;
-        legend(body, m.l - 30, m.t - 18, [{ label: `Over the bar in 2018 (${over})`, color: COLOR.over }, { label: `Under (${S.length - over})`, color: COLOR.under }, { label: "Affordable bar", color: "#000", shape: "line" }]);
+        legend(body, m.l + 530, 26, [{ label: `Over the bar in 2018 (${over})`, color: COLOR.over }, { label: `Under (${S.length - over})`, color: COLOR.under }, { label: "Affordable bar", color: "#000", shape: "line" }]);
       }
       draw();
     },
@@ -272,8 +273,8 @@
         const top = m.t + k * ph, v = N[p.key];
         const ext = d3.extent(v), pad = (ext[1] - ext[0]) * 0.25;
         const y = d3.scaleLinear([ext[0] - pad, ext[1] + pad], [top + ph - 26, top + 12]);
-        svg.append("text").attr("x", 0).attr("y", top + ph / 2 - 8).style("font-size", "22px").style("fill", p.color).style("font-weight", 600).text(p.name);
-        svg.append("text").attr("x", 0).attr("y", top + ph / 2 + 16).style("font-size", "14px").style("fill", "#555").text(p.sub);
+        svg.append("text").attr("x", 0).attr("y", top + ph / 2 - 8).style("font-size", "24px").style("fill", p.color).style("font-weight", 600).text(p.name);
+        svg.append("text").attr("x", 0).attr("y", top + ph / 2 + 18).style("font-size", "16px").style("fill", "#555").text(p.sub);
         axis(svg.append("g").attr("transform", `translate(${w - m.r},0)`).call(d3.axisRight(y).ticks(3).tickFormat(p.fmt)));
         svg.append("path").attr("d", d3.area().x((_, i) => x(years[i])).y0(y(y.domain()[0])).y1((d) => y(d))(v)).attr("fill", p.color).attr("fill-opacity", 0.15);
         svg.append("path").attr("d", d3.line().x((_, i) => x(years[i])).y((d) => y(d))(v)).attr("fill", "none").attr("stroke", p.color).attr("stroke-width", 2.5);
@@ -297,15 +298,15 @@
       const cells = g.selectAll("g").data(STATE_TILES).join("g").attr("transform", ([, col, row]) => `translate(${col * c},${row * c})`)
         .on("pointermove", (ev, [s]) => { const d = byS[s]; showTip(ev, d ? (key === "days_fc" ? `${s}: ${d.days_fc} cooling-required days a year (forecast); ${d.nights_fc} hot nights` : `${s}: low-income family of four ${d.x4}× the bar; single person ${d.x1}×`) : `${s}: no challenge city`); })
         .on("pointerleave", hideTip);
-      cells.append("rect").attr("width", c - 2).attr("height", c - 2).attr("fill", ([s]) => (byS[s] ? color(byS[s][key]) : "#e6e6e6"));
-      cells.append("text").attr("x", (c - 2) / 2).attr("y", (c - 2) / 2 + 4).attr("text-anchor", "middle").style("font-size", "10px")
+      cells.append("rect").attr("width", c - 3).attr("height", c - 3).attr("rx", 4).attr("fill", ([s]) => (byS[s] ? color(byS[s][key]) : "#fff")).attr("stroke", ([s]) => (byS[s] ? "none" : "#ddd"));
+      cells.append("text").attr("x", (c - 3) / 2).attr("y", (c - 3) / 2 + 5).attr("text-anchor", "middle").style("font-size", "13px").style("font-weight", 600)
         .style("fill", ([s]) => { const d = byS[s]; if (!d) return "#999"; const k = d3.color(color(d[key])); return (0.299 * k.r + 0.587 * k.g + 0.114 * k.b) < 140 ? "#fff" : "#000"; }).text(([s]) => s);
       const lg = svg.append("g").attr("transform", `translate(${(w - c * 12) / 2},${h - 14})`);
       const stops = key === "days_fc" ? [0, 0.5, 1].map((t) => t * d3.max(D.states, (s) => s.days_fc)) : [0.6, 1, 1.9];
       const lw = 160, id = `grad-${key}`;
       const grad = svg.append("defs").append("linearGradient").attr("id", id);
       d3.range(0, 1.01, 0.1).forEach((t) => grad.append("stop").attr("offset", t).attr("stop-color", color(stops[0] + t * (stops[2] - stops[0]))));
-      lg.append("rect").attr("width", lw).attr("height", 8).attr("y", -8).attr("fill", `url(#${id})`);
+      lg.append("rect").attr("width", lw).attr("height", 10).attr("y", -10).attr("rx", 5).attr("fill", `url(#${id})`);
       lg.append("text").attr("x", 0).attr("y", 12).style("font-size", "12px").text(key === "days_fc" ? "0 days" : "0.6×");
       lg.append("text").attr("x", lw).attr("y", 12).attr("text-anchor", "end").style("font-size", "12px").text(key === "days_fc" ? `${Math.round(stops[2])} days` : "1.9×");
       if (key !== "days_fc") lg.append("text").attr("x", lw * (0.4 / 1.3)).attr("y", 12).attr("text-anchor", "middle").style("font-size", "12px").text("bar");
@@ -323,7 +324,7 @@
       svg.append("text").attr("x", w - m.r).attr("y", y(1) - 6).attr("text-anchor", "end").style("font-size", "13px").style("font-weight", 600).style("fill", "#000").text("affordable bar");
       axis(svg.append("g").attr("transform", `translate(0,${h - m.b})`).call(d3.axisBottom(x).ticks(7)));
       axis(svg.append("g").attr("transform", `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickFormat((d) => d + "×")));
-      svg.append("text").attr("x", (m.l + w - m.r) / 2).attr("y", h - 14).attr("text-anchor", "middle").style("font-size", "18px").style("font-weight", 600).style("fill", COLOR.days).text("Cooling-required days a year (forecast 2019–2025)");
+      svg.append("text").attr("x", (m.l + w - m.r) / 2).attr("y", h - 12).attr("text-anchor", "middle").style("font-size", "17px").style("font-weight", 600).style("fill", COLOR.days).text("Cooling-required days a year (forecast 2019–2025)");
       svg.append("text").attr("transform", `translate(18,${(m.t + h - m.b) / 2}) rotate(-90)`).attr("text-anchor", "middle").style("font-size", "18px").style("font-weight", 600).style("fill", "#333").text("Low-income family bill ÷ bar");
       const mx = d3.mean(P, (d) => d.days_fc), my = d3.mean(P, (d) => d.x4);
       const sxy = d3.sum(P, (d) => (d.days_fc - mx) * (d.x4 - my)), sxx = d3.sum(P, (d) => (d.days_fc - mx) ** 2), syy = d3.sum(P, (d) => (d.x4 - my) ** 2);
@@ -333,7 +334,7 @@
         .attr("fill", (d) => (d.x4 > 1 ? COLOR.over : COLOR.under)).attr("fill-opacity", 0.85).attr("stroke", "#fff")
         .on("pointermove", (ev, d) => showTip(ev, `${d.state}: ${d.days_fc} cooling-required days a year; family of four ${d.x4}× the bar; homes without AC ${d.no_ac}%`)).on("pointerleave", hideTip);
       svg.append("g").selectAll("text").data(P.filter((d) => d.days_fc > 45 || d.state === "CA" || d.x4 < 0.75)).join("text")
-        .attr("x", (d) => x(d.days_fc) + 10).attr("y", (d) => y(d.x4) + 4).style("font-size", "12px").style("fill", "#333").text((d) => d.state);
+        .attr("x", (d) => x(d.days_fc) + 10).attr("y", (d) => y(d.x4) + 5).style("font-size", "14px").style("fill", "#333").text((d) => d.state);
       svg.append("text").attr("x", w - m.r - 10).attr("y", h - m.b - 16).attr("text-anchor", "end").style("font-size", "26px").style("font-weight", 700).style("fill", "#aaa").text(`r = ${rr.toFixed(2)}`);
       legend(svg, m.l + 10, m.t + 6, [{ label: "Over the bar", color: COLOR.over }, { label: "Under", color: COLOR.under }]);
       document.querySelectorAll('[data-fill="scatterR"]').forEach((e) => (e.textContent = `r = ${rr.toFixed(2)}`));
