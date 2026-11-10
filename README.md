@@ -8,7 +8,7 @@ Links: [submission template](https://huggingface.co/datasets/CMU-OSPO/protostar-
 
 ## Presentation: *Will Everyone Endure the Heat?*
 
-**Deck: [`index.html`](index.html)** (repo root; its styles, scripts and data are in `presentation/`), a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast) - scroll down for the full show!
+**Deck: [`Live Deck Page`](https://jesscai06.github.io/-Protostar-Challenge-CMU-2026-Climate-Risk-Intelligence/)** (repo root; its styles, scripts and data are in `presentation/`), a web slide deck for the Policy Idea, built from this repository's outputs (data up to 2018 plus our forecast) - scroll down for the full show!
 
 ![Sample Map Area](image.png)
 ![alt text](image-1.png)
