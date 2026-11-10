@@ -245,53 +245,142 @@
     </div>
   </section>
 
-  <!-- 5. Policy idea (essay section 6: levers matched to the three gaps of section 5; numbers from
-       outputs/grid_projection_national/summary.md and states.csv, forecast years 2019-2025, 2018 dollars) -->
+  <!-- 5. Policy idea: one tab per policymaker. We name the decision each one owns, not the policy itself.
+       Numbers from outputs/grid_projection_national/summary.md and states.csv (forecast years 2019-2025, 2018 dollars). -->
   <section class="slide" id="policy" data-section="5" aria-label="Policy idea">
     <div class="stage">
       <button class="abs back" type="button" aria-label="Previous slide"><img src="presentation/assets/chevron-down.svg" width="36" height="36" alt=""></button>
       <nav class="abs toc" data-active="5" aria-label="Sections"></nav>
       <div class="abs toc-bar"></div>
       <h2 class="abs h2" style="left:432px; top:60px;">Plan on the Weather That’s Coming</h2>
-      <p class="abs dek" style="left:432px; top:126px; width:1180px;">Grids and household budgets are planned on past weather. Our forecast finds three gaps, and each needs a different fix.</p>
+      <p class="abs dek" style="left:432px; top:126px; width:1180px;">Our forecast shows where today’s plans fall short. What to do about it is a choice for the people who hold each lever, so pick a role to see the question we hand them and the evidence behind it.</p>
 
-      <div class="abs plan" style="left:432px; top:236px; width:1190px;">
-        <div class="plan-head"><span>The gap we found</span><span>What to do</span><span>Who</span></div>
-        <div class="plan-row">
-          <div><p class="tag">1 · Grid</p>
-            <p class="ev">Warming uses up about <strong>a fifth</strong> of the reserve cushion by 2025. In a hot summer, ERCOT falls to <strong>−1.3%</strong>, which means it runs short.</p></div>
-          <div class="act">Base reserve plans on <strong>forecast weather</strong>: add a warming adjustment to the 50/50 peak forecast. Start where margins are already at or below the reference level (ERCOT, MISO).</div>
-          <div class="who">NERC, regional grid operators, state utility commissions</div>
-        </div>
-        <div class="plan-row">
-          <div><p class="tag">2 · Bills</p>
-            <p class="ev">A low-income single person is over the affordable bar in <strong>45 of 46</strong> states, by about <strong>$300 a year</strong>. Heat adds only $17–33.</p></div>
-          <div class="act">Fix the <strong>structural</strong> gap: income-based rates or discounts, and LIHEAP money for summer cooling, not only winter heating.</div>
-          <div class="who">State commissions, utilities, LIHEAP (federal and state)</div>
-        </div>
-        <div class="plan-row">
-          <div><p class="tag">3 · Homes</p>
-            <p class="ev">North and West: no AC (WA <strong>33%</strong>, ME 24%, MT 24% of homes). South: AC everywhere, but hot nights climb (FL 69 → <strong>96</strong>, TX 46 → <strong>75</strong> a year).</p></div>
-          <div class="act"><strong>North and West:</strong> cooling where there is none, plus an indoor limit of about 82 °F in rentals. <strong>South:</strong> no shut-offs on cooling-required days, and cooling centers where reserves are thin.</div>
-          <div class="who">Cities, states, utilities</div>
-        </div>
+      <div class="abs ptabs" role="tablist" aria-label="Policymaker" style="left:432px; top:262px; width:1190px;">
+        <button role="tab" id="ptab-grid" aria-controls="ppanel-grid" aria-selected="true" type="button">Power-grid planners</button>
+        <button role="tab" id="ptab-rates" aria-controls="ppanel-rates" aria-selected="false" tabindex="-1" type="button">Rate regulators</button>
+        <button role="tab" id="ptab-aid" aria-controls="ppanel-aid" aria-selected="false" tabindex="-1" type="button">Aid funders</button>
+        <button role="tab" id="ptab-homes" aria-controls="ppanel-homes" aria-selected="false" tabindex="-1" type="button">Cities and housing officials</button>
       </div>
 
-      <div class="abs both" style="left:432px; top:800px; width:1190px;">
-        <div>
-          <p class="sub" style="margin:0 0 6px;">The one lever that serves all three</p>
-          <p class="both-text">Efficient cooling for low-income homes: heat pumps in place of old AC and electric-resistance heat, plus weatherization and demand response at the peak. Lower peak use eases the grid, lower use eases the bill, and homes with no AC gain cooling.</p>
+      <div class="abs pbody" style="left:432px; top:330px; width:1190px;">
+
+        <div class="ppanel" role="tabpanel" id="ppanel-grid" aria-labelledby="ptab-grid">
+          <p class="pwho">Who they are: the groups that decide how much spare power the grid must keep ready for the hottest afternoons, and the utilities that build to meet it.</p>
+          <div class="pcols">
+            <div>
+              <p class="sub">What we found</p>
+              <p class="ptxt">Grids are planned with a cushion of spare capacity, and that cushion was sized on past weather. By 2025 the warming we forecast uses up about <strong>a fifth</strong> of it. In a hot summer, Texas’s main grid falls <strong>1.3% short</strong> of what people would want to use.</p>
+              <p class="ptxt">Demand on the hottest days climbs about <strong>2% for every degree</strong> of extra heat, so small shifts in temperature matter more than they sound.</p>
+            </div>
+            <div>
+              <p class="sub">The decision that is theirs</p>
+              <ul class="bullets pq">
+                <li>Should the spare-capacity target be built on forecast weather instead of the weather of the past?</li>
+                <li>How much extra margin is worth paying for, and where does it matter first?</li>
+                <li>Is it cheaper to build more supply, or to shrink the peak by asking users to use less at that hour?</li>
+              </ul>
+              <p class="pnote">We don’t pick the answer. Where margins were already thin, the question is the most urgent.</p>
+            </div>
+            <div>
+              <p class="sub">The evidence</p>
+              <ul class="ev-list">
+                <li><a href="#weather">Weather</a><span>More very hot days and hot nights are coming.</span></li>
+                <li><a href="#energy-use">Energy Use</a><span>How much more power each degree of heat costs the grid.</span></li>
+                <li><a href="#projected">Projected Numbers</a><span>How much of the cushion warming uses up.</span></li>
+                <li><a href="#limitations">Limitations</a><span>What we could not measure about the grid.</span></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div>
-          <p class="sub" style="margin:0 0 6px;">Why it is sustainable</p>
-          <ul class="bullets" style="margin:0; font-size:19px;">
-            <li>Cuts peak demand instead of buying new peaker plants.</li>
-            <li>Heat pumps replace resistance and oil heat, so winter savings help pay.</li>
-            <li>Runs through programs that already exist.</li>
-          </ul>
+
+        <div class="ppanel" role="tabpanel" id="ppanel-rates" aria-labelledby="ptab-rates" hidden>
+          <p class="pwho">Who they are: the state bodies that approve what electricity costs and how it is charged, and the power companies that bring those rules to life.</p>
+          <div class="pcols">
+            <div>
+              <p class="sub">What we found</p>
+              <p class="ptxt">The problem with bills is not the heat. A low-income person living alone pays more than is considered affordable in <strong>45 of 46</strong> states, by about <strong>$300 a year</strong>. A low-income family of four is over the line in <strong>36</strong>.</p>
+              <p class="ptxt">The extra heat we forecast adds only <strong>$17–33 a year</strong>. And in 2002–2018, hotter years did not push prices up; fuel markets moved them.</p>
+            </div>
+            <div>
+              <p class="sub">The decision that is theirs</p>
+              <ul class="bullets pq">
+                <li>Should what a household pays depend on what it earns, and not only on how much power it uses?</li>
+                <li>Should usage rules protect people who cannot cut back, such as those who need cooling to stay safe?</li>
+                <li>How should the cost of meeting the hottest hours be shared among customers?</li>
+              </ul>
+              <p class="pnote">Heat makes this old gap a little wider. It did not create it.</p>
+            </div>
+            <div>
+              <p class="sub">The evidence</p>
+              <ul class="ev-list">
+                <li><a href="#affordability">Energy Affordability</a><span>Who pays more than they can afford, and how far over.</span></li>
+                <li><a href="#projections">Regional Affordability</a><span>The picture state by state, with and without extra heat.</span></li>
+                <li><a href="#synthesis">Combined View</a><span>Heat and bills side by side.</span></li>
+                <li><a href="#limitations">Limitations</a><span>Why we hold prices at their 2018 level.</span></li>
+              </ul>
+            </div>
+          </div>
         </div>
+
+        <div class="ppanel" role="tabpanel" id="ppanel-aid" aria-labelledby="ptab-aid" hidden>
+          <p class="pwho">Who they are: the federal and state programs that help households pay their power bills, and the agencies that run efficiency upgrades for low-income homes.</p>
+          <div class="pcols">
+            <div>
+              <p class="sub">What we found</p>
+              <p class="ptxt">Help with energy bills has long meant winter heating. Yet the same households struggle in summer, and the gap above the affordable line is large <strong>everywhere</strong>, not only in the hottest states: heat exposure barely predicts which states are worst off.</p>
+              <p class="ptxt">One idea would help all three problems at once: making cooling in low-income homes use less power. That eases the grid at its peak, lowers the bill, and brings cooling to homes that have none.</p>
+            </div>
+            <div>
+              <p class="sub">The decision that is theirs</p>
+              <ul class="bullets pq">
+                <li>Should aid cover summer cooling as seriously as winter heating?</li>
+                <li>Is paying for lasting efficiency upgrades a better use of money than paying each month’s bill?</li>
+                <li>Which households and places should be served first?</li>
+              </ul>
+              <p class="pnote">Upgrades need money up front but cut the peak instead of paying for new power plants. That trade is theirs to weigh.</p>
+            </div>
+            <div>
+              <p class="sub">The evidence</p>
+              <ul class="ev-list">
+                <li><a href="#affordability">Energy Affordability</a><span>The size of the gap for low-income households.</span></li>
+                <li><a href="#projections">Regional Affordability</a><span>Heat exposure does not line up with bill strain.</span></li>
+                <li><a href="#energy-use">Energy Use</a><span>Why a lower peak helps everyone.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ppanel" role="tabpanel" id="ppanel-homes" aria-labelledby="ptab-homes" hidden>
+          <p class="pwho">Who they are: city and state officials who set housing standards, protect tenants, and run emergency response when heat is dangerous.</p>
+          <div class="pcols">
+            <div>
+              <p class="sub">What we found</p>
+              <p class="ptxt">Homes fail in two different ways. In the <strong>North and West</strong>, many homes simply have no cooling: a third in Washington State, about a quarter in Maine and Montana.</p>
+              <p class="ptxt">In the <strong>South</strong>, nearly every home has it, but hot nights keep climbing (Florida from 69 to <strong>96</strong> a year, Texas from 46 to <strong>75</strong>). There the risk is a bill too high to run it, or the power going out.</p>
+            </div>
+            <div>
+              <p class="sub">The decision that is theirs</p>
+              <ul class="bullets pq">
+                <li>Should renters be guaranteed a safe indoor temperature?</li>
+                <li>Should power stay on for households during dangerous heat, even when a bill is unpaid?</li>
+                <li>Where should public cooling places be, and when should they open?</li>
+              </ul>
+              <p class="pnote">The right mix differs by region, so one national rule would fit neither.</p>
+            </div>
+            <div>
+              <p class="sub">The evidence</p>
+              <ul class="ev-list">
+                <li><a href="#weather">Weather</a><span>Hot days and nights by place, past and forecast.</span></li>
+                <li><a href="#definitions">Definitions</a><span>What “safe to live in” means here.</span></li>
+                <li><a href="#projections">Regional Affordability</a><span>Which places can least afford to run cooling.</span></li>
+                <li><a href="#limitations">Limitations</a><span>What our home-cooling data cannot tell us.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <p class="abs source" style="left:432px; top:1066px; width:1190px;">Our forecast (data up to 2018), NERC 2018 LTRA, EIA-861, RECS 2015/2020, Census LACE 2023 · 46 states, 2018 dollars · docs/policy_essay_outline.md §5–6</p>
+      <p class="abs source" style="left:432px; top:1066px; width:1190px;">Our forecast (data up to 2018) and public energy, price and housing data from the federal government · 46 states, 2018 dollars · every number above is detailed in the linked slides</p>
     </div>
   </section>
 

@@ -158,3 +158,27 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; f
 /* ---------- intro ---------- */
 .need-list { margin: 10px 0 0; padding-left: 26px; font-size: 22px; line-height: 1.45; }
 .need-list li::marker { font-size: 1.2em; }
+
+/* ---------- policy slide: one tab per policymaker ---------- */
+.ptabs { display: flex; gap: 10px; border-bottom: 1.5px solid var(--ink); }
+.ptabs button {
+  font-family: var(--font-sub); font-weight: 600; font-size: 22px; padding: 12px 22px; border: 0; cursor: pointer;
+  background: #f3f3f1; color: var(--ink-3); border-radius: var(--radius) var(--radius) 0 0; transition: background .15s, color .15s;
+}
+.ptabs button:hover { color: var(--ink); }
+.ptabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.ptabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ppanel[hidden] { display: none; }
+.pwho { margin: 0 0 22px; font-family: var(--font-head); font-size: 26px; line-height: 1.35; color: var(--ink-2); text-wrap: pretty; }
+.pcols { display: grid; grid-template-columns: 1fr 1fr 330px; column-gap: 34px; }
+.pcols > div { border-top: 1.5px solid var(--ink); padding-top: 12px; }
+.pcols .sub { margin: 0 0 10px; font-size: 24px; }
+.ptxt { margin: 0 0 14px; font-size: 20px; line-height: 1.45; color: var(--ink-2); }
+.ptxt strong { color: var(--ink); font-weight: 600; }
+.pq { margin: 0; font-size: 20px; line-height: 1.42; }
+.pnote { margin: 16px 0 0; padding: 12px 14px; background: #f4f7fb; border-radius: var(--radius); font-size: 18px; line-height: 1.4; color: var(--ink-2); }
+.ev-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-sub); }
+.ev-list li { padding: 0 0 14px; }
+.ev-list a { font-weight: 600; font-size: 20px; color: var(--ink); text-decoration-color: #d9622b; }
+.ev-list a::after { content: " \2192"; }
+.ev-list span { display: block; font-size: 17px; line-height: 1.38; color: var(--ink-3); margin-top: 2px; }

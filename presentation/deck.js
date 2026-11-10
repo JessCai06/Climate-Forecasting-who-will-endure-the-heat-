@@ -81,6 +81,26 @@
   }
   window.deckGo = go;
 
+  // Policy slide: tabs, one panel per policymaker.
+  const tabs = Array.from(document.querySelectorAll(".ptabs [role=tab]"));
+  function pickTab(t, focus) {
+    tabs.forEach((x) => {
+      const on = x === t;
+      x.setAttribute("aria-selected", on);
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) t.focus();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => pickTab(t));
+    t.addEventListener("keydown", (e) => {
+      const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (step) { e.preventDefault(); e.stopPropagation(); pickTab(tabs[(i + step + tabs.length) % tabs.length], true); }
+      else if (e.key === " " || e.key === "Enter") e.stopPropagation();
+    });
+  });
+
   document.addEventListener("keydown", (e) => {
     if (["ArrowDown", "PageDown", "ArrowRight", " "].includes(e.key)) { e.preventDefault(); go(current() + 1); }
     if (["ArrowUp", "PageUp", "ArrowLeft"].includes(e.key)) { e.preventDefault(); go(current() - 1); }
